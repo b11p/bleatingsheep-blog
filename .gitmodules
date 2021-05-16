@@ -1,0 +1,3 @@
+[submodule "themes/maupassant"]
+	path = themes/maupassant
+	url = https://github.com/b11p/maupassant-hexo.git
