@@ -112,7 +112,7 @@ zsh: command not found: mongo
 
 ```
 use database_name
-db.grantRolesToUser("user_name", "restore")
+db.grantRolesToUser("user_name", ["restore"])
 ```
 
 结果提示“No role named restore@database_name”。
