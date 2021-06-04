@@ -49,6 +49,9 @@ zsh: command not found: mongo
 
 我也考虑过手动添加到 PATH，但是看到这个带着版本号的路径，想到一升级就得重新添加，就以后再说吧。
 
+#### 更新
+后来我直接又执行了一遍 `brew install mongodb-community@4.4`，就可以直接用 `mongo` 了，Mac 真怪，还是 Windows 好用。
+
 ## 测试连接
 在服务器上执行 `mongo`，然后就可以操作了。但是如何直接连到数据库上呢？毕竟直接给别人 SSH 密钥可能不太好，而且他要执行的那个命令也不一定可以通过 SSH。
 
