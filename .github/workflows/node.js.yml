@@ -31,6 +31,8 @@ jobs:
       run: npm install
     - name: Generate website
       run: npx hexo g -b
+    - name: Compress website
+      run: gzip -k -r -9 ./public
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
