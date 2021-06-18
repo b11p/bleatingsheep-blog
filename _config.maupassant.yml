@@ -114,7 +114,7 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
-  - title: Project RC
+  - title: "rc::blog"
     url: https://stdrc.cc/
   - title: wdvxdr's blog
     url: https://www.wdvxdr.com/
@@ -126,6 +126,8 @@ links:
     url: https://www.yukari.one/
   - title: Gaein nidb
     url: https://www.gaein.cn/
+  - title: Kanri's blog
+    url: https://blog.kanri.top/
 
 timeline:
   - num: 1
