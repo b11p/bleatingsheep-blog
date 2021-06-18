@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>部署MongoDB的过程记录 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">部署MongoDB的过程记录</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">部署MongoDB的过程记录</h1><div class="post-meta">2021-06-01</div><a class="disqus-comment-count" href="/2021/06/01/%E9%83%A8%E7%BD%B2MongoDB%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/#vcomment"><span class="valine-comment-count" data-xid="/2021/06/01/%E9%83%A8%E7%BD%B2MongoDB%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/"></span><span> 条评论</span></a><div class="post-content"><p>此篇文章记录我部署 MongoDB 的过程，以及我遇到的一些问题，方便以后查阅，但是仅涉及最基础的内容，价值不高，我建议你不要浪费时间阅读。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近开始和别的实验室合作研究，由对方提供数据。对方说传输数据最简单的方法就是，我建一个 MongoDB 实例，然后他用 <code>db.copyDatabase()</code> 把数据复制过来。</p>
+<p>部署服务器的任务当然是交给我做了。</p>
+<h2 id="建立服务器"><a href="#建立服务器" class="headerlink" title="建立服务器"></a>建立服务器</h2><p>嗯，建立过程很简单，在 AWS 上建 EC2 实例。助理教授让我不要选东京，而是选美国东部，我刚想问是不是因为离对方近，结果他说，因为东京太贵了。</p>
+<p>然后是选实例类型，我们商量了半天，最后选了个 ARM 类型的机器，配置很高。助教还想用 200G 系统盘，真是奢侈，我觉得 20G 都够了。最后改成了 50G。其实我觉得配置都不用那么高，刚省的钱就又扔进去了！</p>
+<p>由于数据比较大，用 HDD 比较合适，就也挂载了一个 2TB 的 HDD，估计都挺贵的。助教说他比较熟悉 CentOS，但我比较熟悉 Ubuntu，最后选了 Ubuntu，他说如果出了问题，那他帮不了我。</p>
+<p>装好系统以后先 <code>apt upgrade</code>，然后给 HDD 分区，格式化，挂载。本想一起配一下 swapfile，但是一看物理内存的量，得，拿来当内存盘还差不多，做锤子 swapfile。</p>
+<h2 id="安装-MongoDB"><a href="#安装-MongoDB" class="headerlink" title="安装 MongoDB"></a>安装 MongoDB</h2><h3 id="在-Ubuntu-服务器安装"><a href="#在-Ubuntu-服务器安装" class="headerlink" title="在 Ubuntu 服务器安装"></a>在 Ubuntu 服务器安装</h3><p>安装过程也没什么难的，按照<a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/">文档</a>一步一步装就是了。由于我们选的是 ARM 实例，我还特意确认了一下支不支持 ARM64，是支持的。</p>
+<p>装完了应该是最新的 4.4 版。</p>
+<h3 id="在-Mac-上安装"><a href="#在-Mac-上安装" class="headerlink" title="在 Mac 上安装"></a>在 Mac 上安装</h3><p>Mac 也有<a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/">文档</a>。由于我已经有开发者工具和 Homebrew 了，就主要是运行了这两个命令：</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew tap mongodb/brew</span><br><span class="line">brew install mongodb-community@4.4</span><br></pre></td></tr></table></figure>
+
+<p>由于我不在 Mac 上跑这个服务，只用来连接，所以无需启动服务。安装完成后，运行 <code>mongo</code>，提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsh: command not found: mongo</span><br></pre></td></tr></table></figure>
+
+<p>嗯……只能自己找找安装在哪儿了。</p>
+<p>问了群友，然后在 <code>/usr/local/Cellar/mongodb-community@4.4/4.4.5/bin</code> 找到了可执行文件，就在这里执行 <code>./mongo</code> 好了。</p>
+<p>我也考虑过手动添加到 PATH，但是看到这个带着版本号的路径，想到一升级就得重新添加，就以后再说吧。</p>
+<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>后来我直接又执行了一遍 <code>brew install mongodb-community@4.4</code>，就可以直接用 <code>mongo</code> 了，Mac 真怪，还是 Windows 好用。</p>
+<h2 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h2><p>在服务器上执行 <code>mongo</code>，然后就可以操作了。但是如何直接连到数据库上呢？毕竟直接给别人 SSH 密钥可能不太好，而且他要执行的那个命令也不一定可以通过 SSH。</p>
+<p>然后我找到了<a target="_blank" rel="noopener" href="https://medium.com/@Hardy2151/how-to-connect-to-your-remote-mongodb-server-68725a8e53f">这篇文章</a>。它是好用的，但是第一个指令两行粘在一起了，这导致我一开始进错了数据库，老是连接失败。都是他的错。</p>
+<p>远程连接数据库似乎有两种命令，一种是用参数的，还有一种是用连接字符串。以前面那篇文章建立的数据库和用户为例，两种命令分别是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;mongo -u hardeep -p yourSecretPassword hostname&#x2F;animals</span><br><span class="line">.&#x2F;mongo &quot;mongodb:&#x2F;&#x2F;hardeep@hostname:27017&#x2F;animals&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程管理数据库"><a href="#远程管理数据库" class="headerlink" title="远程管理数据库"></a>远程管理数据库</h2><p>现在可以连接数据库了，但是只能连接一个低权限的账号。为了方便我自己管理，似乎最好有办法远程连入管理账号。</p>
+<p>按经验，在 Ubuntu 上执行 <code>mongo</code> 命令之后应该是用的类似 admin 用户之类的东西，但我不知道默认用户名是什么，于是搜索，找到 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/38921414/mongodb-what-are-the-default-user-and-password">MongoDB what are the default user and password?</a>。</p>
+<p>按照最高票回答的说法，默认是没有访问控制的，也没有什么默认用户名和密码。但那篇回答给出了创建管理员的步骤。</p>
+<p>由于在前面，为了远程访问，我开启了访问控制，所以创建管理员之前需要先临时关闭一下。</p>
+<h2 id="添加用户并配置权限"><a href="#添加用户并配置权限" class="headerlink" title="添加用户并配置权限"></a>添加用户并配置权限</h2><p>接下来应该就是给合作者提供一个可以访问数据库的账号了。</p>
+<p>我想参考前面的<a target="_blank" rel="noopener" href="https://medium.com/@Hardy2151/how-to-connect-to-your-remote-mongodb-server-68725a8e53f">这篇文章</a>，改一改用户名和数据库名就好，但是我不确定 <code>readWrite</code> 角色的权限是否足够。由于不了解 MongoDB 的具体实现，我不知道什么角色的权限高，就继续搜索。</p>
+<p>我搜索了“mongodb grant all permissions to user”，然后在第四五个结果中找到了 <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/built-in-roles/">Built-In Roles</a>，但是这一堆乱七八糟的谁看得懂啊！我灵机一动，干脆直接搜索“userAdminAnyDatabase”，又找到了同一个页面的一个警告。</p>
+<img src="/2021/06/01/%E9%83%A8%E7%BD%B2MongoDB%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/admin-warning-1.5x.png" class="">
+
+<p>大意是，如果给用户授予“admin”表的 <code>userAdmin</code> 角色，实际上是间接提供了超级用户的访问权限，因为用户可以给自己授予 <code>userAdminAnyDatabase</code>。</p>
+<p>看到这，我就想到，诶？是不是可以在我想提供的数据库上创建一个有 <code>userAdmin</code> 角色的用户？点开看看 <code>userAdmin</code> 好了。</p>
+<p>随便上下滚动两下，我又看到了 <code>dbOwner</code>，相当于 <code>readWrite</code>、<code>dbAdmin</code> 和 <code>userAdmin</code> 的结合。这不就是我要的权限吗！</p>
+<p>然后我就创建了一个数据库，并且在那个数据库上创建了一个 <code>dbOwner</code> 的用户。</p>
+<h2 id="移动数据存储位置"><a href="#移动数据存储位置" class="headerlink" title="移动数据存储位置"></a>移动数据存储位置</h2><p>刚想把创建好的用户和数据库发给对方，突然想起来数据还存在默认位置，在那个 50G 的 SSD 上，大概空间不够用。</p>
+<p>于是我查了“mongodb where to store data”，发现配置文件写了，默认是 <code>/usr/local/var/mongodb</code>。我停止服务，把数据移到 HDD，修改配置文件，再启动。</p>
+<p>启动之后，我突然想到，我应该只移数据，然后用个软链接链过去，免得改错了配置。不过既然已经改了，就那样吧，简单连了一下，似乎没有问题。</p>
+<p>然后就把地址端口账号密码数据库发过去了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>唔……感觉没什么好总结的。硬要说的话，就是 MongoDB 的用户和权限系统吧。默认是不需要，也没有什么用户名和密码的，连上去就是完全的权限。这时候可以建好需要的用户，授予对应权限，然后就可以用配置文件或者其他什么方式开启认证，这时候就可以给别人访问啦！比起 MySQL 等关系型数据库可以针对不同用户允许不同的 IP，MongoDB 的方式似乎更简单一点。</p>
+<p>另外我在部署的时候也没遇到什么创建数据库的操作，不知道 <code>use</code> 的时候会不会自动创建，还是 MongoDB 是否有其他的机制。不过给他的用户应该授予过必要的权限，让他导入数据吧w。</p>
+<p>然后就是加密，不知道 MongoDB 默认会不会给连接加密。简单搜了一下好像有<a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/tutorial/configure-ssl/">相应的配置</a>，但还是以后再说吧，这种东西细究起来要做的太多啦，先让对方把数据传过来要紧。</p>
+<p>再然后，对方提到他要用 <code>db.copyDatabase()</code> 这个命令，可是<a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/method/db.copyDatabase/">官方文档</a>说 4.0 开始已经不推荐使用这个命令了，而是要参考<a target="_blank" rel="noopener" href="https://docs.mongodb.com/database-tools/mongodump/#std-label-mongodump-example-copy-clone-database">mongodump</a>。不知道他用的什么版本，算了，他复制不了再说吧。</p>
+<p>这些只是我目前的理解，不一定对。</p>
+<h2 id="补充：resotre-权限"><a href="#补充：resotre-权限" class="headerlink" title="补充：resotre 权限"></a>补充：<code>resotre</code> 权限</h2><p>发给对方后，对方说没有 <code>restore</code> 权限，要求授予。emmmm，我觉得 <code>dbOwner</code> 应该就包含所有权限了啊，为什么会恢复不了呢？不过先在他的数据库上授予一下这个权限吧。用高权限的用户登录，执行了下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use database_name</span><br><span class="line">db.grantRolesToUser(&quot;user_name&quot;, [&quot;restore&quot;])</span><br></pre></td></tr></table></figure>
+
+<p>结果提示“No role named restore@database_name”。</p>
+<p>emmmm，难不成 <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/built-in-roles/#mongodb-authrole-restore"><code>restore</code></a> 要授予在“admin”上？我在“admin”上执行相同命令，却又提示没有这个用户。</p>
+<p>按经验判断，我在“admin”上创建同名用户的话，那应该会和之前的是两个用户，甚至密码也可以设置成不一样的。这样应该解决不了问题。那么怎么办呢？</p>
+<p>我搜索“mongodb grant restore”，没有找到有用的结果，想了想，直接搜错误提示，“No role named restore@”，第一条 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51452733/mongodb-no-role-named-restore">mongodb no role named restore</a> 就是有用的结果。</p>
+<p>于是我执行了 <code>db.grantRolesToUser(&quot;user_name&quot;,[&#123;role: &quot;restore&quot;, db: &quot;admin&quot;&#125;])</code>，问题解决。</p>
+<h3 id="关于当前我的理解的总结"><a href="#关于当前我的理解的总结" class="headerlink" title="关于当前我的理解的总结"></a>关于当前我的理解的总结</h3><p>似乎用户必须是创建在某个数据库上，然后也可以授予关于别的数据库的权限。在“admin”上创建的用户似乎一般有一定的管理权限。某些角色，比如 <code>restore</code>，是只有“admin”才有的，其他数据库没有，也没法授予。</p>
+<p>我怀疑这个授予在“admin”数据库的角色会有其他的权限，<a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/built-in-roles/#mongodb-authrole-restore">官方文档</a>我也没看懂（好吧，我没仔细看，现阶段又无所谓w）。</p>
+<p>另外，即使开启了认证，也可以直接连，然后用 <a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/method/db.auth/"><code>db.auth()</code></a> 进行认证，而不是必须在连接时指定数据库、用户名和密码。</p>
+<p>P.S: 传输数据的时候我 SSH 上去看了一下，内存竟然吃了一半，CPU 也吃了一小半。助教真是英明，选的配置刚刚好x。</p>
+<img src="/2021/06/01/%E9%83%A8%E7%BD%B2MongoDB%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/memory-1.5x.png" class="">
+
+<p>想了想，其实是我自己的服务器太丐了，内存只有 1GB 到 2GB，毕竟我没钱嘛。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>上文没提到，但我查到的并且可能有用的参考资料。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-configure-remote-access-for-mongodb-on-ubuntu-20-04">How To Configure Remote Access for MongoDB on Ubuntu 20.04</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-5.0&tabs=visual-studio">Create a web API with ASP.NET Core and MongoDB</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/tutorial/enable-authentication/">Enable Access Control</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/method/db.grantRolesToUser/">db.grantRolesToUser()</a></p>
+</blockquote>
+<script src="/scripts/image-scale.js"></script></div><div class="tags"><a href="/tags/MongoDB/"><i class="fa fa-tag"></i>MongoDB</a></div><div class="post-nav"><a class="next" href="/2021/05/21/CSharp%E4%B8%AD%E7%BC%96%E8%AF%91%E6%9C%9F%E5%8F%AF%E4%BB%A5%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%A4%B1%E8%B4%A5/">C#中编译期可以检测到的类型转换失败</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/部署MongoDB的过程记录.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
