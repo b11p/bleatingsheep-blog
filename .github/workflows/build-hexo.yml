@@ -1,0 +1,68 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Building and deploying Hexo website
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Cache NPM dependencies
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.OS }}-npm-cache
+        restore-keys: |
+          ${{ runner.OS }}-npm-cache
+    - name: Install dependencies
+      run: npm install
+    - name: Generate website
+      run: npx hexo g -b
+    # - name: Compress website
+    #   run: gzip -k -r -9 ./public
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+    - name: Deploy using SSH
+      uses: appleboy/ssh-action@master
+      env:
+        DEPLOY_DIR: /home/${{ secrets.SSH_USERNAME }}/www/bleatingsheep.org
+        BRANCH: gh-pages
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        port: ${{ secrets.SSH_PORT }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        envs: DEPLOY_DIR,BRANCH,TOKEN,REPO_URL
+        script_stop: true
+        script: |
+          mkdir -p $DEPLOY_DIR
+          cd $DEPLOY_DIR
+          git init
+          if git remote | grep -q -P '^b11p-git-pages$'; then
+              echo "Cleaning old remote"
+              git remote remove b11p-git-pages
+          fi
+          git remote add -t $BRANCH b11p-git-pages $REPO_URL
+          git fetch -v --set-upstream b11p-git-pages --depth 1 --auto-gc
+          git reset --hard remotes/b11p-git-pages/$BRANCH --
+          git reflog expire --expire-unreachable=all --all --verbose
+          git gc --prune=all
+          git remote remove b11p-git-pages
