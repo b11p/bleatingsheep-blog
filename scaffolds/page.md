@@ -1,6 +1,7 @@
 ---
 title: {{ title }}
 date: {{ date }}
+updated: {{ date }}
 lang: zh-CN
-TimeZone: Asia/Tokyo
+TimeZone: Asia/Shanghai
 ---
