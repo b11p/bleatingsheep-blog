@@ -6,7 +6,7 @@
   <link href="https://bleatingsheep.org/atom.xml" rel="self"/>
   
   <link href="https://bleatingsheep.org/"/>
-  <updated>2021-09-24T23:04:00.000Z</updated>
+  <updated>2021-10-02T21:00:12.000Z</updated>
   <id>https://bleatingsheep.org/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安装 Ubuntu Server 时配置磁盘 RAID</title>
+    <link href="https://bleatingsheep.org/2021/10/02/%E5%AE%89%E8%A3%85-Ubuntu-Server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-RAID/"/>
+    <id>https://bleatingsheep.org/2021/10/02/%E5%AE%89%E8%A3%85-Ubuntu-Server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-RAID/</id>
+    <published>2021-10-02T21:00:12.000Z</published>
+    <updated>2021-10-02T21:00:12.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;有很多 IDC 提供的 VPS 分系统盘和数据盘。这种方式可以使重装系统时不影响一部分数据。但是，这么做也会造成可利用的空间减少。如果你不需要经常在保留数据的前提下重装系统，可以采用 RAID</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Linux" scheme="https://bleatingsheep.org/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>使用 iPXE 和 netboot.xyz 重装 VPS 系统</title>
