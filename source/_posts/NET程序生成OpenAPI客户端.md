@@ -3,6 +3,7 @@ title: .NET程序生成OpenAPI客户端
 lang: zh-CN
 TimeZone: Asia/Tokyo
 date: 2021-04-26 18:27:42
+updated: 2021-04-26 18:27:42
 tags: ".NET"
 ---
 

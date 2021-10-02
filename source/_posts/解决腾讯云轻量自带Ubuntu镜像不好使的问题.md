@@ -3,6 +3,7 @@ title: 解决腾讯云轻量自带Ubuntu镜像不好使的问题
 lang: zh-CN
 TimeZone: Asia/Tokyo
 date: 2021-03-22 13:52:31
+updated: 2021-03-22 13:52:31
 tags:
     - 腾讯云
     - Ubuntu
