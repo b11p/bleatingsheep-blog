@@ -6,7 +6,7 @@
   <link href="https://bleatingsheep.org/atom.xml" rel="self"/>
   
   <link href="https://bleatingsheep.org/"/>
-  <updated>2021-10-13T21:39:13.000Z</updated>
+  <updated>2021-12-04T03:12:30.000Z</updated>
   <id>https://bleatingsheep.org/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于树莓派上 Ubuntu Server 20.04 安装 HWE 的问题</title>
+    <link href="https://bleatingsheep.org/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-Ubuntu-Server-20-04-%E5%AE%89%E8%A3%85-HWE-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://bleatingsheep.org/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-Ubuntu-Server-20-04-%E5%AE%89%E8%A3%85-HWE-%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <published>2021-12-04T03:12:30.000Z</published>
+    <updated>2021-12-04T03:12:30.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;strong&gt;结论：&lt;/strong&gt;目前无法给树莓派上的 Ubuntu Server 20.04 系统安装 Hardware Enablement (HWE)。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Ubuntu" scheme="https://bleatingsheep.org/tags/Ubuntu/"/>
+    
+    <category term="Raspberry Pi" scheme="https://bleatingsheep.org/tags/Raspberry-Pi/"/>
+    
+  </entry>
   
   <entry>
     <title>解决 OpenWrt 无法在内网中开启 NAT-PMP 的问题</title>
@@ -58,6 +77,8 @@
     
     
     <category term="Linux" scheme="https://bleatingsheep.org/tags/Linux/"/>
+    
+    <category term="Ubuntu" scheme="https://bleatingsheep.org/tags/Ubuntu/"/>
     
   </entry>
   
@@ -117,14 +138,7 @@
     <updated>2021-06-01T02:39:27.000Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;此篇文章记录我部署 MongoDB 的过程，以及我遇到的一些问题，方便以后查阅，但是仅涉及最基础的内容，价值不高，我建议你不要浪费时间阅读。&lt;/p&gt;
-&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;此篇文章记录我部署 MongoDB 的过程，以及我遇到的一些问题，方便以后查阅，但是仅涉及最基础的内容，价值不高，我建议你不要浪费时间阅读。&lt;/p&gt;</summary>
     
     
     
@@ -141,14 +155,7 @@
     <updated>2021-05-21T21:32:00.000Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;严格来说，这算是 C# 基础知识的一部分。不知是太久远我记不清了，还是这部分本来就没注意，最近发现了，不算坑，在这里写一下。&lt;/p&gt;
-&lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;p&gt;严格来说，这算是 C# 基础知识的一部分。不知是太久远我记不清了，还是这部分本来就没注意，最近发现了，不算坑，在这里写一下。&lt;/p&gt;</summary>
     
     
     
@@ -270,9 +277,9 @@
     
     
     
-    <category term="腾讯云" scheme="https://bleatingsheep.org/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/"/>
-    
     <category term="Ubuntu" scheme="https://bleatingsheep.org/tags/Ubuntu/"/>
+    
+    <category term="腾讯云" scheme="https://bleatingsheep.org/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/"/>
     
   </entry>
   
