@@ -2,6 +2,7 @@
 title: 安装 Ubuntu Server 时配置磁盘 RAID
 tags:
   - Linux
+  - Ubuntu
 lang: zh-CN
 TimeZone: Asia/Shanghai
 date: 2021-10-02 21:00:12
