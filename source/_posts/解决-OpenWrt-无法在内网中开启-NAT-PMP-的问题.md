@@ -9,6 +9,8 @@ tags:
 
 最近在路由器上刷了 OpenWrt，但是 OpenWrt 默认没有集成 UPnP 和 NAT-PMP 功能。我手动开启时遇到了一些问题，在此记录以帮助可能遇到同样问题的朋友。
 
+<!--more-->
+
 ## 开启 UPnP 和 NAT-PMP
 首先说明一下我开启 UPnP 和 NAT-PMP 的步骤。
 
