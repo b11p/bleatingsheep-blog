@@ -5,6 +5,7 @@ layout: page-without-sidebar
 ---
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -13,6 +14,7 @@ layout: page-without-sidebar
 <script>
     const dp = new DPlayer({
         container: document.getElementById('dplayer'),
+        live: true,
         screenshot: true,
         volume:1,
         video: {
@@ -21,8 +23,8 @@ layout: page-without-sidebar
             quality: [
                 {
                     name: 'defaults',
-                    url: 'https://vir.b11p.com/test.mp4',
-                    // type: 'hls',
+                    url: 'https://live.b11p.com/live/movie.m3u8',
+                    type: 'hls',
                 },
             ],
             defaultQuality: 0,
