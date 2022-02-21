@@ -11,6 +11,14 @@ layout: page-without-sidebar
 
 <div id="dplayer"></div>
 
+TODO:
+
+- 解决 IPv4 切换问题
+- 降低延迟
+- 改用 DASH，不再使用 HLS
+- 加入弹幕
+- 显示在线人数
+
 <script>
     const dp = new DPlayer({
         container: document.getElementById('dplayer'),
