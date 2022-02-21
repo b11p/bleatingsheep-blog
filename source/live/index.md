@@ -11,6 +11,12 @@ layout: page-without-sidebar
 
 <div id="dplayer"></div>
 
+打钱！
+---
+![](receive-alipay.png)
+![](receive-wechat.png)
+
+---
 TODO:
 
 - 解决 IPv4 切换问题
