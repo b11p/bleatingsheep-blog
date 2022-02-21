@@ -1,9 +1,12 @@
 ---
-title: live
+title: 咩咩的直播间
 date: 2022-02-21 22:29:13
+layout: page-without-sidebar
 ---
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+
+这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
 <div id="dplayer"></div>
 
