@@ -6,6 +6,7 @@ layout: page-without-sidebar
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -37,13 +38,13 @@ TODO:
             quality: [
                 {
                     name: 'dual stack',
-                    url: 'https://live.b11p.com/live/movie.m3u8',
-                    type: 'hls',
+                    url: 'https://live.b11p.com/live/movie.flv',
+                    type: 'flv',
                 },
                 {
                     name: 'v4',
-                    url: 'https://live4.b11p.com/live/movie.m3u8',
-                    type: 'hls',
+                    url: 'https://live4.b11p.com/live/movie.flv',
+                    type: 'flv',
                 },
             ],
             defaultQuality: 0,
