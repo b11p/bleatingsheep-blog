@@ -1,9 +1,9 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>咩咩的直播间 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">咩咩的直播间</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">咩咩的直播间</h1><div class="post-content"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script>
-<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script> -->
+<!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 
 <p>这里是咩咩的直播间，正在施工。预计 4 月正式开播！</p>
 <div id="dplayer"></div>
@@ -12,12 +12,13 @@
 <hr>
 <p>TODO:</p>
 <ul>
-<li>解决线路切换问题</li>
-<li>降低延迟</li>
-<li>改用 DASH，不再使用 HLS</li>
+<li><del>解决线路切换问题</del></li>
+<li><del>降低延迟</del></li>
+<li><del>改用 DASH，不再使用 HLS</del></li>
 <li>加入弹幕</li>
 <li>显示在线人数</li>
 </ul>
+<p>不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度/线路得了。</p>
 <script>
     const dp = new DPlayer({
         container: document.getElementById('dplayer'),
@@ -28,19 +29,19 @@
             //url: '@ViewBag.Url',
             // quality: @Html.Raw(ViewBag.Quality),
             quality: [
-                {
-                    name: 'IPv4',
-                    url: 'https://live4.b11p.com/live.mpd',
-                    type: 'dashJS',
-                },
-                {
-                    name: 'Dual Stack',
-                    url: 'https://live.b11p.com/live.mpd',
-                    type: 'dashJS',
-                },
+                // {
+                //     name: 'IPv4',
+                //     url: 'https://live4.b11p.com/live.mpd',
+                //     type: 'dashJS',
+                // },
+                // {
+                //     name: 'Dual Stack',
+                //     url: 'https://live.b11p.com/live.mpd',
+                //     type: 'dashJS',
+                // },
                 {
                     name: 'FLV',
-                    url: 'https://live.b11p.com/live/movie.flv',
+                    url: 'https://live-flv.b11p.com/live/movie.flv',
                     type: 'flv',
                 },
             ],
