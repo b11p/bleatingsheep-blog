@@ -5,10 +5,10 @@ layout: page-without-sidebar
 ---
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script>
-<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script> -->
+<!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -22,11 +22,13 @@ layout: page-without-sidebar
 ---
 TODO:
 
-- 解决线路切换问题
-- 降低延迟
-- 改用 DASH，不再使用 HLS
+- ~~解决线路切换问题~~
+- ~~降低延迟~~
+- ~~改用 DASH，不再使用 HLS~~
 - 加入弹幕
 - 显示在线人数
+
+不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度/线路得了。
 
 <script>
     const dp = new DPlayer({
@@ -38,19 +40,19 @@ TODO:
             //url: '@ViewBag.Url',
             // quality: @Html.Raw(ViewBag.Quality),
             quality: [
-                {
-                    name: 'IPv4',
-                    url: 'https://live4.b11p.com/live.mpd',
-                    type: 'dashJS',
-                },
-                {
-                    name: 'Dual Stack',
-                    url: 'https://live.b11p.com/live.mpd',
-                    type: 'dashJS',
-                },
+                // {
+                //     name: 'IPv4',
+                //     url: 'https://live4.b11p.com/live.mpd',
+                //     type: 'dashJS',
+                // },
+                // {
+                //     name: 'Dual Stack',
+                //     url: 'https://live.b11p.com/live.mpd',
+                //     type: 'dashJS',
+                // },
                 {
                     name: 'FLV',
-                    url: 'https://live.b11p.com/live/movie.flv',
+                    url: 'https://live-flv.b11p.com/live/movie.flv',
                     type: 'flv',
                 },
             ],
