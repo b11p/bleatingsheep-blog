@@ -34,6 +34,7 @@ TODO:
     const dp = new DPlayer({
         container: document.getElementById('dplayer'),
         live: true,
+        autoplay: true,
         screenshot: true,
         volume:1,
         video: {
