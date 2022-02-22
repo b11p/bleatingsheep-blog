@@ -7,6 +7,7 @@ layout: page-without-sidebar
 <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script>
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -20,7 +21,7 @@ layout: page-without-sidebar
 ---
 TODO:
 
-- 解决 IPv4 切换问题
+- 解决线路切换问题
 - 降低延迟
 - 改用 DASH，不再使用 HLS
 - 加入弹幕
@@ -37,13 +38,18 @@ TODO:
             // quality: @Html.Raw(ViewBag.Quality),
             quality: [
                 {
-                    name: 'dual stack',
-                    url: 'https://live.b11p.com/live/movie.flv',
-                    type: 'flv',
+                    name: 'IPv4',
+                    url: 'https://live4.b11p.com/live.mpd',
+                    type: 'splr',
                 },
                 {
-                    name: 'v4',
-                    url: 'https://live4.b11p.com/live/movie.flv',
+                    name: 'Dual Stack',
+                    url: 'https://live.b11p.com/live.mpd',
+                    type: 'splr',
+                },
+                {
+                    name: 'FLV',
+                    url: 'https://live.b11p.com/live/movie.flv',
                     type: 'flv',
                 },
             ],
