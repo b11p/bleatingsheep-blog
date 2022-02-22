@@ -8,6 +8,7 @@ layout: page-without-sidebar
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script>
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -40,12 +41,12 @@ TODO:
                 {
                     name: 'IPv4',
                     url: 'https://live4.b11p.com/live.mpd',
-                    type: 'splr',
+                    type: 'dashJS',
                 },
                 {
                     name: 'Dual Stack',
                     url: 'https://live.b11p.com/live.mpd',
-                    type: 'splr',
+                    type: 'dashJS',
                 },
                 {
                     name: 'FLV',
@@ -100,9 +101,13 @@ TODO:
                         'debug': {
                         },
                         'streaming': {
-                            'bufferTimeAtTopQualityLongForm': 240,
-                            jumpGaps: false,
-                            'fastSwitchEnabled': true       // enables buffer replacement when switching bitrates for faster switching
+                            'buffer': {
+                                'bufferTimeAtTopQualityLongForm': 240,
+                                'fastSwitchEnabled': true       // enables buffer replacement when switching bitrates for faster switching
+                            },
+                            'gaps': {
+                                jumpGaps: false,
+                            }
                         }
                     });
                     //sPlayer.setAutoPlay(false); // remove this line if you want the player to start automatically on load
