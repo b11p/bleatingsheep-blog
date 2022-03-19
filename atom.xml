@@ -6,7 +6,7 @@
   <link href="https://bleatingsheep.org/atom.xml" rel="self"/>
   
   <link href="https://bleatingsheep.org/"/>
-  <updated>2022-03-14T12:32:46.000Z</updated>
+  <updated>2022-03-20T00:34:13.000Z</updated>
   <id>https://bleatingsheep.org/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>用 GitHub Actions 和 Webhook 自动构建并部署 ASP.NET Core 应用</title>
+    <link href="https://bleatingsheep.org/2022/03/19/%E7%94%A8-GitHub-Actions-%E5%92%8C-Webhook-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E9%83%A8%E7%BD%B2-ASP-NET-Core-%E5%BA%94%E7%94%A8/"/>
+    <id>https://bleatingsheep.org/2022/03/19/%E7%94%A8-GitHub-Actions-%E5%92%8C-Webhook-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E9%83%A8%E7%BD%B2-ASP-NET-Core-%E5%BA%94%E7%94%A8/</id>
+    <published>2022-03-19T23:46:35.000Z</published>
+    <updated>2022-03-20T00:34:13.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;最近给自己的直播写了个弹幕后端，基于 ASP.NET Core 和 SignalR，实现非常简单。部署反而比预期麻烦很多，因为我之前自动部署的应用都是静态网站，这次要部署动态应用，就遇到了预料之外的问题。&lt;/p&gt;
+&lt;p&gt;最终，我选择了用 GitHub Actions 构建并推送到另一分支，然后触发 Webhook，由自己的服务器拉取构建好的新版本并重启应用更新。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Linux" scheme="https://bleatingsheep.org/tags/Linux/"/>
+    
+    <category term="GitHub" scheme="https://bleatingsheep.org/tags/GitHub/"/>
+    
+    <category term="Webhook" scheme="https://bleatingsheep.org/tags/Webhook/"/>
+    
+    <category term="systemd" scheme="https://bleatingsheep.org/tags/systemd/"/>
+    
+  </entry>
   
   <entry>
     <title>用 Ubuntu Cloud Images 制作自己的云镜像（配置 cloud-init 的 NoCloud 数据源）</title>
