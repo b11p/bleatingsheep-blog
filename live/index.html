@@ -4,11 +4,16 @@
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script> -->
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script>
 
 <p>这里是咩咩的直播间，正在施工。预计 4 月正式开播！</p>
 <div id="dplayer"></div>
 
-<h2 id="打钱！"><a href="#打钱！" class="headerlink" title="打钱！"></a>打钱！</h2><p><img src="receive-alipay.png"><br><img src="receive-wechat.png"></p>
+<h2 id="打钱！"><a href="#打钱！" class="headerlink" title="打钱！"></a>打钱！</h2><img src="receive-alipay.png" alt="" width=360 />
+
+<img src="receive-wechat.png" alt="" width=360 />
+
 <hr>
 <p>TODO:</p>
 <ul>
@@ -107,7 +112,15 @@
                     sPlayer.attachSource(src); // provide the manifest source
                 }
             }
-        }
+        },
+        danmaku: true,
+        apiBackend: liveDan(
+            "https://live-danmaku.b11p.com/danmakuHub",
+            "4463403c-aff8-c16d-0933-4636405ff116",
+            function (dan) {
+                dp.danmaku.draw(dan);
+            }
+        ),
     });
 </script></div></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
