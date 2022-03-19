@@ -9,6 +9,8 @@ layout: page-without-sidebar
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script> -->
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script>
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -16,8 +18,10 @@ layout: page-without-sidebar
 
 打钱！
 ---
-![](receive-alipay.png)
-![](receive-wechat.png)
+
+<img src="receive-alipay.png" alt="" width=360 />
+
+<img src="receive-wechat.png" alt="" width=360 />
 
 ---
 TODO:
@@ -118,6 +122,14 @@ TODO:
                     sPlayer.attachSource(src); // provide the manifest source
                 }
             }
-        }
+        },
+        danmaku: true,
+        apiBackend: liveDan(
+            "https://live-danmaku.b11p.com/danmakuHub",
+            "4463403c-aff8-c16d-0933-4636405ff116",
+            function (dan) {
+                dp.danmaku.draw(dan);
+            }
+        ),
     });
 </script>
