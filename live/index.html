@@ -5,7 +5,28 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script> -->
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script> -->
+<script>
+const liveDan = function (url, group, onMessage) {
+    var connection = new signalR.HubConnectionBuilder().withUrl(url).withAutomaticReconnect().build();
+    connection.start().then(function () {
+        connection.invoke('Connection', group).catch(err => console.error(err));
+    }).catch(err => console.error(err));
+    connection.on("ReceiveMessage", function (user, message) {
+        onMessage(JSON.parse(message));
+    });
+    return {
+        read: function (options) {
+            options.success();
+        },
+        send: function (options) {
+            var mess = options.data;
+            connection.invoke('SendMessage', group, "user", JSON.stringify(mess)).catch(err => console.error(err));
+            options.success();
+        }
+    };
+}
+</script>
 
 <p>这里是咩咩的直播间，正在施工。预计 4 月正式开播！</p>
 <div id="dplayer"></div>
