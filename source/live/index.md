@@ -39,7 +39,7 @@ const liveDan = function (url, group, onMessage) {
 
 <div id="dplayer"></div>
 
-当前直播估计延迟 <span id="latency"></span> 秒。网络不佳时可能估计不准确，如果此数值不变请刷新页面。
+当前直播估计延迟 <span id="latency"></span> 秒，网络不佳时可能估计不准确。如果此数值固定为 3 请刷新页面。
 
 播放速率为 <span id="speed"></span>。
 
@@ -186,22 +186,32 @@ TODO:
     // }
     // __aaaaafucklatency__();
 
+    var latency = 3.0;
+
     window.setInterval(() => {
         let bufferCount = latencyAlleviation.video.buffered.length;
         if (bufferCount == 0) {
             return;
         }
-        let latency = latencyAlleviation.video.buffered.end(bufferCount - 1) - latencyAlleviation.video.currentTime;
-        latencyAlleviation.latencySpan.innerText = (latency + 3).toFixed(0);
-        if (latency < 1.0 && latencyAlleviation.video.playbackRate > 1.0) {
+
+        let currentplaybackRate = latencyAlleviation.video.playbackRate;
+        latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
+
+        let buffetLength = latencyAlleviation.video.buffered.end(bufferCount - 1) - latencyAlleviation.video.currentTime;
+        if (buffetLength + 3 > latency) {
+            latency = buffetLength + 3;
+        }
+
+        latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
+        if (buffetLength < 1.0 && latencyAlleviation.video.playbackRate > 1.0) {
             latencyAlleviation.video.playbackRate = 1.0;
             latencyAlleviation.speedSpan.innerText = '1x';
         }
-        else if (latency > 7.0 && latencyAlleviation.video.playbackRate < 1.1) {
+        else if (buffetLength > 7.0 && latencyAlleviation.video.playbackRate < 1.1) {
             latencyAlleviation.video.playbackRate = 1.1;
             latencyAlleviation.speedSpan.innerText = '1.1x';
         }
-        else if (latency > 27.0 && latencyAlleviation.video.playbackRate < 1.2) {
+        else if (buffetLength > 27.0 && latencyAlleviation.video.playbackRate < 1.2) {
             latencyAlleviation.video.playbackRate = 1.2;
             latencyAlleviation.speedSpan.innerText = '1.2x';
         }
