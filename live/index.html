@@ -33,6 +33,8 @@ const liveDan = function (url, group, onMessage) {
 <p>这里是咩咩的直播间，正在施工。预计 4 月正式开播！</p>
 <div id="dplayer"></div>
 
+<p>当前直播估计延迟 <span id="latency"></span> 秒。网络不佳时可能估计不准确，如果此数值不变请刷新页面。</p>
+<p>播放速率为 <span id="speed"></span>。</p>
 <h2 id="打钱！"><a href="#打钱！" class="headerlink" title="打钱！"></a>打钱！</h2><img src="receive-alipay.png" alt="" width=360 />
 
 <img src="receive-wechat.png" alt="" width=360 />
@@ -72,7 +74,7 @@ const liveDan = function (url, group, onMessage) {
                 // },
                 {
                     name: 'FLV',
-                    url: 'https://live-flv.b11p.com/live/movie.flv',
+                    url: 'https://live-flv.b11p.com/live/livestream.flv',
                     type: 'flv',
                 },
             ],
@@ -147,6 +149,51 @@ const liveDan = function (url, group, onMessage) {
             }
         ),
     });
+</script>
+<script async>
+    let latencyAlleviation = {};
+    latencyAlleviation.container = document.getElementById('dplayer');
+    latencyAlleviation.video = latencyAlleviation.container.querySelector('video');
+    latencyAlleviation.latencySpan = document.getElementById('latency');
+    latencyAlleviation.speedSpan = document.getElementById('speed');
+
+    // async function __aaaaafucklatency__() {
+    //     let container = document.getElementById('dplayer');
+    //     let video = container.querySelector('video');
+    //     let latencySpan = document.getElementById('latency');
+    //     for (;;) {
+    //         await new Promise(r => setTimeout(r, 100));
+    //         let bufferCount = video.buffered.length;
+    //         if (bufferCount == 0) {
+    //             await new Promise(r => setTimeout(r, 10000));
+    //             continue;
+    //         }
+    //         let latency = video.buffered.end(bufferCount - 1) - video.currentTime;
+    //         latencySpan.innerText = latency.toFixed(2);
+    //     }
+    // }
+    // __aaaaafucklatency__();
+
+    window.setInterval(() => {
+        let bufferCount = latencyAlleviation.video.buffered.length;
+        if (bufferCount == 0) {
+            return;
+        }
+        let latency = latencyAlleviation.video.buffered.end(bufferCount - 1) - latencyAlleviation.video.currentTime;
+        latencyAlleviation.latencySpan.innerText = (latency + 3).toFixed(0);
+        if (latency < 1.0 && latencyAlleviation.video.playbackRate > 1.0) {
+            latencyAlleviation.video.playbackRate = 1.0;
+            latencyAlleviation.speedSpan.innerText = '1x';
+        }
+        else if (latency > 7.0 && latencyAlleviation.video.playbackRate < 1.1) {
+            latencyAlleviation.video.playbackRate = 1.1;
+            latencyAlleviation.speedSpan.innerText = '1.1x';
+        }
+        else if (latency > 27.0 && latencyAlleviation.video.playbackRate < 1.2) {
+            latencyAlleviation.video.playbackRate = 1.2;
+            latencyAlleviation.speedSpan.innerText = '1.2x';
+        }
+    }, 200);
 </script></div></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
