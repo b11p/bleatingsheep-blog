@@ -39,7 +39,7 @@ const liveDan = function (url, group, onMessage) {
 
 <div id="dplayer"></div>
 
-当前直播估计延迟 <span id="latency"></span> 秒，网络不佳时可能估计不准确。如果此数值固定为 3 请刷新页面。
+当前直播估计延迟 <span id="latency"></span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
 
 播放速率为 <span id="speed"></span>。
 
