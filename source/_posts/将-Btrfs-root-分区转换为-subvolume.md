@@ -7,7 +7,7 @@ tags:
 lang: zh-CN
 TimeZone: Asia/Shanghai
 date: 2022-04-29 00:21:59
-updated: 2022-04-29 00:21:59
+updated: 2022-04-29 16:12:54
 ---
 
 Btrfs 是具有 subvolume、快照等高级功能的写入时复制（copy-on-write）文件系统。Fedora、Ubuntu 桌面版系统在安装到 Btrfs 分区时会为根目录 / 和 home 目录 /home 分别创建不同的 subvolume。但是，Ubuntu Server 默认不会创建任何 subvolume。本文介绍如何将 Btrfs 分区中的根目录转换为 subvolume。
@@ -97,3 +97,8 @@ rm -r home/*
 ### 重新创建 swap 文件
 
 请参考 <https://askubuntu.com/questions/1206157/can-i-have-a-swapfile-on-btrfs/1206161#1206161>。
+
+
+## 参考资料
+- <https://www.reddit.com/r/archlinux/comments/dyh95n/comment/f81j3k4/?utm_source=share&utm_medium=web2x&context=3>
+- <https://www.reddit.com/r/Gentoo/comments/qlskjp/comment/hj52hc2/?utm_source=share&utm_medium=web2x&context=3>
