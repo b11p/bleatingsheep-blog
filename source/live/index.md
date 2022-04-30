@@ -39,9 +39,9 @@ const liveDan = function (url, group, onMessage) {
 
 <div id="dplayer"></div>
 
-当前直播估计延迟 <span id="latency"></span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
+当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
 
-播放速率为 <span id="speed"></span>。
+播放速率为 <span id="speed">1x</span>。
 
 打钱！
 ---
@@ -64,7 +64,16 @@ TODO:
 不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度/线路得了。
 
 <script>
-    const dp = new DPlayer({
+var dp;
+var danmakuSingleton = liveDan(
+            "https://live-danmaku.b11p.com/danmakuHub",
+            "4463403c-aff8-c16d-0933-4636405ff116",
+            function (dan) {
+                dp.danmaku.draw(dan);
+            }
+        );
+function createPlayer() {
+    dp = new DPlayer({
         container: document.getElementById('dplayer'),
         live: true,
         autoplay: true,
@@ -153,19 +162,24 @@ TODO:
             }
         },
         danmaku: true,
-        apiBackend: liveDan(
-            "https://live-danmaku.b11p.com/danmakuHub",
-            "4463403c-aff8-c16d-0933-4636405ff116",
-            function (dan) {
-                dp.danmaku.draw(dan);
-            }
-        ),
+        apiBackend: danmakuSingleton,
     });
+
+    // Configure auto connect
+    dp.video.onended = () => {
+        dp.destroy();
+        createPlayer();
+        // dp.play();
+    };
+}
+createPlayer();
+
+// This event often fires, so it can be used for lower latency.
+// dp.video.oncanplaythrough = () => console.log("canplaythrough");
+
 </script>
 <script async>
     let latencyAlleviation = {};
-    latencyAlleviation.container = document.getElementById('dplayer');
-    latencyAlleviation.video = latencyAlleviation.container.querySelector('video');
     latencyAlleviation.latencySpan = document.getElementById('latency');
     latencyAlleviation.speedSpan = document.getElementById('speed');
 
@@ -189,30 +203,30 @@ TODO:
     var latency = 3.0;
 
     window.setInterval(() => {
-        let bufferCount = latencyAlleviation.video.buffered.length;
+        let bufferCount = dp.video.buffered.length;
         if (bufferCount == 0) {
             return;
         }
 
-        let currentplaybackRate = latencyAlleviation.video.playbackRate;
+        let currentplaybackRate = dp.video.playbackRate;
         latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
 
-        let buffetLength = latencyAlleviation.video.buffered.end(bufferCount - 1) - latencyAlleviation.video.currentTime;
+        let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
         if (buffetLength + 3 > latency) {
             latency = buffetLength + 3;
         }
 
         latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
-        if (buffetLength < 1.0 && latencyAlleviation.video.playbackRate > 1.0) {
-            latencyAlleviation.video.playbackRate = 1.0;
+        if (buffetLength < 1.0 && dp.video.playbackRate > 1.0) {
+            dp.video.playbackRate = 1.0;
             latencyAlleviation.speedSpan.innerText = '1x';
         }
-        else if (buffetLength > 7.0 && latencyAlleviation.video.playbackRate < 1.1) {
-            latencyAlleviation.video.playbackRate = 1.1;
+        else if (buffetLength > 7.0 && dp.video.playbackRate < 1.1) {
+            dp.video.playbackRate = 1.1;
             latencyAlleviation.speedSpan.innerText = '1.1x';
         }
-        else if (buffetLength > 27.0 && latencyAlleviation.video.playbackRate < 1.2) {
-            latencyAlleviation.video.playbackRate = 1.2;
+        else if (buffetLength > 27.0 && dp.video.playbackRate < 1.2) {
+            dp.video.playbackRate = 1.2;
             latencyAlleviation.speedSpan.innerText = '1.2x';
         }
     }, 200);
