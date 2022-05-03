@@ -5,19 +5,19 @@
     let url = "https://live-danmaku.b11p.com/danmakuHub";
     let group = "4463403c-aff8-c16d-0933-4636405ff116";
     var connection = new signalR.HubConnectionBuilder().withUrl(url).withAutomaticReconnect().build();
+    connection.onreconnected(function () {
+        connection.invoke('JoinGroup', group).catch(err => console.error(err));
+    });
     connection.start().then(function () {
         connection.invoke('JoinGroup', group).catch(err => console.error(err));
     }).catch(err => console.error(err));
     connection.on("ReceiveMessage", function (user, message) {
         console.log(message);
-        console.log(JSON.parse(message).text);
         let post = document.querySelector("div.post-content");
         let p = document.createElement("p");
         p.innerText = "(" +  new Date().toLocaleTimeString() + ") " + user + ": " + JSON.parse(message).text;
         post.appendChild(p);
-        console.log(user);
     });
-    console.log("OK");
 })();
 </script></div></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
