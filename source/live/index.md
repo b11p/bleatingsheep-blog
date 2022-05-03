@@ -15,6 +15,9 @@ layout: page-without-sidebar
 <script>
 const liveDan = function (url, group, onMessage) {
     var connection = new signalR.HubConnectionBuilder().withUrl(url).withAutomaticReconnect().build();
+    connection.onreconnected(function () {
+        connection.invoke('JoinGroup', group).catch(err => console.error(err));
+    });
     connection.start().then(function () {
         connection.invoke('JoinGroup', group).catch(err => console.error(err));
     }).catch(err => console.error(err));
@@ -176,6 +179,10 @@ createPlayer();
 
 // This event often fires, so it can be used for lower latency.
 // dp.video.oncanplaythrough = () => console.log("canplaythrough");
+dp.video.onsuspended = () => console.log("suspended");
+dp.video.onsuspend = () => console.log("suspend");
+dp.video.onerror = () => console.log("error");
+dp.video.onstalled = () => console.log("stalled");
 
 </script>
 <script async>
