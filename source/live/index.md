@@ -219,20 +219,20 @@ dp.video.onstalled = () => console.log("stalled");
         latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
 
         let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
-        if (buffetLength + 3 > latency) {
-            latency = buffetLength + 3;
+        if (buffetLength + 2.5 > latency) {
+            latency = buffetLength + 2.5;
         }
 
         latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
-        if (buffetLength < 1.0 && dp.video.playbackRate > 1.0) {
+        if (buffetLength < 2.0 && dp.video.playbackRate > 1.0) {
             dp.video.playbackRate = 1.0;
             latencyAlleviation.speedSpan.innerText = '1x';
         }
-        else if (buffetLength > 7.0 && dp.video.playbackRate < 1.1) {
+        else if (buffetLength > 12.0 && dp.video.playbackRate < 1.1) {
             dp.video.playbackRate = 1.1;
             latencyAlleviation.speedSpan.innerText = '1.1x';
         }
-        else if (buffetLength > 27.0 && dp.video.playbackRate < 1.2) {
+        else if (buffetLength > 37.0 && dp.video.playbackRate < 1.2) {
             dp.video.playbackRate = 1.2;
             latencyAlleviation.speedSpan.innerText = '1.2x';
         }
