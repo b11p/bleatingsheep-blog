@@ -55,7 +55,7 @@ const liveDan = function (url, group, onMessage) {
 
 <div id="webrtchint">
 
-检测到不支持 flv.js，正在使用 WebRTC 播放。延迟约 1 秒。若播放质量不佳，请进行全局 UDP 加速。
+检测到不支持 flv.js，正在使用 WebRTC 播放。延迟约 1 秒。若播放质量不佳，请进行全局 UDP 加速。若推流断线，WebRTC 重连时间较长，请耐心等待或刷新页面。
 
 </div>
 
@@ -137,6 +137,9 @@ function createPlayer() {
                         sdk.close();
                         $('#rtc_media_player').hide();
                         console.error(reason);
+                    });
+                    player.events.on('destroy', function () {
+                        sdk.close();
                     });
                 },
                 'splr': function (video, player) {
