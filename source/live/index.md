@@ -46,6 +46,8 @@ const liveDan = function (url, group, onMessage) {
 
 播放速率为 <span id="speed">1x</span>。
 
+直播流的域名是 live-flv.b11p.com，如果播放加载缓慢，经常缓冲，建议使用加速器加速此域名。
+
 打钱！
 ---
 
