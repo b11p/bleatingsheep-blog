@@ -11,6 +11,7 @@ layout: page-without-sidebar
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script> -->
+<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
 <script>
 const liveDan = function (url, group, onMessage) {
@@ -42,11 +43,21 @@ const liveDan = function (url, group, onMessage) {
 
 <div id="dplayer"></div>
 
+<div id="flvhint">
+
 当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
 
 播放速率为 <span id="speed">1x</span>。
 
 直播流的域名是 live-flv.b11p.com，如果播放加载缓慢，经常缓冲，建议使用加速器加速此域名。
+
+</div>
+
+<div id="webrtchint">
+
+检测到不支持 flv.js，正在使用 WebRTC 播放。延迟约 1 秒。若播放质量不佳，请进行全局 UDP 加速。
+
+</div>
 
 打钱！
 ---
@@ -77,6 +88,21 @@ var danmakuSingleton = liveDan(
                 dp.danmaku.draw(dan);
             }
         );
+var useWebRtc = !flvjs.isSupported();
+if (useWebRtc) {
+    $("#flvhint")[0].hidden = true;
+} else {
+    $("#webrtchint")[0].hidden = true;
+}
+var quality = useWebRtc ? {
+    name: 'WebRTC',
+    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+    type: 'webrtc'
+} : {
+    name: 'FLV',
+    url: 'https://live-flv.b11p.com/live/livestream.flv',
+    type: 'flv',
+};
 function createPlayer() {
     dp = new DPlayer({
         container: document.getElementById('dplayer'),
@@ -98,15 +124,21 @@ function createPlayer() {
                 //     url: 'https://live.b11p.com/live.mpd',
                 //     type: 'dashJS',
                 // },
-                {
-                    name: 'FLV',
-                    url: 'https://live-flv.b11p.com/live/livestream.flv',
-                    type: 'flv',
-                },
+                quality,
             ],
             defaultQuality: 0,
             // type: 'splr',
             customType: {
+                'webrtc': function (video, player) {
+                    let url = video.src;
+                    let sdk = new SrsRtcPlayerAsync();
+                    video.srcObject = sdk.stream;
+                    sdk.play(url).catch(function (reason) {
+                        sdk.close();
+                        $('#rtc_media_player').hide();
+                        console.error(reason);
+                    });
+                },
                 'splr': function (video, player) {
                     var src = video.src;
 
@@ -170,12 +202,14 @@ function createPlayer() {
         apiBackend: danmakuSingleton,
     });
 
-    // Configure auto connect
-    dp.video.onended = () => {
-        dp.destroy();
-        createPlayer();
-        // dp.play();
-    };
+    if (!useWebRtc) {
+        // Configure auto connect
+        dp.video.onended = () => {
+            dp.destroy();
+            createPlayer();
+            // dp.play();
+        };
+    }
 }
 createPlayer();
 
@@ -188,6 +222,7 @@ dp.video.onstalled = () => console.log("stalled");
 
 </script>
 <script async>
+if (!useWebRtc) {
     let latencyAlleviation = {};
     latencyAlleviation.latencySpan = document.getElementById('latency');
     latencyAlleviation.speedSpan = document.getElementById('speed');
@@ -239,4 +274,5 @@ dp.video.onstalled = () => console.log("stalled");
             latencyAlleviation.speedSpan.innerText = '1.2x';
         }
     }, 200);
+}
 </script>
