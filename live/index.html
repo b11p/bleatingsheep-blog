@@ -37,9 +37,18 @@ const liveDan = function (url, group, onMessage) {
 <p>这里是咩咩的直播间，正在施工。预计 4 月正式开播！</p>
 <div id="dplayer"></div>
 
+<div id="flvhint">
+
 <p>当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。</p>
 <p>播放速率为 <span id="speed">1x</span>。</p>
 <p>直播流的域名是 live-flv.b11p.com，如果播放加载缓慢，经常缓冲，建议使用加速器加速此域名。</p>
+</div>
+
+<div id="webrtchint">
+
+<p>检测到不支持 flv.js，正在使用 WebRTC 播放。延迟约 1 秒。若播放质量不佳，请进行全局 UDP 加速。</p>
+</div>
+
 <h2 id="打钱！"><a href="#打钱！" class="headerlink" title="打钱！"></a>打钱！</h2><img src="receive-alipay.png" alt="" width=360 />
 
 <img src="receive-wechat.png" alt="" width=360 />
@@ -67,6 +76,11 @@ var danmakuSingleton = liveDan(
         );
 var useWebRtc = !flvjs.isSupported();
 useWebRtc = true;
+if (useWebRtc) {
+    $("#flvhint")[0].hidden = true;
+} else {
+    $("#webrtchint")[0].hidden = true;
+}
 var quality = useWebRtc ? {
     name: 'WebRTC',
     url: 'webrtc://live-flv.b11p.com:443/live/livestream',
