@@ -6,6 +6,7 @@
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script> -->
+<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
 <script>
 const liveDan = function (url, group, onMessage) {
@@ -64,6 +65,17 @@ var danmakuSingleton = liveDan(
                 dp.danmaku.draw(dan);
             }
         );
+var useWebRtc = !flvjs.isSupported();
+useWebRtc = true;
+var quality = useWebRtc ? {
+    name: 'WebRTC',
+    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+    type: 'webrtc'
+} : {
+    name: 'FLV',
+    url: 'https://live-flv.b11p.com/live/livestream.flv',
+    type: 'flv',
+};
 function createPlayer() {
     dp = new DPlayer({
         container: document.getElementById('dplayer'),
@@ -85,15 +97,21 @@ function createPlayer() {
                 //     url: 'https://live.b11p.com/live.mpd',
                 //     type: 'dashJS',
                 // },
-                {
-                    name: 'FLV',
-                    url: 'https://live-flv.b11p.com/live/livestream.flv',
-                    type: 'flv',
-                },
+                quality,
             ],
             defaultQuality: 0,
             // type: 'splr',
             customType: {
+                'webrtc': function (video, player) {
+                    let url = video.src;
+                    let sdk = new SrsRtcPlayerAsync();
+                    video.srcObject = sdk.stream;
+                    sdk.play(url).catch(function (reason) {
+                        sdk.close();
+                        $('#rtc_media_player').hide();
+                        console.error(reason);
+                    });
+                },
                 'splr': function (video, player) {
                     var src = video.src;
 
@@ -157,12 +175,14 @@ function createPlayer() {
         apiBackend: danmakuSingleton,
     });
 
-    // Configure auto connect
-    dp.video.onended = () => {
-        dp.destroy();
-        createPlayer();
-        // dp.play();
-    };
+    if (!useWebRtc) {
+        // Configure auto connect
+        dp.video.onended = () => {
+            dp.destroy();
+            createPlayer();
+            // dp.play();
+        };
+    }
 }
 createPlayer();
 
@@ -175,6 +195,7 @@ dp.video.onstalled = () => console.log("stalled");
 
 </script>
 <script async>
+if (!useWebRtc) {
     let latencyAlleviation = {};
     latencyAlleviation.latencySpan = document.getElementById('latency');
     latencyAlleviation.speedSpan = document.getElementById('speed');
@@ -226,6 +247,7 @@ dp.video.onstalled = () => console.log("stalled");
             latencyAlleviation.speedSpan.innerText = '1.2x';
         }
     }, 200);
+}
 </script></div></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
