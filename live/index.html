@@ -29,10 +29,9 @@ const liveDan = function (url, group, onMessage) {
             var mess = options.data;
             let userName = window.localStorage.getItem("danmakuUserName");
             if (!userName) {
-                userName = window.prompt("请输入昵称");
+                userName = window.prompt("请输入昵称，留空将使用 IP 地址。");
                 if (!userName) {
-                    alert("您未输入昵称，弹幕将不会发送。");
-                    return;
+                    userName = "";
                 }
                 else {
                     window.localStorage.setItem("danmakuUserName", userName);
