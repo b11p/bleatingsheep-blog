@@ -76,6 +76,10 @@ const liveDan = function (url, group, onMessage) {
 
 <img src="receive-wechat.png" alt="" width=360 />
 
+把抢到的 QQ 红包投喂给我吧！
+
+<img src="receive-qq.png" alt="" width=360 />
+
 ---
 TODO:
 
