@@ -35,7 +35,7 @@ const liveDan = function (url, group, onMessage) {
                     return;
                 }
             }
-            connection.invoke('SendMessage', group, "user", JSON.stringify(mess)).catch(err => console.error(err));
+            connection.invoke('SendMessage', group, userName, JSON.stringify(mess)).catch(err => console.error(err));
             options.success();
         }
     };
