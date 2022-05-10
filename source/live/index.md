@@ -32,7 +32,18 @@ const liveDan = function (url, group, onMessage) {
         },
         send: function (options) {
             var mess = options.data;
-            connection.invoke('SendMessage', group, "user", JSON.stringify(mess)).catch(err => console.error(err));
+            let userName = window.localStorage.getItem("danmakuUserName");
+            if (!userName) {
+                userName = window.prompt("请输入昵称");
+                if (!userName) {
+                    alert("您未输入昵称，弹幕将不会发送。");
+                    return;
+                }
+                else {
+                    window.localStorage.setItem("danmakuUserName", userName);
+                }
+            }
+            connection.invoke('SendMessage', group, userName, JSON.stringify(mess)).catch(err => console.error(err));
             options.success();
         }
     };
