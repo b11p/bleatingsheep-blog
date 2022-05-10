@@ -30,13 +30,12 @@ const liveDan = function (url, group, onMessage) {
             let userName = window.localStorage.getItem("danmakuUserName");
             if (!userName) {
                 userName = window.prompt("请输入昵称");
+                if (!userName) {
+                    alert("您未输入昵称，弹幕将不会发送。");
+                    return;
+                }
             }
-            if (userName) {
-                connection.invoke('SendMessage', group, "user", JSON.stringify(mess)).catch(err => console.error(err));
-            }
-            else {
-                alert("您未输入昵称，弹幕将不会发送。");
-            }
+            connection.invoke('SendMessage', group, "user", JSON.stringify(mess)).catch(err => console.error(err));
             options.success();
         }
     };
