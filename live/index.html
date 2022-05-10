@@ -34,6 +34,9 @@ const liveDan = function (url, group, onMessage) {
                     alert("您未输入昵称，弹幕将不会发送。");
                     return;
                 }
+                else {
+                    window.localStorage.setItem("danmakuUserName", userName);
+                }
             }
             connection.invoke('SendMessage', group, userName, JSON.stringify(mess)).catch(err => console.error(err));
             options.success();
