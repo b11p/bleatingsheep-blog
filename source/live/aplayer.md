@@ -1,11 +1,14 @@
 ---
-title: Aplayer
+title: Aplayer 测试版
 layout: page-without-sidebar
 ---
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/artplayer@4.4.0/dist/artplayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/artplayer-plugin-danmuku@4.4.0/dist/artplayer-plugin-danmuku.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="/live/danmaku.js"></script>
+
 <style>
 .artplayer-app {
     width: 1280px;
@@ -15,6 +18,16 @@ layout: page-without-sidebar
 
 
 <div class="artplayer-app"></div>
+
+<div id="flvhint">
+
+当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
+
+播放速率为 <span id="speed">1x</span>。
+
+如果播放加载缓慢，经常缓冲，可以尝试切换线路。
+
+</div>
 
 <script>
 var dispose = null;
@@ -60,29 +73,7 @@ var art = new Artplayer({
     plugins: [
         artplayerPluginDanmuku({
             // 弹幕数组
-            danmuku: [
-                {
-                    text: '111', // 弹幕文本
-                    time: 1, // 发送时间，单位秒
-                    color: '#fff', // 弹幕局部颜色
-                    border: false, // 是否显示描边
-                    mode: 0, // 弹幕模式: 0表示滚动、1静止
-                },
-                {
-                    text: '222',
-                    time: 2,
-                    color: 'red',
-                    border: true,
-                    mode: 0,
-                },
-                {
-                    text: '333',
-                    time: 3,
-                    color: 'green',
-                    border: false,
-                    mode: 1,
-                },
-            ],
+            // danmuku: [],
             speed: 5, // 弹幕持续时间，单位秒，范围在[1 ~ 10]
             opacity: 1, // 弹幕透明度，范围在[0 ~ 1]
             fontSize: 25, // 字体大小，支持数字和百分比
@@ -99,8 +90,77 @@ var art = new Artplayer({
 art.on('play', (...args) => {
     console.info(args);
 });
-art.on('artplayerPluginDanmuku:emit', (danmu) => {
-    console.info('新增弹幕', danmu);
-});
 art.plugins.artplayerPluginDanmuku.emit({text: "test text", color: "#FFFFFF", border: false})
+</script>
+
+<script>
+// init danmaku
+var danmakuSingleton = liveDan(
+    "https://live-danmaku.b11p.com/danmakuHub",
+    "4463403c-aff8-c16d-0933-4636405ff116",
+    function (dan) {
+        // dan.border = false;
+        dan.time = undefined;
+        dan.color = '#FFFFFF';
+        console.log(dan);
+        art.plugins.artplayerPluginDanmuku.emit(dan);
+    }
+);
+art.on('artplayerPluginDanmuku:emit', (danmu) => {
+    danmakuSingleton.send({data: danmu, success: () => {}});
+});
+</script>
+
+<script async>
+var useWebRtc = false;
+if (!useWebRtc) {
+    let latencyAlleviation = {};
+    latencyAlleviation.latencySpan = document.getElementById('latency');
+    latencyAlleviation.speedSpan = document.getElementById('speed');
+
+    function getBuffered() {
+        return art.attr('buffered');
+    }
+    function getPlaybackRate() {
+        return art.attr('playbackRate');
+    }
+    function setPlaybackRate(rate) {
+        art.attr('playbackRate', rate);
+    }
+    function getCurrentTime() {
+        return art.attr('currentTime');
+    }
+
+    var latency = 3.0;
+
+    window.setInterval(() => {
+        let buffered = getBuffered();
+        let bufferCount = buffered.length;
+        if (bufferCount == 0) {
+            return;
+        }
+
+        let currentplaybackRate = getPlaybackRate();
+        latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
+
+        let buffetLength = buffered.end(bufferCount - 1) - getCurrentTime();
+        if (buffetLength + 2.5 > latency) {
+            latency = buffetLength + 2.5;
+        }
+
+        latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
+        if (buffetLength < 2.0 && currentplaybackRate > 1.0) {
+            setPlaybackRate(1.0);
+            latencyAlleviation.speedSpan.innerText = '1x';
+        }
+        else if (buffetLength > 12.0 && currentplaybackRate < 1.1) {
+            setPlaybackRate(1.1);
+            latencyAlleviation.speedSpan.innerText = '1.1x';
+        }
+        else if (buffetLength > 37.0 && currentplaybackRate < 1.2) {
+            setPlaybackRate(1.2);
+            latencyAlleviation.speedSpan.innerText = '1.2x';
+        }
+    }, 200);
+}
 </script>

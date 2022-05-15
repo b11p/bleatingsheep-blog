@@ -13,41 +13,7 @@ layout: page-without-sidebar
 <!-- <script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script> -->
 <script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
-<script>
-const liveDan = function (url, group, onMessage) {
-    var connection = new signalR.HubConnectionBuilder().withUrl(url).withAutomaticReconnect().build();
-    connection.onreconnected(function () {
-        connection.invoke('JoinGroup', group).catch(err => console.error(err));
-    });
-    connection.start().then(function () {
-        connection.invoke('JoinGroup', group).catch(err => console.error(err));
-    }).catch(err => console.error(err));
-    connection.on("ReceiveMessage", function (user, message) {
-        onMessage(JSON.parse(message));
-    });
-
-    return {
-        read: function (options) {
-            options.success();
-        },
-        send: function (options) {
-            var mess = options.data;
-            let userName = window.localStorage.getItem("danmakuUserName");
-            if (!userName) {
-                userName = window.prompt("请输入昵称，留空将使用 IP 地址。");
-                if (!userName) {
-                    userName = "";
-                }
-                else {
-                    window.localStorage.setItem("danmakuUserName", userName);
-                }
-            }
-            connection.invoke('SendMessage', group, userName, JSON.stringify(mess)).catch(err => console.error(err));
-            options.success();
-        }
-    };
-}
-</script>
+<script src="/live/danmaku.js"></script>
 
 这里是咩咩的直播间，正在施工。预计 4 月正式开播！
 
@@ -59,7 +25,7 @@ const liveDan = function (url, group, onMessage) {
 
 播放速率为 <span id="speed">1x</span>。
 
-直播流的域名是 live-flv.b11p.com，如果播放加载缓慢，经常缓冲，建议使用加速器加速此域名。
+直播流的域名是 live-flv.b11p.com，如果播放加载缓慢，经常缓冲，建议使用加速器加速此域名。或者使用测试中的 <a href="/live/aplayer.html">Aplayer</a>（可以切换多条线路）播放。
 
 </div>
 
@@ -216,7 +182,12 @@ function createPlayer() {
             }
         },
         danmaku: true,
-        apiBackend: danmakuSingleton,
+        apiBackend: {
+            read: function (options) {
+                options.success();
+            }, 
+            send: danmakuSingleton.send
+        },
     });
 
     if (!useWebRtc) {
