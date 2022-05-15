@@ -69,7 +69,7 @@ var art = new Artplayer({
             // webrtc 兼容代码
             if (url.indexOf('webrtc://') === 0) {
                 console.log("using webrtc compatible code");
-                art.customType.webrtc(video, url);
+                art.option.customType.webrtc(video, url);
                 return;
             }
 
@@ -95,7 +95,7 @@ var art = new Artplayer({
             // flv 兼容代码
             if (url.endsWith('.flv')) {
                 console.log("using flv compatible code");
-                art.customType.flv(video, url);
+                art.option.customType.flv(video, url);
                 return;
             }
 
