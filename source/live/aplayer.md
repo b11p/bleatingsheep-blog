@@ -2,7 +2,9 @@
 title: Aplayer 测试版
 layout: page-without-sidebar
 ---
+
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/artplayer@4.4.0/dist/artplayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/artplayer-plugin-danmuku@4.4.0/dist/artplayer-plugin-danmuku.js"></script>
@@ -31,11 +33,17 @@ layout: page-without-sidebar
 
 <script>
 var dispose = null;
+var playingType = '';
+function disposeDanmaku() {
+    if (art.plugins.artplayerPluginDanmuku) {
+        art.plugins.artplayerPluginDanmuku.config({}).queue = [];
+    }
+}
 
 var art = new Artplayer({
     container: '.artplayer-app',
-    url: 'https://live-flv.b11p.com/live/livestream.flv',
-    type: 'flv',
+    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+    type: 'webrtc',
     isLive: true,
     autoplay: true,
     autoSize: true,
@@ -44,7 +52,7 @@ var art = new Artplayer({
     setting: true,
     quality: [
         {
-            default: true,
+            // default: true,
             html: 'Dual Stack',
             url: 'https://live-flv.b11p.com/live/livestream.flv',
         },
@@ -52,10 +60,25 @@ var art = new Artplayer({
             html: 'IPv4',
             url: 'https://live4.b11p.com/live/livestream.flv',
         },
+        // {
+        //     default: true,
+        //     html: 'WebRTC',
+        //     url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+        //     type: 'webrtc'
+        // }
     ],
     customType: {
-        flv: function (video, url) {
+        flv: function (video, sbaplayerurl) {
+            let url = sbaplayerurl;
+            console.log(url);
+            // webrtc 兼容代码
+            if (url.indexOf('webrtc://') === 0) {
+                art.customType.webrtc(video, url);
+                return;
+            }
+
             if (dispose) dispose();
+            playingType = 'flv';
             console.log("Loading flv player");
             let flvPlayer = flvjs.createPlayer({
                 type: 'flv',
@@ -68,7 +91,24 @@ var art = new Artplayer({
                 flvPlayer.detachMediaElement();
                 flvPlayer.destroy();
             };
+            disposeDanmaku();
         },
+        webrtc: function (video, url) {
+            console.log("Loading webrtc player");
+            if (dispose) dispose();
+            playingType = 'webrtc';
+            let sdk = new SrsRtcPlayerAsync();
+            video.srcObject = sdk.stream;
+            sdk.play(url).catch(function (reason) {
+                sdk.close();
+                $('#rtc_media_player').hide();
+                console.error(reason);
+            });
+            dispose = function () {
+                sdk.close();
+            };
+            disposeDanmaku();
+        }
     },
     plugins: [
         artplayerPluginDanmuku({
@@ -86,13 +126,6 @@ var art = new Artplayer({
             filter: (danmu) => danmu.text.length < 50, // 弹幕过滤函数
         }),
     ],
-});
-art.on('url', (...args) => {
-    let danmakuConfig = art.plugins.artplayerPluginDanmuku.config({});
-    if (danmakuConfig.queue)
-    {
-        danmakuConfig.queue = [];
-    }
 });
 </script>
 
@@ -115,55 +148,58 @@ art.on('artplayerPluginDanmuku:emit', (danmu) => {
 </script>
 
 <script async>
-var useWebRtc = false;
-if (!useWebRtc) {
-    let latencyAlleviation = {};
-    latencyAlleviation.latencySpan = document.getElementById('latency');
-    latencyAlleviation.speedSpan = document.getElementById('speed');
+let latencyAlleviation = {};
+latencyAlleviation.latencySpan = document.getElementById('latency');
+latencyAlleviation.speedSpan = document.getElementById('speed');
 
-    function getBuffered() {
-        return art.attr('buffered');
-    }
-    function getPlaybackRate() {
-        return art.attr('playbackRate');
-    }
-    function setPlaybackRate(rate) {
-        art.attr('playbackRate', rate);
-    }
-    function getCurrentTime() {
-        return art.attr('currentTime');
-    }
-
-    var latency = 3.0;
-
-    window.setInterval(() => {
-        let buffered = getBuffered();
-        let bufferCount = buffered.length;
-        if (bufferCount == 0) {
-            return;
-        }
-
-        let currentplaybackRate = getPlaybackRate();
-        latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
-
-        let buffetLength = buffered.end(bufferCount - 1) - getCurrentTime();
-        if (buffetLength + 2.5 > latency) {
-            latency = buffetLength + 2.5;
-        }
-
-        latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
-        if (buffetLength < 2.0 && currentplaybackRate > 1.0) {
-            setPlaybackRate(1.0);
-            latencyAlleviation.speedSpan.innerText = '1x';
-        }
-        else if (buffetLength > 12.0 && currentplaybackRate < 1.1) {
-            setPlaybackRate(1.1);
-            latencyAlleviation.speedSpan.innerText = '1.1x';
-        }
-        else if (buffetLength > 37.0 && currentplaybackRate < 1.2) {
-            setPlaybackRate(1.2);
-            latencyAlleviation.speedSpan.innerText = '1.2x';
-        }
-    }, 200);
+function getBuffered() {
+    return art.attr('buffered');
 }
+function getPlaybackRate() {
+    return art.attr('playbackRate');
+}
+function setPlaybackRate(rate) {
+    art.attr('playbackRate', rate);
+}
+function getCurrentTime() {
+    return art.attr('currentTime');
+}
+
+var latency = 3.0;
+
+window.setInterval(() => {
+    if (playingType !== 'flv') {
+        $('#flvhint').hide();
+        return;
+    }
+    $('#flvhint').show();
+
+    let buffered = getBuffered();
+    let bufferCount = buffered.length;
+    if (bufferCount == 0) {
+        return;
+    }
+
+    let currentplaybackRate = getPlaybackRate();
+    latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
+
+    let buffetLength = buffered.end(bufferCount - 1) - getCurrentTime();
+    if (buffetLength + 2.5 > latency) {
+        latency = buffetLength + 2.5;
+    }
+
+    latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
+    if (buffetLength < 2.0 && currentplaybackRate > 1.0) {
+        setPlaybackRate(1.0);
+        latencyAlleviation.speedSpan.innerText = '1x';
+    }
+    else if (buffetLength > 12.0 && currentplaybackRate < 1.1) {
+        setPlaybackRate(1.1);
+        latencyAlleviation.speedSpan.innerText = '1.1x';
+    }
+    else if (buffetLength > 37.0 && currentplaybackRate < 1.2) {
+        setPlaybackRate(1.2);
+        latencyAlleviation.speedSpan.innerText = '1.2x';
+    }
+}, 200);
 </script>
