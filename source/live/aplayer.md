@@ -11,8 +11,8 @@ layout: page-without-sidebar
 
 <style>
 .artplayer-app {
-    width: 1280px;
-    height: 720px;
+    width: 100%;
+    height: 613px;
 }
 </style>
 
@@ -87,10 +87,13 @@ var art = new Artplayer({
         }),
     ],
 });
-art.on('play', (...args) => {
-    console.info(args);
+art.on('url', (...args) => {
+    let danmakuConfig = art.plugins.artplayerPluginDanmuku.config({});
+    if (danmakuConfig.queue)
+    {
+        danmakuConfig.queue = [];
+    }
 });
-art.plugins.artplayerPluginDanmuku.emit({text: "test text", color: "#FFFFFF", border: false})
 </script>
 
 <script>
