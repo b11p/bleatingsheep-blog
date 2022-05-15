@@ -73,9 +73,11 @@ var art = new Artplayer({
         flv: function (video, sbaplayerurl) {
             let url = sbaplayerurl;
             console.log(url);
+
             // webrtc 兼容代码
             if (url.indexOf('webrtc://') === 0) {
-                art.customType.webrtc(video, url);
+                console.log("using webrtc compatible code");
+                art.option.customType.webrtc(video, url);
                 return;
             }
 
@@ -96,16 +98,18 @@ var art = new Artplayer({
             disposeDanmaku();
         },
         webrtc: function (video, url) {
-            console.log("Loading webrtc player");
+            console.log(url);
 
             // flv 兼容代码
             if (url.endsWith('.flv')) {
-                art.customType.flv(video, url);
+                console.log("using flv compatible code");
+                art.option.customType.flv(video, url);
                 return;
             }
 
             if (dispose) dispose();
             playingType = 'webrtc';
+            console.log("Loading webrtc player");
             let sdk = new SrsRtcPlayerAsync();
             video.srcObject = sdk.stream;
             sdk.play(url).catch(function (reason) {
