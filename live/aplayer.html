@@ -1,4 +1,5 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Aplayer 测试版 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.2"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Aplayer 测试版</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">Aplayer 测试版</h1><div class="post-content"><script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/artplayer@4.4.0/dist/artplayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/artplayer-plugin-danmuku@4.4.0/dist/artplayer-plugin-danmuku.js"></script>
@@ -24,11 +25,17 @@
 
 <script>
 var dispose = null;
+var playingType = '';
+function disposeDanmaku() {
+    if (art.plugins.artplayerPluginDanmuku) {
+        art.plugins.artplayerPluginDanmuku.config({}).queue = [];
+    }
+}
 
 var art = new Artplayer({
     container: '.artplayer-app',
-    url: 'https://live-flv.b11p.com/live/livestream.flv',
-    type: 'flv',
+    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+    type: 'webrtc',
     isLive: true,
     autoplay: true,
     autoSize: true,
@@ -37,7 +44,7 @@ var art = new Artplayer({
     setting: true,
     quality: [
         {
-            default: true,
+            // default: true,
             html: 'Dual Stack',
             url: 'https://live-flv.b11p.com/live/livestream.flv',
         },
@@ -45,10 +52,25 @@ var art = new Artplayer({
             html: 'IPv4',
             url: 'https://live4.b11p.com/live/livestream.flv',
         },
+        // {
+        //     default: true,
+        //     html: 'WebRTC',
+        //     url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+        //     type: 'webrtc'
+        // }
     ],
     customType: {
-        flv: function (video, url) {
+        flv: function (video, sbaplayerurl) {
+            let url = sbaplayerurl;
+            console.log(url);
+            // webrtc 兼容代码
+            if (url.indexOf('webrtc://') === 0) {
+                art.customType.webrtc(video, url);
+                return;
+            }
+
             if (dispose) dispose();
+            playingType = 'flv';
             console.log("Loading flv player");
             let flvPlayer = flvjs.createPlayer({
                 type: 'flv',
@@ -61,7 +83,24 @@ var art = new Artplayer({
                 flvPlayer.detachMediaElement();
                 flvPlayer.destroy();
             };
+            disposeDanmaku();
         },
+        webrtc: function (video, url) {
+            console.log("Loading webrtc player");
+            if (dispose) dispose();
+            playingType = 'webrtc';
+            let sdk = new SrsRtcPlayerAsync();
+            video.srcObject = sdk.stream;
+            sdk.play(url).catch(function (reason) {
+                sdk.close();
+                $('#rtc_media_player').hide();
+                console.error(reason);
+            });
+            dispose = function () {
+                sdk.close();
+            };
+            disposeDanmaku();
+        }
     },
     plugins: [
         artplayerPluginDanmuku({
@@ -79,13 +118,6 @@ var art = new Artplayer({
             filter: (danmu) => danmu.text.length < 50, // 弹幕过滤函数
         }),
     ],
-});
-art.on('url', (...args) => {
-    let danmakuConfig = art.plugins.artplayerPluginDanmuku.config({});
-    if (danmakuConfig.queue)
-    {
-        danmakuConfig.queue = [];
-    }
 });
 </script>
 
@@ -108,57 +140,60 @@ art.on('artplayerPluginDanmuku:emit', (danmu) => {
 </script>
 
 <script async>
-var useWebRtc = false;
-if (!useWebRtc) {
-    let latencyAlleviation = {};
-    latencyAlleviation.latencySpan = document.getElementById('latency');
-    latencyAlleviation.speedSpan = document.getElementById('speed');
+let latencyAlleviation = {};
+latencyAlleviation.latencySpan = document.getElementById('latency');
+latencyAlleviation.speedSpan = document.getElementById('speed');
 
-    function getBuffered() {
-        return art.attr('buffered');
-    }
-    function getPlaybackRate() {
-        return art.attr('playbackRate');
-    }
-    function setPlaybackRate(rate) {
-        art.attr('playbackRate', rate);
-    }
-    function getCurrentTime() {
-        return art.attr('currentTime');
-    }
-
-    var latency = 3.0;
-
-    window.setInterval(() => {
-        let buffered = getBuffered();
-        let bufferCount = buffered.length;
-        if (bufferCount == 0) {
-            return;
-        }
-
-        let currentplaybackRate = getPlaybackRate();
-        latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
-
-        let buffetLength = buffered.end(bufferCount - 1) - getCurrentTime();
-        if (buffetLength + 2.5 > latency) {
-            latency = buffetLength + 2.5;
-        }
-
-        latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
-        if (buffetLength < 2.0 && currentplaybackRate > 1.0) {
-            setPlaybackRate(1.0);
-            latencyAlleviation.speedSpan.innerText = '1x';
-        }
-        else if (buffetLength > 12.0 && currentplaybackRate < 1.1) {
-            setPlaybackRate(1.1);
-            latencyAlleviation.speedSpan.innerText = '1.1x';
-        }
-        else if (buffetLength > 37.0 && currentplaybackRate < 1.2) {
-            setPlaybackRate(1.2);
-            latencyAlleviation.speedSpan.innerText = '1.2x';
-        }
-    }, 200);
+function getBuffered() {
+    return art.attr('buffered');
 }
+function getPlaybackRate() {
+    return art.attr('playbackRate');
+}
+function setPlaybackRate(rate) {
+    art.attr('playbackRate', rate);
+}
+function getCurrentTime() {
+    return art.attr('currentTime');
+}
+
+var latency = 3.0;
+
+window.setInterval(() => {
+    if (playingType !== 'flv') {
+        $('#flvhint').hide();
+        return;
+    }
+    $('#flvhint').show();
+
+    let buffered = getBuffered();
+    let bufferCount = buffered.length;
+    if (bufferCount == 0) {
+        return;
+    }
+
+    let currentplaybackRate = getPlaybackRate();
+    latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
+
+    let buffetLength = buffered.end(bufferCount - 1) - getCurrentTime();
+    if (buffetLength + 2.5 > latency) {
+        latency = buffetLength + 2.5;
+    }
+
+    latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
+    if (buffetLength < 2.0 && currentplaybackRate > 1.0) {
+        setPlaybackRate(1.0);
+        latencyAlleviation.speedSpan.innerText = '1x';
+    }
+    else if (buffetLength > 12.0 && currentplaybackRate < 1.1) {
+        setPlaybackRate(1.1);
+        latencyAlleviation.speedSpan.innerText = '1.1x';
+    }
+    else if (buffetLength > 37.0 && currentplaybackRate < 1.2) {
+        setPlaybackRate(1.2);
+        latencyAlleviation.speedSpan.innerText = '1.2x';
+    }
+}, 200);
 </script></div></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
