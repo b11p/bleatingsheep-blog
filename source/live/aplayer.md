@@ -5,7 +5,6 @@ layout: page-without-sidebar
 
 <script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
 <script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
-<script src="/live/jswebrtc.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/artplayer@4.4.0/dist/artplayer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/artplayer-plugin-danmuku@4.4.0/dist/artplayer-plugin-danmuku.js"></script>
@@ -111,20 +110,17 @@ var art = new Artplayer({
             if (dispose) dispose();
             playingType = 'webrtc';
             console.log("Loading webrtc player");
-
-            // let sdk = new SrsRtcPlayerAsync();
-            // video.srcObject = sdk.stream;
-            // sdk.play(url).catch(function (reason) {
-            //     sdk.close();
-            //     $('#rtc_media_player').hide();
-            //     console.error(reason);
-            // });
-            // dispose = function () {
-            //     sdk.close();
-            // };
-            // disposeDanmaku();
-
-            let webRtcPlayer = new JSWebrtc.Player(url, { video: video, autoplay: true, onPlay: (obj) => { console.log("start play") } });
+            let sdk = new SrsRtcPlayerAsync();
+            video.srcObject = sdk.stream;
+            sdk.play(url).catch(function (reason) {
+                sdk.close();
+                $('#rtc_media_player').hide();
+                console.error(reason);
+            });
+            dispose = function () {
+                sdk.close();
+            };
+            disposeDanmaku();
         }
     },
     plugins: [
