@@ -89,6 +89,13 @@ var art = new Artplayer({
         },
         webrtc: function (video, url) {
             console.log("Loading webrtc player");
+
+            // flv 兼容代码
+            if (url.endsWith('.flv')) {
+                art.customType.flv(video, url);
+                return;
+            }
+
             if (dispose) dispose();
             playingType = 'webrtc';
             let sdk = new SrsRtcPlayerAsync();
