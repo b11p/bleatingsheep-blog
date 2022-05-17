@@ -42,8 +42,8 @@ function disposeDanmaku() {
 
 var art = new Artplayer({
     container: '.artplayer-app',
-    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
-    type: 'webrtc',
+    url: 'https://live-cf.b11p.com/live/livestream.flv',
+    type: 'flv',
     isLive: true,
     autoplay: true,
     autoSize: true,
@@ -51,12 +51,12 @@ var art = new Artplayer({
     autoMini: true,
     setting: true,
     quality: [
-        {
-            // default: true,
-            html: 'Dual Stack',
-            url: 'https://live-flv.b11p.com/live/livestream.flv',
-            type: 'flv'
-        },
+        // {
+        //     default: true,
+        //     html: 'Dual Stack',
+        //     url: 'https://live-flv.b11p.com/live/livestream.flv',
+        //     type: 'flv'
+        // },
         {
             html: 'IPv4',
             url: 'https://live4.b11p.com/live/livestream.flv',
@@ -64,10 +64,16 @@ var art = new Artplayer({
         },
         {
             default: true,
-            html: 'WebRTC',
-            url: 'webrtc://live-flv.b11p.com:443/live/livestream',
-            type: 'webrtc'
-        }
+            html: 'Cloudflare',
+            url: 'https://live-cf.b11p.com/live/livestream.flv',
+            type: 'flv'
+        },
+        // {
+        //     default: true,
+        //     html: 'WebRTC',
+        //     url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+        //     type: 'webrtc'
+        // }
     ],
     customType: {
         flv: function (video, sbaplayerurl) {

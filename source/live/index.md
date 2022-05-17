@@ -15,7 +15,7 @@ layout: page-without-sidebar
 
 <script src="/live/danmaku.js"></script>
 
-这里是咩咩的直播间，正在施工。预计 4 月正式开播！
+这里是咩咩的直播间。
 
 <div id="dplayer"></div>
 
@@ -25,7 +25,7 @@ layout: page-without-sidebar
 
 播放速率为 <span id="speed">1x</span>。
 
-直播流的域名是 live-flv.b11p.com，如果播放加载缓慢，经常缓冲，建议使用加速器加速此域名。或者使用测试中的 <a href="/live/aplayer.html">Aplayer</a>（可以切换多条线路）播放。
+已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/aplayer.html">Aplayer</a> 可以切换 Cloudflare网络。
 
 </div>
 
