@@ -4,7 +4,7 @@ date: 2022-03-27 10:54:49
 layout: page-without-sidebar
 ---
 
-<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.5/signalr.min.js"></script>
 
 <script>
 (function () {

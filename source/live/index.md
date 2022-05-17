@@ -3,14 +3,13 @@ title: 咩咩的直播间
 date: 2022-02-21 22:29:13
 layout: page-without-sidebar
 ---
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/shaka-player/dist/shaka-player.compiled.js"></script> -->
+<link rel="stylesheet" href="/css/DPlayer.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dplayer/1.26.0/DPlayer.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.0.0/shaka-player.compiled.js"></script> -->
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/gh/u2sb/Danmu.Server@gh-pages/js/livedanmu.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.5/signalr.min.js"></script>
 <script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
 <script src="/live/danmaku.js"></script>
@@ -25,7 +24,7 @@ layout: page-without-sidebar
 
 播放速率为 <span id="speed">1x</span>。
 
-已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/aplayer.html">Aplayer</a> 可以切换 Cloudflare网络。
+已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
 
 </div>
 

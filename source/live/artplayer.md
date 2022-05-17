@@ -1,14 +1,14 @@
 ---
-title: Aplayer 测试版
+title: Artplayer 测试版
 layout: page-without-sidebar
 ---
 
-<script src="https://cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
 <script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/artplayer@4.4.0/dist/artplayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/artplayer-plugin-danmuku@4.4.0/dist/artplayer-plugin-danmuku.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://unpkg.com/artplayer/dist/artplayer.js"></script>
+<script src="https://unpkg.com/artplayer-plugin-danmuku/dist/artplayer-plugin-danmuku.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.5/signalr.min.js"></script>
 <script src="/live/danmaku.js"></script>
 
 <style>
