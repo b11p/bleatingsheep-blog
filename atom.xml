@@ -28,7 +28,7 @@
       
         
         
-    <summary type="html">&lt;p&gt;Btrfs 是具有 subvolume、快照等高级功能的写入时复制（copy-on-write）文件系统。Fedora、Ubuntu 桌面版系统在安装到 Btrfs 分区时会为根目录 / 和 home 目录 /home 分别创建不同的</summary>
+    <summary type="html">&lt;p&gt;Btrfs 是具有 subvolume、快照等高级功能的写入时复制（copy-on-write）文件系统。Fedora、Ubuntu 桌面版系统在安装到 Btrfs 分区时会为根目录 &amp;#x2F; 和 home 目录 &amp;#x2F;home 分别创建不同的</summary>
         
       
     
