@@ -26,6 +26,8 @@ layout: page-without-sidebar
 
 已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
 
+iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
+
 </div>
 
 <div id="webrtchint">
