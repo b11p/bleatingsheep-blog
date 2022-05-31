@@ -14,7 +14,7 @@ updated: 2021-10-02 21:00:12
 需要注意的是，操作时要在系统盘和数据盘上创建 RAID，然后安装 Ubuntu Server。此操作会毁掉所有已有数据。如有重要数据，请提前备份。
 
 ## 引导安装映像并进入存储配置
-首先需要引导 Ubuntu Server 20.04 的安装映像。如果你的 VPS 不支持挂载此 ISO，请参见{% post_link 使用iPXE和netboot-xyz重装VPS系统 "《使用 iPXE 和 netboot.xyz 重装 VPS 系统》" %}。
+首先需要引导 Ubuntu Server 20.04 的安装映像。如果你的 VPS 不支持挂载此 ISO，请参见{% post_link 使用ipxe和netboot-xyz重装vps系统 "《使用 iPXE 和 netboot.xyz 重装 VPS 系统》" %}。
 
 前几步就略过了，在存储配置的页面，请选择自定义。
 
