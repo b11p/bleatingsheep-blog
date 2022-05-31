@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>使用 iPXE 和 netboot.xyz 重装 VPS 系统 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.1.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.1.0/grids-responsive.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用 iPXE 和 netboot.xyz 重装 VPS 系统</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">使用 iPXE 和 netboot.xyz 重装 VPS 系统</h1><div class="post-meta">2021-09-24</div><a class="disqus-comment-count" href="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/使用iPXE和netboot-xyz重装VPS系统.md"></span><span> 条评论</span></a><div class="post-content"><p>如果你购买一些小厂商的 VPS，你可能会觉得这些厂商自带系统不好用。哪怕是国内大厂，也经常有瞎 JB 改系统，影响功能的情况。有些厂商允许你挂载 ISO 自己安装系统，而有些厂商则不行。下面我将介绍使用 <a target="_blank" rel="noopener" href="https://ipxe.org/">iPXE</a> 和 <a target="_blank" rel="noopener" href="https://netboot.xyz/">netboot.xyz</a> 引导 Linux 安装程序（本文以 Ubuntu Server 为例），自行安装系统。</p>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>要使用此方法重装系统，VPS 需要满足以下几个条件：</p>
+<ul>
+<li>不能是 OpenVZ 等虚拟化技术</li>
+<li>有 VNC</li>
+<li>使用 GRUB2 引导系统</li>
+<li>包管理有 iPXE（如果没有，则需要手动安装）</li>
+</ul>
+<p>如果 VPS 使用的是 OpenVZ 技术，或者不提供 VNC 功能，则无法进行安装；不满足其他两项的，理论上也可以实现，但不在本文讨论范围之内。</p>
+<p>此外，由于各种 VPS 小厂商千奇百怪，不保证你安装过程中不会遇到奇奇怪怪的问题。安装前请备份数据。</p>
+<h2 id="重装步骤"><a href="#重装步骤" class="headerlink" title="重装步骤"></a>重装步骤</h2><h3 id="1-修改-grub-配置文件，延长默认等待时间"><a href="#1-修改-grub-配置文件，延长默认等待时间" class="headerlink" title="1. 修改 grub 配置文件，延长默认等待时间"></a>1. 修改 grub 配置文件，延长默认等待时间</h3><p>默认情况下引导菜单可能太快消失，或者根本不出现。这一步的目的是使稍后选择 iPXE 引导选项更容易。</p>
+<p>编辑 grub 配置文件 <code>/etc/default/grub</code>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/default/grub</span><br></pre></td></tr></table></figure>
+
+<p>修改前的配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=0</span><br><span class="line">GRUB_TIMEOUT_STYLE=hidden</span><br><span class="line">GRUB_TIMEOUT=0</span><br><span class="line">GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`</span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;maybe-ubiquity&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>修改后的配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=0</span><br><span class="line">#GRUB_TIMEOUT_STYLE=hidden</span><br><span class="line">GRUB_TIMEOUT=300</span><br><span class="line">GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`</span><br><span class="line">#GRUB_CMDLINE_LINUX_DEFAULT=&quot;maybe-ubiquity&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这一步的要点是，让引导菜单显示足够长的时间以便选择引导选项。</p>
+<p>修改完成后，运行更新命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-记录机器-IP-地址（如有必要）"><a href="#2-记录机器-IP-地址（如有必要）" class="headerlink" title="2. 记录机器 IP 地址（如有必要）"></a>2. 记录机器 IP 地址（如有必要）</h3><p>如果你的 VPS 是用 DHCP 获取地址的，那就不需要进行这一步操作；否则需要记录下接口名、IP 地址、掩码、网关等信息。</p>
+<p>运行命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; ifconfig</span><br><span class="line">ens3: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 104.*.*.*  netmask 255.255.255.0  broadcast 104.*.*.255</span><br><span class="line">        inet6 fe80::*  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:*  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 9779  bytes 707184 (707.1 KB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 109  bytes 14479 (14.4 KB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure>
+
+<p>此处接口名是 <code>ens3</code>，IP 地址是 <code>104.*.*.*</code>，掩码是 <code>255.255.255.0</code>。</p>
+<p>网关：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; ip route</span><br><span class="line">default via 104.*.*.1 dev ens3 proto static</span><br><span class="line">104.*.*.0/24 dev ens3 proto kernel scope link src 104.*.*.*</span><br><span class="line">172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1</span><br></pre></td></tr></table></figure>
+
+<p>这里显示网关是 <code>104.*.*.1</code>。</p>
+<h3 id="3-安装-iPXE-并重启"><a href="#3-安装-iPXE-并重启" class="headerlink" title="3. 安装 iPXE 并重启"></a>3. 安装 iPXE 并重启</h3><p>Ubuntu 或 Debian 可以用以下命令安装 iPXE：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ipxe</span><br><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+
+<p>如果你用的是 CentOS，可以参考<a target="_blank" rel="noopener" href="https://lala.im/4524.html">《CentOS7配置GRUB2+iPXE进行网络重装》</a>。</p>
+<p>完成之后重启并进入 VNC。你将看到以下画面：</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/1.png" class="">
+
+<p>选择“Network boot (iPXE)”选项，进入 iPXE。</p>
+<h3 id="4-在-iPXE-中引导-netboot-xyz"><a href="#4-在-iPXE-中引导-netboot-xyz" class="headerlink" title="4. 在 iPXE 中引导 netboot.xyz"></a>4. 在 iPXE 中引导 netboot.xyz</h3><h4 id="进入-iPXE-命令行"><a href="#进入-iPXE-命令行" class="headerlink" title="进入 iPXE 命令行"></a>进入 iPXE 命令行</h4><p>进入 iPXE 时，你将看到以下画面：</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/2.png" class="">
+
+<p>当你看到“Press Ctrl-B for the iPXE command line…”时，请立即按下 Ctrl + B 快捷键，进入 iPXE 命令行。<strong>此消息转瞬即逝，可以在进入之前就保持狂按，以免错过。</strong></p>
+<h4 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h4><p>接下来，我们需要配置网络。根据 VPS 是否有 DHCP，配置方式有所不同。</p>
+<ul>
+<li>有 DHCP 时，只需执行一条命令<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dhcp</span><br></pre></td></tr></table></figure></li>
+<li>无 DHCP 时，需要执行下列命令，并把其中的“&lt;ip&gt;、&lt;netmask&gt;、&lt;gateway&gt;、&lt;nameserver&gt;”换成之前记下的 IP 地址、掩码、网关及 <code>1.1.1.1</code> 或其他可用的 DNS 服务器<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set net0/ip &lt;ip&gt;</span><br><span class="line">set net0/netmask &lt;netmask&gt;</span><br><span class="line">set net0/gateway &lt;gateway&gt;</span><br><span class="line">set dns &lt;nameserver&gt;</span><br><span class="line">ifopen net0</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="引导-netboot-xyz"><a href="#引导-netboot-xyz" class="headerlink" title="引导 netboot.xyz"></a>引导 netboot.xyz</h4><p>配置好网络后，就可以用以下命令引导进入 netboot.xyz 了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chain --autofree https://boot.netboot.xyz</span><br></pre></td></tr></table></figure>
+
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-3.png" class="">
+
+<h4 id="无-DHCP-时的额外步骤"><a href="#无-DHCP-时的额外步骤" class="headerlink" title="无 DHCP 时的额外步骤"></a>无 DHCP 时的额外步骤</h4><p>如果你的 VPS 没有 DHCP，那么 netboot.xyz 还会再问你一遍网络信息。此处默认已填好，直接回车即可。</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-4.png" class="">
+
+<h3 id="5-引导-Linux-安装程度"><a href="#5-引导-Linux-安装程度" class="headerlink" title="5. 引导 Linux 安装程度"></a>5. 引导 Linux 安装程度</h3><p>进入 netboot.xyz 后，你将看到以下画面：</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/3.png" class="">
+
+<p>选择“Linux Network Installs (64-bit)”，进入以下界面，我们选择“Ubuntu”：</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/4.png" class="">
+
+<p>之后我们选择 Ubuntu 20.04，一般选“Subiquity”即可，因为这个引导的是 Ubuntu Server 的镜像，而“Legacy”引导的安装程序不是专门供服务器用的。</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/5.png" class="">
+
+<p>当然，你也可以在此选择你想用的其他系统。</p>
+<h4 id="无-DHCP-时的额外步骤-1"><a href="#无-DHCP-时的额外步骤-1" class="headerlink" title="无 DHCP 时的额外步骤"></a>无 DHCP 时的额外步骤</h4><p>如果你的 VPS 没有 DHCP，你将看到以下画面。</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-5.png" class="">
+
+<p>不过，不必担心，稍后将提示你配置网络。出现提示时，请按提示填写网络信息，<strong>注意请手动输入 <code>static</code>，而不要回车使用默认的“dhcp”</strong>：</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-8.png" class="">
+
+<p>需要注意的是，<strong>当你填写 url 时，请勿直接回车默认</strong>，因为默认映像是原始版本，已被删除。<strong>请前往<a target="_blank" rel="noopener" href="https://releases.ubuntu.com/20.04/">发布页面</a>查找最新的映像地址。</strong>当然，你也可以自己托管安装镜像，或者使用其他的镜像源。</p>
+<h3 id="6-进入安装程序"><a href="#6-进入安装程序" class="headerlink" title="6. 进入安装程序"></a>6. 进入安装程序</h3><p>以上操作完成后，你将看到镜像下载进度，下载好之后将会自动引导安装镜像。</p>
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-9.png" class="">
+
+<img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/6.png" class="">
+
+<p>当你看到此界面时，就成功引导了安装程序。下面就按照提示一步步安装吧！</p>
+<blockquote>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/re1n/p/6009946.html">ubuntu16.10 设置grub菜单的默认等待时间，开机时显示详细的引导信息</a></li>
+<li><a target="_blank" rel="noopener" href="https://lala.im/4524.html">CentOS7配置GRUB2+iPXE进行网络重装</a></li>
+<li><a target="_blank" rel="noopener" href="https://netboot.xyz/docs/booting/ipxe/">Boot using iPXE</a></li>
+</ol>
+</blockquote>
+</div><div class="tags"><a href="/tags/Linux/"><i class="fa fa-tag"></i>Linux</a></div><div class="post-nav"><a class="pre" href="/2021/10/02/%E5%AE%89%E8%A3%85-Ubuntu-Server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-RAID/">安装 Ubuntu Server 时配置磁盘 RAID</a><a class="next" href="/2021/06/20/%E7%94%A8-GitHub-Actions-%E5%92%8C-SSH-%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/">用 GitHub Actions 和 SSH 部署静态网站</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/使用iPXE和netboot-xyz重装VPS系统.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

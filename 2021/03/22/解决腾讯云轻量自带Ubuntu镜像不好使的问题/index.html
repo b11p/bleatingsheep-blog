@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>解决腾讯云轻量自带Ubuntu镜像不好使的问题 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.1.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.1.0/grids-responsive.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">解决腾讯云轻量自带Ubuntu镜像不好使的问题</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">解决腾讯云轻量自带Ubuntu镜像不好使的问题</h1><div class="post-meta">2021-03-22</div><a class="disqus-comment-count" href="/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/解决腾讯云轻量自带Ubuntu镜像不好使的问题.md"></span><span> 条评论</span></a><div class="post-content"><p>之前腾讯云搞了个轻量服务器免费升配活动，配合学生优惠，折合 432 元可以买到 4 年 2C4G6M 的国内机器，非常划算。</p>
+<p>我装的是 Ubuntu 20.04 系统，ssh 连进去，随便敲敲就发现很多不好使的地方。</p>
+<span id="more"></span>
+
+<h2 id="自带-Ubuntu-系统不好使的地方"><a href="#自带-Ubuntu-系统不好使的地方" class="headerlink" title="自带 Ubuntu 系统不好使的地方"></a>自带 Ubuntu 系统不好使的地方</h2><h3 id="bash-颜色和标题"><a href="#bash-颜色和标题" class="headerlink" title="bash 颜色和标题"></a>bash 颜色和标题</h3><p>首先是颜色，bash 默认会使用彩色输出，这样可以很清晰地辨认出当前登录的用户名，以及是从哪里开始执行一个命令的，但是腾讯云的系统却只显示默认颜色，如图。</p>
+<img src="/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/tx-1.5x.png" class="" title="腾讯云自带系统">
+
+<img src="/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/azure-1.5x.png" class="" title="其他家的系统">
+
+<p>此外，正常安装的 Ubuntu 系统 ssh 上去，标题栏上会显示当前目录，或者正在执行的命令，而腾讯云的系统并不会显示。</p>
+<img src="/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/title-1.5x.png" class="" title="ssh 标题上显示正在执行的命令">
+
+<h3 id="无法使用别名"><a href="#无法使用别名" class="headerlink" title="无法使用别名"></a>无法使用别名</h3><p>此外，当我尝试执行 <code>ll</code> 时，腾讯云的系统会提示 <code>ll: command not found</code>。这可能是缺少 <code>.bashrc</code> 导致的。</p>
+<p>此后，我也安装了 acme.sh。用官方脚本安装完以后，按说应该自动创建 <code>acme.sh</code> 的别名，但却没有，不知道哪里出了问题。</p>
+<h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><p>这个系统还有别的问题，比如第一次 <code>apt update</code> <code>apt upgrade</code> 时的巨量冲突、默认 motd 不包含可以升级的软件包数量等。这些问题我暂时还没有解决，但影响也不如上面两个严重。</p>
+<h2 id="尝试自己安装系统"><a href="#尝试自己安装系统" class="headerlink" title="尝试自己安装系统"></a>尝试自己安装系统</h2><p>诚然，我可以搜索我遇到的这些问题，然后一个个解决，但是这样太麻烦了，而且谁知道有没有别的暗坑，所以我决定重装系统。</p>
+<p>由于腾讯云轻量不支持自己上传安装映像，我决定用以前看到的一个脚本重装。这个脚本本来只支持到 Ubuntu 18.04，我进行了改造，现在可以安装 Ubuntu 20.04 了。</p>
+<p>结果我没有装成功。虽然腾讯云好像是基于 KVM 的，但如果服务商改了虚拟机的不知道什么地方，这个脚本还是很容易失败的。</p>
+<h2 id="创建一个新用户绕开问题"><a href="#创建一个新用户绕开问题" class="headerlink" title="创建一个新用户绕开问题"></a>创建一个新用户绕开问题</h2><p>虽然没法完全解决，但我想，不用腾讯云已经建好的用户，而是自己建一个，会不会就没这问题了。</p>
+<h3 id="创建用户并赋予-sudo-权限"><a href="#创建用户并赋予-sudo-权限" class="headerlink" title="创建用户并赋予 sudo 权限"></a>创建用户并赋予 <code>sudo</code> 权限</h3><p>首先，添加用户，并按照提示设定密码，其余选项可以保持默认（留空）。以用户名为 <code>txuser</code> 为例，把下面命令中的 <code>txuser</code> 换成你想设置的用户名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser txuser</span><br></pre></td></tr></table></figure>
+
+<p>然后赋予 <code>sudo</code> 权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG sudo txuser</span><br></pre></td></tr></table></figure>
+
+<p>这时候，该用户已经被赋予了 <code>sudo</code> 权限，但是每次执行命令时还是需要输入密码。为了免掉这一步，编辑（或创建）<code>/etc/sudoers.d/90-cloud-init-users</code> 文件，在里面加上这么一行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">txuser ALL=(ALL) NOPASSWD:ALL</span><br></pre></td></tr></table></figure>
+
+<h3 id="切换用户并配置密钥（如有必要）"><a href="#切换用户并配置密钥（如有必要）" class="headerlink" title="切换用户并配置密钥（如有必要）"></a>切换用户并配置密钥（如有必要）</h3><p>现在尝试切换到刚刚创建的用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su - txuser</span><br></pre></td></tr></table></figure>
+
+<p>如果出现下面的提示，则说明配置正确。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">To run a command as administrator (user &quot;root&quot;), use &quot;sudo &lt;command&gt;&quot;.</span><br><span class="line">See &quot;man sudo_root&quot; for details.</span><br></pre></td></tr></table></figure>
+
+<p>我们试一下能否正常使用 <code>sudo</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+
+<p>下面便可以尝试登录了，如果你想配置成密钥登陆，可以在这时配置。</p>
+<h3 id="用-ssh-登录并禁止默认账户登录"><a href="#用-ssh-登录并禁止默认账户登录" class="headerlink" title="用 ssh 登录并禁止默认账户登录"></a>用 ssh 登录并禁止默认账户登录</h3><p>用你最喜欢的 ssh 客户端连上服务器，就可以用了。但是，为了安全起见，最好把之前的账户禁用或删除掉。</p>
+<p>经过测试，如果自带账户你用的是密钥登录，那么无论用 <code>sudo usermod -L ubuntu</code>，还是 <code>sudo passwd -l ubuntu</code> 命令，都无法阻止登录。一个可行的办法是用 <code>sudo usermod ubuntu -s /sbin/nologin</code> 命令。</p>
+<p>但是，你也可以用下面的命令直接删掉 ubuntu 用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo userdel -r ubuntu</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>众所周知，云服务商经常对系统镜像进行修改和定制，比如把软件源换成自己的镜像等等。如果你用的是某些不知名服务商的系统，那可能会遇到各种奇奇怪怪的问题，甚至可能有安全隐患。相比之下，Azure 等大厂的系统用着就舒服得多。</p>
+<p>我本以为，腾讯云好歹也是正经商家，系统怎么也不会烂到哪去，结果没想到，它好的不改，怎么坏怎么来。</p>
+<p>我有给服务配置双栈支持的习惯。如果服务器没有 IPv6 地址，我一般用 <a target="_blank" rel="noopener" href="https://tunnelbroker.net/">HE 隧道</a> 或者 6to4 隧道支持 IPv6。记得以前用阿里云，配完了隧道却发现不通，原因是阿里云服务器默认关闭了 IPv6 协议栈。IPv6 协议栈本来是默认开启的，即使没有 IPv6 网络，也不应该关闭，因为某些应用可能需要这个协议。关闭本来不该关闭的功能，只会造成兼容性问题，给用户带来困扰。</p>
+<p>希望某些云服务商把精力放在对的地方，不要把系统瞎改一通，没有任何好处，只能让用户难受。</p>
+<script src="/scripts/image-scale.js"></script></div><div class="tags"><a href="/tags/Ubuntu/"><i class="fa fa-tag"></i>Ubuntu</a><a href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/"><i class="fa fa-tag"></i>腾讯云</a></div><div class="post-nav"><a class="pre" href="/2021/03/22/NET%E4%B8%80%E5%A4%84%E5%A5%87%E6%80%AA%E7%9A%84%E6%B5%8B%E8%AF%95%E6%9C%AA%E8%BF%90%E8%A1%8C/">.NET一处奇怪的测试未运行</a><a class="next" href="/2021/03/19/%E4%BA%A7%E7%94%9F%E4%BB%BB%E6%84%8F%E8%8C%83%E5%9B%B4%E7%9A%84%E6%95%B4%E6%95%B0%E9%9A%8F%E6%9C%BA%E6%95%B0/">产生任意范围的整数随机数</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/解决腾讯云轻量自带Ubuntu镜像不好使的问题.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
