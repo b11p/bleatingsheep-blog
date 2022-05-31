@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>关于树莓派上 Ubuntu Server 20.04 安装 HWE 的问题 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.1.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/2.1.0/grids-responsive.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">关于树莓派上 Ubuntu Server 20.04 安装 HWE 的问题</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">关于树莓派上 Ubuntu Server 20.04 安装 HWE 的问题</h1><div class="post-meta">2021-12-04</div><a class="disqus-comment-count" href="/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-ubuntu-server-20-04-%E5%AE%89%E8%A3%85-hwe-%E7%9A%84%E9%97%AE%E9%A2%98/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/关于树莓派上-ubuntu-server-20-04-安装-hwe-的问题.md"></span><span> 条评论</span></a><div class="post-content"><p><strong>结论：</strong>目前无法给树莓派上的 Ubuntu Server 20.04 系统安装 Hardware Enablement (HWE)。</p>
+<span id="more"></span>
+
+<h2 id="什么是-Hardware-Enablement-HWE"><a href="#什么是-Hardware-Enablement-HWE" class="headerlink" title="什么是 Hardware Enablement (HWE)"></a>什么是 Hardware Enablement (HWE)</h2><p>Hardware Enablement (HWE) 帮助在 Ubuntu LTS 上安装更新的内核。下面两个链接介绍了 HWE。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://askubuntu.com/a/248936">What is hardware enablement (HWE)?</a></p>
+<p><a target="_blank" rel="noopener" href="https://wiki.ubuntu.com/Kernel/LTSEnablementStack">LTS Enablement Stacks</a></p>
+</blockquote>
+<h2 id="症状"><a href="#症状" class="headerlink" title="症状"></a>症状</h2><p>我按照上面第二个链接的说法，执行 <code>sudo apt install --install-recommends linux-generic-hwe-20.04</code>，却以错误告终。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dpkg: error processing package linux-image-5.11.0-41-generic (--configure):</span><br><span class="line"> installed linux-image-5.11.0-41-generic package post-installation script subprocess returned error exit status 1</span><br><span class="line">Errors were encountered while processing:</span><br><span class="line"> linux-image-5.11.0-41-generic</span><br><span class="line">E: Sub-process /usr/bin/dpkg returned an error code (1)</span><br></pre></td></tr></table></figure>
+
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2><p>我在网上搜索，发现有人讨论过这个问题。要在树莓派上的 Ubuntu 20.04 系统安装 HWE 需要一点手段。然而，这个手段现在会导致无法启动，只能作罢。</p>
+<p><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1320381/how-to-install-the-hwe-kernel-on-ubuntu-server-20-04-on-a-raspberry-pi">How to install the HWE kernel on Ubuntu Server 20.04 on a Raspberry Pi</a></p>
+<h2 id="总结：如何检查是否可以在树莓派上安装-HWE"><a href="#总结：如何检查是否可以在树莓派上安装-HWE" class="headerlink" title="总结：如何检查是否可以在树莓派上安装 HWE"></a>总结：如何检查是否可以在树莓派上安装 HWE</h2><p>执行以下命令来检查：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt list linux-raspi-hwe-*</span><br></pre></td></tr></table></figure>
+
+<p>你会看到如下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">linux-raspi-hwe-18.04-edge/focal-updates,focal-security 5.4.0.1047.82 arm64</span><br><span class="line">linux-raspi-hwe-18.04/focal-updates,focal-security 5.4.0.1047.82 arm64</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，目前只有 18.04 可以安装 HWE，版本为 5.4，和 Ubuntu 20.04 的内核版本一致。根据此处的输出，20.04 目前不能安装 HWE。</p>
+<h2 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h2><p>直接放结论好了，执行以下命令清理安装失败的残留。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove linux-*generic-hwe-20.04 linux-*-5.11.0-41*</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>5.11.0-41</code> 是安装失败的内核版本，需要根据安装日志替换成实际尝试安装的版本。</p>
+</div><div class="tags"><a href="/tags/Ubuntu/"><i class="fa fa-tag"></i>Ubuntu</a><a href="/tags/Raspberry-Pi/"><i class="fa fa-tag"></i>Raspberry Pi</a></div><div class="post-nav"><a class="pre" href="/2022/02/26/%E5%85%B3%E4%BA%8E%E5%8D%87%E7%BA%A7-miui-13-%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%93%E7%94%B5%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/">关于升级 MIUI 13 后无法打电话的问题</a><a class="next" href="/2021/10/13/%E8%A7%A3%E5%86%B3-openwrt-%E6%97%A0%E6%B3%95%E5%9C%A8%E5%86%85%E7%BD%91%E4%B8%AD%E5%BC%80%E5%90%AF-nat-pmp-%E7%9A%84%E9%97%AE%E9%A2%98/">解决 OpenWrt 无法在内网中开启 NAT-PMP 的问题</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/关于树莓派上-ubuntu-server-20-04-安装-hwe-的问题.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

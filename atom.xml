@@ -18,8 +18,8 @@
   
   <entry>
     <title>将 Btrfs root 分区转换为 subvolume</title>
-    <link href="https://bleatingsheep.org/2022/04/29/%E5%B0%86-Btrfs-root-%E5%88%86%E5%8C%BA%E8%BD%AC%E6%8D%A2%E4%B8%BA-subvolume/"/>
-    <id>https://bleatingsheep.org/2022/04/29/%E5%B0%86-Btrfs-root-%E5%88%86%E5%8C%BA%E8%BD%AC%E6%8D%A2%E4%B8%BA-subvolume/</id>
+    <link href="https://bleatingsheep.org/2022/04/29/%E5%B0%86-btrfs-root-%E5%88%86%E5%8C%BA%E8%BD%AC%E6%8D%A2%E4%B8%BA-subvolume/"/>
+    <id>https://bleatingsheep.org/2022/04/29/%E5%B0%86-btrfs-root-%E5%88%86%E5%8C%BA%E8%BD%AC%E6%8D%A2%E4%B8%BA-subvolume/</id>
     <published>2022-04-29T00:21:59.000Z</published>
     <updated>2022-04-29T16:12:54.000Z</updated>
     
@@ -45,8 +45,8 @@
   
   <entry>
     <title>用 GitHub Actions 和 Webhook 自动构建并部署 ASP.NET Core 应用</title>
-    <link href="https://bleatingsheep.org/2022/03/19/%E7%94%A8-GitHub-Actions-%E5%92%8C-Webhook-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E9%83%A8%E7%BD%B2-ASP-NET-Core-%E5%BA%94%E7%94%A8/"/>
-    <id>https://bleatingsheep.org/2022/03/19/%E7%94%A8-GitHub-Actions-%E5%92%8C-Webhook-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E9%83%A8%E7%BD%B2-ASP-NET-Core-%E5%BA%94%E7%94%A8/</id>
+    <link href="https://bleatingsheep.org/2022/03/19/%E7%94%A8-github-actions-%E5%92%8C-webhook-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E9%83%A8%E7%BD%B2-asp-net-core-%E5%BA%94%E7%94%A8/"/>
+    <id>https://bleatingsheep.org/2022/03/19/%E7%94%A8-github-actions-%E5%92%8C-webhook-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E9%83%A8%E7%BD%B2-asp-net-core-%E5%BA%94%E7%94%A8/</id>
     <published>2022-03-19T23:46:35.000Z</published>
     <updated>2022-03-20T00:34:13.000Z</updated>
     
@@ -69,13 +69,13 @@
   
   <entry>
     <title>用 Ubuntu Cloud Images 制作自己的云镜像（配置 cloud-init 的 NoCloud 数据源）</title>
-    <link href="https://bleatingsheep.org/2022/03/14/%E7%94%A8-Ubuntu-Cloud-Images-%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%91%E9%95%9C%E5%83%8F%EF%BC%88%E9%85%8D%E7%BD%AE-cloud-init-%E7%9A%84-NoCloud-%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%89/"/>
-    <id>https://bleatingsheep.org/2022/03/14/%E7%94%A8-Ubuntu-Cloud-Images-%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%91%E9%95%9C%E5%83%8F%EF%BC%88%E9%85%8D%E7%BD%AE-cloud-init-%E7%9A%84-NoCloud-%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%89/</id>
+    <link href="https://bleatingsheep.org/2022/03/14/%E7%94%A8-ubuntu-cloud-images-%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%91%E9%95%9C%E5%83%8F%EF%BC%88%E9%85%8D%E7%BD%AE-cloud-init-%E7%9A%84-nocloud-%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%89/"/>
+    <id>https://bleatingsheep.org/2022/03/14/%E7%94%A8-ubuntu-cloud-images-%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%91%E9%95%9C%E5%83%8F%EF%BC%88%E9%85%8D%E7%BD%AE-cloud-init-%E7%9A%84-nocloud-%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%89/</id>
     <published>2022-03-14T12:32:46.000Z</published>
     <updated>2022-03-14T12:32:46.000Z</updated>
     
     
-    <summary type="html">&lt;p&gt;还是之前写过的，云厂商提供的系统镜像不好使的问题。之前写过&lt;a href=&quot;/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/&quot; title=&quot;《使用 iPXE 和 netboot.xyz 重装 VPS 系统》&quot;&gt;《使用 iPXE 和 netboot.xyz 重装 VPS 系统》&lt;/a&gt;，但是，由于各种原因（如系统内存不足、国内网络不稳定等），其适用性受到了限制。这次改用了 Ubuntu Cloud Images，可以直接用 dd 命令覆盖系统盘，然后重装系统。&lt;/p&gt;</summary>
+    <summary type="html">&lt;p&gt;还是之前写过的，云厂商提供的系统镜像不好使的问题。之前写过&lt;a href=&quot;/2021/09/24/%E4%BD%BF%E7%94%A8ipxe%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85vps%E7%B3%BB%E7%BB%9F/&quot; title=&quot;《使用 iPXE 和 netboot.xyz 重装 VPS 系统》&quot;&gt;《使用 iPXE 和 netboot.xyz 重装 VPS 系统》&lt;/a&gt;，但是，由于各种原因（如系统内存不足、国内网络不稳定等），其适用性受到了限制。这次改用了 Ubuntu Cloud Images，可以直接用 dd 命令覆盖系统盘，然后重装系统。&lt;/p&gt;</summary>
     
     
     
@@ -90,8 +90,8 @@
   
   <entry>
     <title>关于升级 MIUI 13 后无法打电话的问题</title>
-    <link href="https://bleatingsheep.org/2022/02/26/%E5%85%B3%E4%BA%8E%E5%8D%87%E7%BA%A7-MIUI-13-%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%93%E7%94%B5%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://bleatingsheep.org/2022/02/26/%E5%85%B3%E4%BA%8E%E5%8D%87%E7%BA%A7-MIUI-13-%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%93%E7%94%B5%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <link href="https://bleatingsheep.org/2022/02/26/%E5%85%B3%E4%BA%8E%E5%8D%87%E7%BA%A7-miui-13-%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%93%E7%94%B5%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://bleatingsheep.org/2022/02/26/%E5%85%B3%E4%BA%8E%E5%8D%87%E7%BA%A7-miui-13-%E5%90%8E%E6%97%A0%E6%B3%95%E6%89%93%E7%94%B5%E8%AF%9D%E7%9A%84%E9%97%AE%E9%A2%98/</id>
     <published>2022-02-26T01:03:57.000Z</published>
     <updated>2022-02-26T01:03:57.000Z</updated>
     
@@ -105,8 +105,8 @@
   
   <entry>
     <title>关于树莓派上 Ubuntu Server 20.04 安装 HWE 的问题</title>
-    <link href="https://bleatingsheep.org/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-Ubuntu-Server-20-04-%E5%AE%89%E8%A3%85-HWE-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://bleatingsheep.org/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-Ubuntu-Server-20-04-%E5%AE%89%E8%A3%85-HWE-%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <link href="https://bleatingsheep.org/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-ubuntu-server-20-04-%E5%AE%89%E8%A3%85-hwe-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://bleatingsheep.org/2021/12/04/%E5%85%B3%E4%BA%8E%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A-ubuntu-server-20-04-%E5%AE%89%E8%A3%85-hwe-%E7%9A%84%E9%97%AE%E9%A2%98/</id>
     <published>2021-12-04T03:12:30.000Z</published>
     <updated>2021-12-04T03:12:30.000Z</updated>
     
@@ -124,8 +124,8 @@
   
   <entry>
     <title>解决 OpenWrt 无法在内网中开启 NAT-PMP 的问题</title>
-    <link href="https://bleatingsheep.org/2021/10/13/%E8%A7%A3%E5%86%B3-OpenWrt-%E6%97%A0%E6%B3%95%E5%9C%A8%E5%86%85%E7%BD%91%E4%B8%AD%E5%BC%80%E5%90%AF-NAT-PMP-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://bleatingsheep.org/2021/10/13/%E8%A7%A3%E5%86%B3-OpenWrt-%E6%97%A0%E6%B3%95%E5%9C%A8%E5%86%85%E7%BD%91%E4%B8%AD%E5%BC%80%E5%90%AF-NAT-PMP-%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <link href="https://bleatingsheep.org/2021/10/13/%E8%A7%A3%E5%86%B3-openwrt-%E6%97%A0%E6%B3%95%E5%9C%A8%E5%86%85%E7%BD%91%E4%B8%AD%E5%BC%80%E5%90%AF-nat-pmp-%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://bleatingsheep.org/2021/10/13/%E8%A7%A3%E5%86%B3-openwrt-%E6%97%A0%E6%B3%95%E5%9C%A8%E5%86%85%E7%BD%91%E4%B8%AD%E5%BC%80%E5%90%AF-nat-pmp-%E7%9A%84%E9%97%AE%E9%A2%98/</id>
     <published>2021-10-13T21:39:13.000Z</published>
     <updated>2021-10-13T21:39:13.000Z</updated>
     
@@ -139,8 +139,8 @@
   
   <entry>
     <title>安装 Ubuntu Server 时配置磁盘 RAID</title>
-    <link href="https://bleatingsheep.org/2021/10/02/%E5%AE%89%E8%A3%85-Ubuntu-Server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-RAID/"/>
-    <id>https://bleatingsheep.org/2021/10/02/%E5%AE%89%E8%A3%85-Ubuntu-Server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-RAID/</id>
+    <link href="https://bleatingsheep.org/2021/10/02/%E5%AE%89%E8%A3%85-ubuntu-server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-raid/"/>
+    <id>https://bleatingsheep.org/2021/10/02/%E5%AE%89%E8%A3%85-ubuntu-server-%E6%97%B6%E9%85%8D%E7%BD%AE%E7%A3%81%E7%9B%98-raid/</id>
     <published>2021-10-02T21:00:12.000Z</published>
     <updated>2021-10-02T21:00:12.000Z</updated>
     
@@ -164,8 +164,8 @@
   
   <entry>
     <title>使用 iPXE 和 netboot.xyz 重装 VPS 系统</title>
-    <link href="https://bleatingsheep.org/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/"/>
-    <id>https://bleatingsheep.org/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/</id>
+    <link href="https://bleatingsheep.org/2021/09/24/%E4%BD%BF%E7%94%A8ipxe%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85vps%E7%B3%BB%E7%BB%9F/"/>
+    <id>https://bleatingsheep.org/2021/09/24/%E4%BD%BF%E7%94%A8ipxe%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85vps%E7%B3%BB%E7%BB%9F/</id>
     <published>2021-09-24T22:51:18.000Z</published>
     <updated>2021-09-24T23:04:00.000Z</updated>
     
@@ -187,8 +187,8 @@
   
   <entry>
     <title>用 GitHub Actions 和 SSH 部署静态网站</title>
-    <link href="https://bleatingsheep.org/2021/06/20/%E7%94%A8-GitHub-Actions-%E5%92%8C-SSH-%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/"/>
-    <id>https://bleatingsheep.org/2021/06/20/%E7%94%A8-GitHub-Actions-%E5%92%8C-SSH-%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</id>
+    <link href="https://bleatingsheep.org/2021/06/20/%E7%94%A8-github-actions-%E5%92%8C-ssh-%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/"/>
+    <id>https://bleatingsheep.org/2021/06/20/%E7%94%A8-github-actions-%E5%92%8C-ssh-%E9%83%A8%E7%BD%B2%E9%9D%99%E6%80%81%E7%BD%91%E7%AB%99/</id>
     <published>2021-06-20T06:23:02.000Z</published>
     <updated>2021-06-20T06:23:02.000Z</updated>
     
@@ -212,8 +212,8 @@
   
   <entry>
     <title>部署MongoDB的过程记录</title>
-    <link href="https://bleatingsheep.org/2021/06/01/%E9%83%A8%E7%BD%B2MongoDB%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/"/>
-    <id>https://bleatingsheep.org/2021/06/01/%E9%83%A8%E7%BD%B2MongoDB%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</id>
+    <link href="https://bleatingsheep.org/2021/06/01/%E9%83%A8%E7%BD%B2mongodb%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/"/>
+    <id>https://bleatingsheep.org/2021/06/01/%E9%83%A8%E7%BD%B2mongodb%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/</id>
     <published>2021-06-01T02:39:27.000Z</published>
     <updated>2021-06-01T02:39:27.000Z</updated>
     
@@ -229,8 +229,8 @@
   
   <entry>
     <title>C#中编译期可以检测到的类型转换失败</title>
-    <link href="https://bleatingsheep.org/2021/05/21/CSharp%E4%B8%AD%E7%BC%96%E8%AF%91%E6%9C%9F%E5%8F%AF%E4%BB%A5%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%A4%B1%E8%B4%A5/"/>
-    <id>https://bleatingsheep.org/2021/05/21/CSharp%E4%B8%AD%E7%BC%96%E8%AF%91%E6%9C%9F%E5%8F%AF%E4%BB%A5%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%A4%B1%E8%B4%A5/</id>
+    <link href="https://bleatingsheep.org/2021/05/21/csharp%E4%B8%AD%E7%BC%96%E8%AF%91%E6%9C%9F%E5%8F%AF%E4%BB%A5%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%A4%B1%E8%B4%A5/"/>
+    <id>https://bleatingsheep.org/2021/05/21/csharp%E4%B8%AD%E7%BC%96%E8%AF%91%E6%9C%9F%E5%8F%AF%E4%BB%A5%E6%A3%80%E6%B5%8B%E5%88%B0%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%A4%B1%E8%B4%A5/</id>
     <published>2021-05-21T21:32:00.000Z</published>
     <updated>2021-05-21T21:32:00.000Z</updated>
     
@@ -246,8 +246,8 @@
   
   <entry>
     <title>.NET程序生成OpenAPI客户端</title>
-    <link href="https://bleatingsheep.org/2021/04/26/NET%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%88%90OpenAPI%E5%AE%A2%E6%88%B7%E7%AB%AF/"/>
-    <id>https://bleatingsheep.org/2021/04/26/NET%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%88%90OpenAPI%E5%AE%A2%E6%88%B7%E7%AB%AF/</id>
+    <link href="https://bleatingsheep.org/2021/04/26/net%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%88%90openapi%E5%AE%A2%E6%88%B7%E7%AB%AF/"/>
+    <id>https://bleatingsheep.org/2021/04/26/net%E7%A8%8B%E5%BA%8F%E7%94%9F%E6%88%90openapi%E5%AE%A2%E6%88%B7%E7%AB%AF/</id>
     <published>2021-04-26T18:27:42.000Z</published>
     <updated>2021-04-26T18:27:42.000Z</updated>
     
@@ -263,8 +263,8 @@
   
   <entry>
     <title>用 C# 与 .NET 中的内插字符串组装消息</title>
-    <link href="https://bleatingsheep.org/2021/04/03/%E7%94%A8-C-%E4%B8%8E-NET-%E4%B8%AD%E7%9A%84%E5%86%85%E6%8F%92%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BB%84%E8%A3%85%E6%B6%88%E6%81%AF/"/>
-    <id>https://bleatingsheep.org/2021/04/03/%E7%94%A8-C-%E4%B8%8E-NET-%E4%B8%AD%E7%9A%84%E5%86%85%E6%8F%92%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BB%84%E8%A3%85%E6%B6%88%E6%81%AF/</id>
+    <link href="https://bleatingsheep.org/2021/04/03/%E7%94%A8-c-%E4%B8%8E-net-%E4%B8%AD%E7%9A%84%E5%86%85%E6%8F%92%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BB%84%E8%A3%85%E6%B6%88%E6%81%AF/"/>
+    <id>https://bleatingsheep.org/2021/04/03/%E7%94%A8-c-%E4%B8%8E-net-%E4%B8%AD%E7%9A%84%E5%86%85%E6%8F%92%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BB%84%E8%A3%85%E6%B6%88%E6%81%AF/</id>
     <published>2021-04-03T22:21:38.000Z</published>
     <updated>2021-04-03T22:21:38.000Z</updated>
     
@@ -290,8 +290,8 @@
   
   <entry>
     <title>给Chromium Edge设置任意缩放</title>
-    <link href="https://bleatingsheep.org/2021/03/24/%E7%BB%99Chromium-Edge%E8%AE%BE%E7%BD%AE%E4%BB%BB%E6%84%8F%E7%BC%A9%E6%94%BE/"/>
-    <id>https://bleatingsheep.org/2021/03/24/%E7%BB%99Chromium-Edge%E8%AE%BE%E7%BD%AE%E4%BB%BB%E6%84%8F%E7%BC%A9%E6%94%BE/</id>
+    <link href="https://bleatingsheep.org/2021/03/24/%E7%BB%99chromium-edge%E8%AE%BE%E7%BD%AE%E4%BB%BB%E6%84%8F%E7%BC%A9%E6%94%BE/"/>
+    <id>https://bleatingsheep.org/2021/03/24/%E7%BB%99chromium-edge%E8%AE%BE%E7%BD%AE%E4%BB%BB%E6%84%8F%E7%BC%A9%E6%94%BE/</id>
     <published>2021-03-24T13:13:54.000Z</published>
     <updated>2021-03-24T13:13:54.000Z</updated>
     
@@ -307,8 +307,8 @@
   
   <entry>
     <title>String.Create的局限性</title>
-    <link href="https://bleatingsheep.org/2021/03/22/String-Create%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/"/>
-    <id>https://bleatingsheep.org/2021/03/22/String-Create%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/</id>
+    <link href="https://bleatingsheep.org/2021/03/22/string-create%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/"/>
+    <id>https://bleatingsheep.org/2021/03/22/string-create%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/</id>
     <published>2021-03-22T23:16:33.000Z</published>
     <updated>2021-03-22T23:16:33.000Z</updated>
     
@@ -326,8 +326,8 @@
   
   <entry>
     <title>.NET一处奇怪的测试未运行</title>
-    <link href="https://bleatingsheep.org/2021/03/22/NET%E4%B8%80%E5%A4%84%E5%A5%87%E6%80%AA%E7%9A%84%E6%B5%8B%E8%AF%95%E6%9C%AA%E8%BF%90%E8%A1%8C/"/>
-    <id>https://bleatingsheep.org/2021/03/22/NET%E4%B8%80%E5%A4%84%E5%A5%87%E6%80%AA%E7%9A%84%E6%B5%8B%E8%AF%95%E6%9C%AA%E8%BF%90%E8%A1%8C/</id>
+    <link href="https://bleatingsheep.org/2021/03/22/net%E4%B8%80%E5%A4%84%E5%A5%87%E6%80%AA%E7%9A%84%E6%B5%8B%E8%AF%95%E6%9C%AA%E8%BF%90%E8%A1%8C/"/>
+    <id>https://bleatingsheep.org/2021/03/22/net%E4%B8%80%E5%A4%84%E5%A5%87%E6%80%AA%E7%9A%84%E6%B5%8B%E8%AF%95%E6%9C%AA%E8%BF%90%E8%A1%8C/</id>
     <published>2021-03-22T20:11:20.000Z</published>
     <updated>2021-03-22T20:11:20.000Z</updated>
     
@@ -345,8 +345,8 @@
   
   <entry>
     <title>解决腾讯云轻量自带Ubuntu镜像不好使的问题</title>
-    <link href="https://bleatingsheep.org/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://bleatingsheep.org/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <link href="https://bleatingsheep.org/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://bleatingsheep.org/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/</id>
     <published>2021-03-22T13:52:31.000Z</published>
     <updated>2021-03-22T13:52:31.000Z</updated>
     
