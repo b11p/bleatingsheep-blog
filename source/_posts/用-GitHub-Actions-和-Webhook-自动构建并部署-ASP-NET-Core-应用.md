@@ -148,7 +148,7 @@ loginctl enable-linger
 
 ## 参考资料
 - [Deploy using GitHub webhooks](https://davidauthier.com/blog/2017/09/07/deploy-using-github-webhooks/)
-- {% post_link "用-github-actions-和-ssh-部署静态网站" %}
+- {% post_link "用-GitHub-Actions-和-SSH-部署静态网站" %}
 - [systemd user services](https://www.unixsysadmin.com/systemd-user-services/)
 - [Automatic start-up of systemd user instances](https://wiki.archlinux.org/title/systemd/User#Automatic_start-up_of_systemd_user_instances)
 
@@ -159,7 +159,7 @@ loginctl enable-linger
 <!-- 这个任务大体分为三步：构建、传输新版本、应用新版本。 -->
 
 ### 权限不足无法应用新版本
-我一开始想按照之前写的{% post_link "用-github-actions-和-ssh-部署静态网站" "《用 GitHub Actions 和 SSH 部署静态网站》" %}中的方式，用 GitHub Actions 构建并推送到另一分支，然后用 Actions SSH 连上服务器，拉取分支。这里和之前不同的地方在于，静态网站拉取分支后可以立刻生效，而动态应用更新还需要重启服务，才能生效。
+我一开始想按照之前写的{% post_link "用 GitHub Actions 和 SSH 部署静态网站" "《用 GitHub Actions 和 SSH 部署静态网站》" %}中的方式，用 GitHub Actions 构建并推送到另一分支，然后用 Actions SSH 连上服务器，拉取分支。这里和之前不同的地方在于，静态网站拉取分支后可以立刻生效，而动态应用更新还需要重启服务，才能生效。
 
 由于我打算在 Docker 中部署，运行 Docker 命令需要 root 权限（或者需要把用户添加到“docker”组，这相当于给予 root 权限），而我不想给部署用户太高权限。我写了重启相应 Docker 容器的脚本，把所有权改为 root，并用 `chmod +s` 赋予 SUID 权限[^1]。我预期这样就可以让其他用户以 root 权限执行该脚本，但是却还是遇到了权限不足的问题，应该是因为 shell 并没有 SUID 权限。
 

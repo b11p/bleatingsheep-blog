@@ -10,7 +10,7 @@ date: 2022-03-14 12:32:46
 updated: 2022-03-14 12:32:46
 ---
 
-还是之前写过的，云厂商提供的系统镜像不好使的问题。之前写过{% post_link "使用ipxe和netboot-xyz重装vps系统" "《使用 iPXE 和 netboot.xyz 重装 VPS 系统》" %}，但是，由于各种原因（如系统内存不足、国内网络不稳定等），其适用性受到了限制。这次改用了 Ubuntu Cloud Images，可以直接用 dd 命令覆盖系统盘，然后重装系统。
+还是之前写过的，云厂商提供的系统镜像不好使的问题。之前写过{% post_link "使用iPXE和netboot-xyz重装VPS系统" "《使用 iPXE 和 netboot.xyz 重装 VPS 系统》" %}，但是，由于各种原因（如系统内存不足、国内网络不稳定等），其适用性受到了限制。这次改用了 Ubuntu Cloud Images，可以直接用 dd 命令覆盖系统盘，然后重装系统。
 
 <!-- more -->
 
