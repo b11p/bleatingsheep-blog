@@ -77,6 +77,10 @@ TODO:
 不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度/线路得了。
 
 <script>
+var needReload = false;
+</script>
+
+<script>
 var dp;
 var danmakuSingleton = liveDan(
             "https://live-danmaku.b11p.com/danmakuHub",
@@ -205,7 +209,7 @@ function createPlayer() {
                     // stashInitialSize: 128,
                     isLive: true,
                     // lazyLoad: true, // not working at live streaming?
-                    // lazyLoadMaxDuration: 30,
+                    // lazyLoadMaxDuration: 30, // default may be 300-600s at live streaming.
                     // lazyLoadRecoverDuration: 10,
                 },
                 // mediaDataSource: {
@@ -238,20 +242,15 @@ function createPlayer() {
         createPlayer();
     });
 
-    // buffer is too long. no need when isLive: true
-    // dp.on('play', () => {
-    //     let bufferCount = dp.video.buffered.length;
-    //     if (bufferCount == 0) {
-    //         return;
-    //     }
-
-    //     let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
-
-    //     if (buffetLength > 150) {
-    //         dp.destroy();
-    //         createPlayer();
-    //     }
-    // });
+    // buffer is too long
+    dp.on('play', () => {
+        if (!needReload) {
+            return;
+        }
+        needReload = false;
+        dp.destroy();
+        createPlayer();
+    });
 }
 createPlayer();
 
@@ -299,6 +298,12 @@ if (!useWebRtc) {
         latency -= 0.2 * (currentplaybackRate - 1) + 0.02;
 
         let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
+
+        if (buffetLength > 60 && dp.paused) {
+            needReload = true;
+            dp.plugins.flvjs.unload();
+        }
+
         if (buffetLength + 2.5 > latency) {
             latency = buffetLength + 2.5;
         }
