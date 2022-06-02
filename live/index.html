@@ -213,7 +213,9 @@ function createPlayer() {
         dp.video.onended = () => {
             dp.destroy();
             createPlayer();
-            // dp.play();
+            if (dp.paused) {
+                dp.play();
+            }
         };
     }
 
