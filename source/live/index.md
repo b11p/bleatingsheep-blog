@@ -206,6 +206,8 @@ function createPlayer() {
                         stashInitialSize: 128,
                         isLive: true,
                         lazyLoad: false,
+                        lazyLoadMaxDuration: 10000,
+                        lazyLoadRecoverDuration: 0,
                     },
                     mediaDataSource: {
                         isLive: true,
@@ -236,6 +238,21 @@ function createPlayer() {
         console.error({ t, u, v });
         dp.destroy();
         createPlayer();
+    });
+
+    // buffer is too long
+    dp.on('play', () => {
+        let bufferCount = dp.video.buffered.length;
+        if (bufferCount == 0) {
+            return;
+        }
+
+        let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
+
+        if (buffetLength > 150) {
+            dp.destroy();
+            createPlayer();
+        }
     });
 }
 createPlayer();
