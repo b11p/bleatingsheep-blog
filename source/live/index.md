@@ -22,6 +22,8 @@ layout: page-without-sidebar
 
 当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。播放速率为 <span id="speed">1x</span>。
 
+长时间暂停后可能无法继续播放，请刷新页面。
+
 已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
 
 </div>
@@ -203,7 +205,10 @@ function createPlayer() {
                         enableStashBuffer: false,
                         stashInitialSize: 128,
                         isLive: true,
-                        lazyLoad: true,
+                        lazyLoad: false,
+                    },
+                    mediaDataSource: {
+                        isLive: true,
                     }
                 }
             }
