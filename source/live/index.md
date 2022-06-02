@@ -198,21 +198,19 @@ function createPlayer() {
                 }
             }
         },
-        options: {
-            pluginOptions: {
-                flv: {
-                    config: {
-                        enableStashBuffer: false,
-                        stashInitialSize: 128,
-                        isLive: true,
-                        lazyLoad: false,
-                        lazyLoadMaxDuration: 10000,
-                        lazyLoadRecoverDuration: 0,
-                    },
-                    mediaDataSource: {
-                        isLive: true,
-                    }
-                }
+        pluginOptions: {
+            flv: {
+                config: {
+                    enableStashBuffer: false,
+                    stashInitialSize: 128,
+                    isLive: true,
+                    lazyLoad: false,
+                    // lazyLoadMaxDuration: 10000,
+                    // lazyLoadRecoverDuration: 0,
+                },
+                // mediaDataSource: {
+                //     isLive: true,
+                // }
             }
         },
         danmaku: true,
@@ -265,6 +263,7 @@ dp.video.onerror = () => console.log("error");
 dp.video.onstalled = () => console.log("stalled");
 
 </script>
+
 <script async>
 if (!useWebRtc) {
     let latencyAlleviation = {};
