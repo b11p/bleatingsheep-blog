@@ -213,6 +213,13 @@ function createPlayer() {
             // dp.play();
         };
     }
+
+    // flvjs error
+    dp.plugins.flvjs.on(flvjs.Events.ERROR, (t, u, v) => {
+        console.error({ t, u, v });
+        dp.destroy();
+        createPlayer();
+    });
 }
 createPlayer();
 
