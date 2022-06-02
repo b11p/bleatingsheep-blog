@@ -201,12 +201,12 @@ function createPlayer() {
         pluginOptions: {
             flv: {
                 config: {
-                    enableStashBuffer: false,
+                    // enableStashBuffer: false, // may cause audio delay and not sync with video
                     stashInitialSize: 128,
                     isLive: true,
-                    lazyLoad: false,
-                    // lazyLoadMaxDuration: 10000,
-                    // lazyLoadRecoverDuration: 0,
+                    lazyLoad: true,
+                    lazyLoadMaxDuration: 30,
+                    lazyLoadRecoverDuration: 10,
                 },
                 // mediaDataSource: {
                 //     isLive: true,
@@ -306,16 +306,14 @@ if (!useWebRtc) {
         latencyAlleviation.latencySpan.innerText = (latency).toFixed(0);
         if (buffetLength < 2.0 && dp.video.playbackRate > 1.0) {
             dp.video.playbackRate = 1.0;
-            latencyAlleviation.speedSpan.innerText = '1x';
         }
         else if (buffetLength > 12.0 && dp.video.playbackRate < 1.1) {
             dp.video.playbackRate = 1.1;
-            latencyAlleviation.speedSpan.innerText = '1.1x';
         }
         else if (buffetLength > 37.0 && dp.video.playbackRate < 1.2) {
             dp.video.playbackRate = 1.2;
-            latencyAlleviation.speedSpan.innerText = '1.2x';
         }
+        latencyAlleviation.speedSpan.innerText = dp.video.playbackRate + "x";
     }, 200);
 }
 </script>
