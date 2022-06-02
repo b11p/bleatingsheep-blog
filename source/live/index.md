@@ -202,11 +202,11 @@ function createPlayer() {
             flv: {
                 config: {
                     // enableStashBuffer: false, // may cause audio delay and not sync with video
-                    stashInitialSize: 128,
+                    // stashInitialSize: 128,
                     isLive: true,
-                    lazyLoad: true,
-                    lazyLoadMaxDuration: 30,
-                    lazyLoadRecoverDuration: 10,
+                    // lazyLoad: true, // not working at live streaming?
+                    // lazyLoadMaxDuration: 30,
+                    // lazyLoadRecoverDuration: 10,
                 },
                 // mediaDataSource: {
                 //     isLive: true,
