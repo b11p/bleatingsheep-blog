@@ -196,6 +196,17 @@ function createPlayer() {
                 }
             }
         },
+        options: {
+            pluginOptions: {
+                flv: {
+                    config: {
+                        enableStashBuffer: false,
+                        isLive: true,
+                        lazyLoad: false,
+                    }
+                }
+            }
+        }
         danmaku: true,
         apiBackend: {
             read: function (options) {
