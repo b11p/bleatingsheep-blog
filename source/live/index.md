@@ -206,7 +206,7 @@ function createPlayer() {
                     }
                 }
             }
-        }
+        },
         danmaku: true,
         apiBackend: {
             read: function (options) {
