@@ -26,8 +26,6 @@ layout: page-without-sidebar
 
 已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
 
-iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
-
 </div>
 
 <div id="webrtchint">
@@ -35,6 +33,8 @@ iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
 检测到不支持 flv.js，正在使用 WebRTC 播放。延迟约 1 秒。若播放质量不佳，请进行全局 UDP 加速。若推流断线，WebRTC 重连时间较长，请耐心等待或刷新页面。
 
 </div>
+
+iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
 
 打钱！
 ---
