@@ -220,20 +220,20 @@ function createPlayer() {
         createPlayer();
     });
 
-    // buffer is too long
-    dp.on('play', () => {
-        let bufferCount = dp.video.buffered.length;
-        if (bufferCount == 0) {
-            return;
-        }
+    // buffer is too long. no need when isLive: true
+    // dp.on('play', () => {
+    //     let bufferCount = dp.video.buffered.length;
+    //     if (bufferCount == 0) {
+    //         return;
+    //     }
 
-        let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
+    //     let buffetLength = dp.video.buffered.end(bufferCount - 1) - dp.video.currentTime;
 
-        if (buffetLength > 150) {
-            dp.destroy();
-            createPlayer();
-        }
-    });
+    //     if (buffetLength > 150) {
+    //         dp.destroy();
+    //         createPlayer();
+    //     }
+    // });
 }
 createPlayer();
 
