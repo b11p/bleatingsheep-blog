@@ -201,8 +201,9 @@ function createPlayer() {
                 flv: {
                     config: {
                         enableStashBuffer: false,
+                        stashInitialSize: 128,
                         isLive: true,
-                        lazyLoad: false,
+                        lazyLoad: true,
                     }
                 }
             }
