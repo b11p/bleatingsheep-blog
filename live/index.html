@@ -60,6 +60,7 @@
 <p>不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度&#x2F;线路得了。</p>
 <script>
 var needReload = false;
+var latency = 3.0;
 </script>
 
 <script>
@@ -87,6 +88,7 @@ var quality = useWebRtc ? {
     type: 'flv',
 };
 function createPlayer() {
+    latency = 10;
     dp = new DPlayer({
         container: document.getElementById('dplayer'),
         live: true,
@@ -213,8 +215,8 @@ function createPlayer() {
         dp.video.onended = () => {
             dp.destroy();
             createPlayer();
-            if (dp.paused) {
-                dp.play();
+            if (dp.video.paused) {
+                dp.video.play();
             }
         };
     }
@@ -269,8 +271,6 @@ if (!useWebRtc) {
     //     }
     // }
     // __aaaaafucklatency__();
-
-    var latency = 3.0;
 
     window.setInterval(() => {
         let bufferCount = dp.video.buffered.length;
