@@ -78,6 +78,7 @@ TODO:
 
 <script>
 var needReload = false;
+var latency = 3.0;
 </script>
 
 <script>
@@ -105,6 +106,7 @@ var quality = useWebRtc ? {
     type: 'flv',
 };
 function createPlayer() {
+    latency = 10;
     dp = new DPlayer({
         container: document.getElementById('dplayer'),
         live: true,
@@ -285,8 +287,6 @@ if (!useWebRtc) {
     //     }
     // }
     // __aaaaafucklatency__();
-
-    var latency = 3.0;
 
     window.setInterval(() => {
         let bufferCount = dp.video.buffered.length;
