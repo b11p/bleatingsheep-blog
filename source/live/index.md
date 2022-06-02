@@ -20,9 +20,7 @@ layout: page-without-sidebar
 
 <div id="flvhint">
 
-当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
-
-播放速率为 <span id="speed">1x</span>。
+当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。播放速率为 <span id="speed">1x</span>。
 
 已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
 
@@ -34,11 +32,12 @@ layout: page-without-sidebar
 
 </div>
 
-iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。<br>
+iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
+
 若有卡顿现象请弹幕或留言反馈。
 
 ---
-每次从下面的游戏里选一个播，可以留言写下想看的游戏，或者在弹幕实时互动，我会播大家喜欢的（x
+每次从下面的游戏里选一个播，可以留言写下想看的游戏，或者在弹幕实时互动，我会播大家喜欢的~~那不就是黄油吗，这可不兴播啊~~（x
 
 游戏列表：
 
