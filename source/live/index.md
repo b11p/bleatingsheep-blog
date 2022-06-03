@@ -18,6 +18,12 @@ layout: page-without-sidebar
 
 <div id="dplayer"></div>
 
+<details id="danmakuHistory">
+<summary>弹幕历史</summary>
+</details>
+
+---
+
 <div id="flvhint">
 
 当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。播放速率为 <span id="speed">1x</span>。
@@ -48,8 +54,8 @@ iOS 可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
 - 八方旅人
 - 三位一体4
 - 十三机兵防卫圈（高考结束再播）
-- 马里奥系列（奥德赛、3D世界/狂怒世界、派对、银河*在路上*、创造）
-- BABA IS YOU
+- 马里奥系列（奥德赛、3D世界/狂怒世界、派对、银河*还在路上*、制造）
+- Baba Is You
 - 还有其他的小游戏
 
 打钱！
@@ -70,7 +76,7 @@ TODO:
 - ~~降低延迟~~
 - ~~改用 DASH，不再使用 HLS~~
 - ~~加入弹幕~~
-- 加入聊天框显示最近的弹幕，以免错过
+- ~~加入聊天框显示最近的弹幕，以免错过~~以某种方式实现了……
 - 后台记录发送的弹幕
 - 显示在线人数
 
@@ -82,14 +88,26 @@ var latency = 3.0;
 </script>
 
 <script>
+function addDanmakuHistory(user, text) {
+    let post = document.querySelector("#danmakuHistory");
+    let p = document.createElement("p");
+    p.innerText = "(" +  new Date().toLocaleTimeString() + ") " + user + ": " + text;
+    post.appendChild(p);
+}
+</script>
+
+<script>
 var dp;
 var danmakuSingleton = liveDan(
-            "https://live-danmaku.b11p.com/danmakuHub",
-            "4463403c-aff8-c16d-0933-4636405ff116",
-            function (dan) {
-                dp.danmaku.draw(dan);
-            }
-        );
+    "https://live-danmaku.b11p.com/danmakuHub",
+    "4463403c-aff8-c16d-0933-4636405ff116",
+    function (dan) {
+        dp.danmaku.draw(dan);
+    }
+);
+danmakuSingleton.connection.on("ReceiveMessage", function (user, message) {
+    addDanmakuHistory(user, JSON.parse(message).text);
+});
 var useWebRtc = !flvjs.isSupported();
 if (useWebRtc) {
     $("#flvhint")[0].hidden = true;
@@ -224,7 +242,11 @@ function createPlayer() {
             read: function (options) {
                 options.success();
             }, 
-            send: danmakuSingleton.send
+            send: options => {
+                danmakuSingleton.send(options.data);
+                options.success();
+                addDanmakuHistory("我", options.data.text);
+            },
         },
     });
 
