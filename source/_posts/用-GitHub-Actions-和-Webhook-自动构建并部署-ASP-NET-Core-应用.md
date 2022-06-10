@@ -129,6 +129,7 @@ Description=Webhooks
 Restart=on-failure
 RestartSec=5s
 
+WorkingDirectory=/home/user/webhooks
 ExecStart=/home/user/webhooks/webhook -hooks /home/user/webhooks/hooks.yaml -hotreload
 
 [Install]
