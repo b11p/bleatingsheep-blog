@@ -13,7 +13,7 @@ const liveDan = function (url, group, onMessage) {
     };
     tryStart();
     connection.on("ReceiveMessage", function (user, message) {
-        onMessage(JSON.parse(message));
+        onMessage(user, JSON.parse(message));
     });
     connection.onclose(t => {
         console.log({m: "Connection closed. Reconnecting.", t});
