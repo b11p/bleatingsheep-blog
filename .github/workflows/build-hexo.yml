@@ -30,12 +30,12 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Generate website
-      run: npx hexo g -b
+      run: npx gulp generate
     # - name: Compress website
     #   run: gzip -k -r -9 ./public
     - name: Compression
       id: brotli
-      uses: charlesworth/compress-action@1.0.0
+      uses: b11p/compress-action@patch-1
       with:
         target-directory: 'public'
     - name: Deploy
