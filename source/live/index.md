@@ -51,20 +51,20 @@ iOS 若无法后台播放可以尝试 [iOS 兼容模式](/live/ios.html)，延�
 
 游戏列表：
 
-- 星之卡比探索发现（八月限定！）
+- **宝可梦 紫**
+- 节奏过山车
 - 咩咩启示录
 - 苏菲的炼金工房2
 - 异度神剑3
 - 奥日系列
 - 八方旅人
 - 三位一体4
-- ~~十三机兵防卫圈~~打完了
 - 马里奥系列（派对、银河、制造）
 - Baba Is You
 - 还有其他的小游戏
 - ~~舞力全开~~没摄像头没场地
 
-打钱！
+<!-- 打钱！
 ---
 
 <img src="receive-alipay.png" alt="" width=360 />
@@ -73,7 +73,7 @@ iOS 若无法后台播放可以尝试 [iOS 兼容模式](/live/ios.html)，延�
 
 把抢到的 QQ 红包投喂给我吧！
 
-<img src="receive-qq.png" alt="" width=360 />
+<img src="receive-qq.png" alt="" width=360 /> -->
 
 ---
 TODO:
