@@ -5,7 +5,7 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.0.0/shaka-player.compiled.js"></script> -->
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.5/signalr.min.js"></script>
-<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
+<script src="https://liveyto.b11p.com/players/js/srs.sdk.js"></script>
 
 <script src="/live/danmaku.js"></script>
 
@@ -21,7 +21,8 @@
 
 <p>当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。播放速率为 <span id="speed">1x</span>。</p>
 <p>长时间暂停后可能无法继续播放，请刷新页面。</p>
-<p>已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。</p>
+<!-- 已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。 -->
+
 <p><a href="/live/webrtc.html">WebRTC</a> 模式延迟更低。</p>
 </div>
 
@@ -112,11 +113,11 @@ if (useWebRtc) {
 }
 var quality = useWebRtc ? {
     name: 'WebRTC',
-    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+    url: 'webrtc://liveyto.b11p.com:443/live/livestream',
     type: 'webrtc'
 } : {
     name: 'FLV',
-    url: 'https://live-flv.b11p.com/live/livestream.flv',
+    url: 'https://liveyto.b11p.com/live/livestream.flv',
     type: 'flv',
 };
 function createPlayer() {
@@ -359,4 +360,4 @@ window.valine = new Valine({
   path: 'bleatingsheep.org/live/index.md',
   requiredFields: ['nick','mail']
 })
-</script></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
+</script></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2023 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
