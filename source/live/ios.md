@@ -40,7 +40,7 @@ function createPlayer() {
             quality: [
                 {
                     name: 'HLS',
-                    url: 'https://live-flv.b11p.com/live/livestream.m3u8',
+                    url: 'https://liveyto.b11p.com/live/livestream.m3u8',
                     type: 'hls',
                 }
             ],

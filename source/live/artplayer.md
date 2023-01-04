@@ -4,7 +4,7 @@ layout: page-without-sidebar
 ---
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
-<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
+<script src="https://liveyto.b11p.com/players/js/srs.sdk.js"></script>
 
 <script src="https://unpkg.com/artplayer/dist/artplayer.js"></script>
 <script src="https://unpkg.com/artplayer-plugin-danmuku/dist/artplayer-plugin-danmuku.js"></script>
@@ -42,7 +42,7 @@ function disposeDanmaku() {
 
 var art = new Artplayer({
     container: '.artplayer-app',
-    url: 'https://live-cf.b11p.com/live/livestream.flv',
+    url: 'https://liveyto.b11p.com/live/livestream.flv',
     type: 'flv',
     isLive: true,
     autoplay: true,
@@ -59,15 +59,15 @@ var art = new Artplayer({
         // },
         {
             html: 'IPv4',
-            url: 'https://live4.b11p.com/live/livestream.flv',
+            url: 'https://liveyto.b11p.com/live/livestream.flv',
             type: 'flv'
         },
-        {
-            default: true,
-            html: 'Cloudflare',
-            url: 'https://live-cf.b11p.com/live/livestream.flv',
-            type: 'flv'
-        },
+        // {
+        //     default: true,
+        //     html: 'Cloudflare',
+        //     url: 'https://live-cf.b11p.com/live/livestream.flv',
+        //     type: 'flv'
+        // },
         // {
         //     default: true,
         //     html: 'WebRTC',

@@ -10,7 +10,7 @@ layout: page-without-sidebar
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.0.0/shaka-player.compiled.js"></script> -->
 <!-- <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.5/signalr.min.js"></script>
-<script src="https://live-flv.b11p.com/players/js/srs.sdk.js"></script>
+<script src="https://liveyto.b11p.com/players/js/srs.sdk.js"></script>
 
 <script src="/live/danmaku.js"></script>
 
@@ -30,7 +30,7 @@ layout: page-without-sidebar
 
 长时间暂停后可能无法继续播放，请刷新页面。
 
-已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
+<!-- 已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。 -->
 
 [WebRTC](/live/webrtc.html) 模式延迟更低。
 
@@ -129,11 +129,11 @@ if (useWebRtc) {
 }
 var quality = useWebRtc ? {
     name: 'WebRTC',
-    url: 'webrtc://live-flv.b11p.com:443/live/livestream',
+    url: 'webrtc://liveyto.b11p.com:443/live/livestream',
     type: 'webrtc'
 } : {
     name: 'FLV',
-    url: 'https://live-flv.b11p.com/live/livestream.flv',
+    url: 'https://liveyto.b11p.com/live/livestream.flv',
     type: 'flv',
 };
 function createPlayer() {
