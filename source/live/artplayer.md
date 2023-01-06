@@ -21,6 +21,11 @@ layout: page-without-sidebar
 
 <div class="artplayer-app"></div>
 
+<details id="danmakuHistory">
+<summary>弹幕历史</summary>
+</details>
+
+---
 <div id="flvhint">
 
 当前直播估计延迟 <span id="latency">10</span> 秒，网络不佳时可能估计不准确。如果暂停时数值未增加，请刷新页面。
@@ -149,20 +154,44 @@ var art = new Artplayer({
 </script>
 
 <script>
+function addDanmakuHistory(user, text, time) {
+    if (time) {
+        time = new Date(time);
+    }
+    else {
+        time = new Date();
+    }
+    let post = document.querySelector("#danmakuHistory");
+    let p = document.createElement("p");
+    p.innerText = "(" +  time.toLocaleTimeString() + ") " + user + ": " + text;
+    post.appendChild(p);
+}
+</script>
+
+<script>
 // init danmaku
 var danmakuSingleton = liveDan(
     "https://live-danmaku.b11p.com/danmakuHub",
     "4463403c-aff8-c16d-0933-4636405ff116",
-    function (dan) {
+    function (user, dan) {
         // dan.border = false;
         dan.time = undefined;
         dan.color = '#FFFFFF';
         console.log(dan);
         art.plugins.artplayerPluginDanmuku.emit(dan);
-    }
+    },
+    function (danmakuList) {
+        for (let currentDan of danmakuList) {
+            addDanmakuHistory(currentDan.user, currentDan.data.text, currentDan.time_stamp)
+        }
+    },
 );
+danmakuSingleton.connection.on("ReceiveMessage", function (user, message) {
+    addDanmakuHistory(user, JSON.parse(message).text);
+});
 art.on('artplayerPluginDanmuku:emit', (danmu) => {
-    danmakuSingleton.send({data: danmu, success: () => {}});
+    danmakuSingleton.send(danmu);
+    addDanmakuHistory("我", danmu.text);
 });
 </script>
 
