@@ -1,5 +1,5 @@
 const liveDan = function (url, group, onMessage, onBacklogMessages) {
-    let recentReceivedDanmaku = new Date(new Date().getTime() - 14400000); // recent 5 hours
+    let recentReceivedDanmaku = new Date(new Date().getTime() - 14400000); // recent 4 hours
     var connection = new signalR.HubConnectionBuilder().withUrl(url).withAutomaticReconnect().build();
     connection.onreconnected(function () {
         connection.invoke('JoinGroup', group).catch(err => console.error(err))
@@ -10,9 +10,6 @@ const liveDan = function (url, group, onMessage, onBacklogMessages) {
                 }
                 if (onBacklogMessages) {
                     onBacklogMessages(r);
-                }
-                for (let currentDan of r) {
-                    addDanmakuHistory(currentDan.user, currentDan.data.text, currentDan.time_stamp)
                 }
             })
             .catch(err => console.error(err));
