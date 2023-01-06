@@ -137,8 +137,7 @@ var danmakuSingleton = liveDan(
 danmakuSingleton.connection.on("ReceiveMessage", function (user, message) {
     addDanmakuHistory(user, JSON.parse(message).text);
 });
-// var useWebRtc = !flvjs.isSupported();
-var useWebRtc = true; // currently force specify WebRTC
+var useWebRtc = !flvjs.isSupported();
 if (useWebRtc) {
     $("#flvhint")[0].hidden = true;
 } else {
