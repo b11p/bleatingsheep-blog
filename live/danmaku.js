@@ -11,7 +11,7 @@ const liveDan = function (url, group, onMessage, onBacklogMessages) {
                 if (onBacklogMessages) {
                     onBacklogMessages(r);
                 }
-                for (let currentDan of danmakuList) {
+                for (let currentDan of r) {
                     addDanmakuHistory(currentDan.user, currentDan.data.text, currentDan.time_stamp)
                 }
             })
