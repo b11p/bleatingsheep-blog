@@ -1,4 +1,5 @@
 const liveDan = function (url, group, onMessage, onBacklogMessages) {
+    console.log("constructing liveDan");
     let recentReceivedDanmaku = new Date(new Date().getTime() - 14400000); // recent 4 hours
     var connection = new signalR.HubConnectionBuilder().withUrl(url).withAutomaticReconnect().build();
     connection.onreconnected(function () {
@@ -16,9 +17,7 @@ const liveDan = function (url, group, onMessage, onBacklogMessages) {
     });
     var tryStart = () => {
         connection.start()
-            .then(function () {
-                connection.invoke('JoinGroup', group).catch(err => console.error(err));
-            })
+            .then(() => connection.invoke('JoinGroup', group).catch(err => console.error(err)))
             .then(() => connection.invoke("GetRecentDanmaku", "4463403c-aff8-c16d-0933-4636405ff116", recentReceivedDanmaku))
             .then(r => {
                 if (onBacklogMessages) {
