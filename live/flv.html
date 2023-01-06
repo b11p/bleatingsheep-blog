@@ -27,59 +27,9 @@
 
 <div id="webrtchint">
 
-<p>正在使用 WebRTC 播放。延迟约 1 秒。若推流断线，WebRTC 重连时间较长，请耐心等待或刷新页面。</p>
-<p>已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。</p>
-<p>若无法播放，请尝试备用 <a href="/live/flv.html">flv.js</a> 播放器，延迟稍高。</p>
+<p>检测到不支持 flv.js，可能无法播放。</p>
 </div>
 
-<p>iOS 若无法后台播放可以尝试 <a href="/live/ios.html">iOS 兼容模式</a>，延迟较大。</p>
-<p>若有卡顿现象请弹幕或留言反馈。</p>
-<hr>
-<p>每次从下面的游戏里选一个播，可以留言写下想看的游戏，或者在弹幕实时互动，我会播大家喜欢的<del>那不就是黄油吗，这可不兴播啊</del>（x</p>
-<p>游戏列表：</p>
-<ul>
-<li>宝可梦 紫</li>
-<li>节奏过山车</li>
-<li>咩咩启示录</li>
-<li>苏菲的炼金工房2</li>
-<li>异度神剑3</li>
-<li>奥日系列</li>
-<li>八方旅人</li>
-<li>三位一体4</li>
-<li>马里奥系列（派对、银河、制造）</li>
-<li>Baba Is You</li>
-<li>还有其他的小游戏</li>
-<li><del>舞力全开</del>没摄像头没场地</li>
-</ul>
-<!-- 打钱！
----
-
-<img src="receive-alipay.png" alt="" width=360 />
-
-<img src="receive-wechat.png" alt="" width=360 />
-
-把抢到的 QQ 红包投喂给我吧！
-
-<img src="receive-qq.png" alt="" width=360 /> -->
-
-<hr>
-<p>TODO:</p>
-<ul>
-<li><del>解决线路切换问题</del></li>
-<li><del>降低延迟</del></li>
-<li><del>改用 DASH，不再使用 HLS</del></li>
-<li><del>加入弹幕</del></li>
-<li><del>加入聊天框显示最近的弹幕，以免错过</del>以某种方式实现了……</li>
-<li>后台记录发送的弹幕</li>
-<li>显示在线人数</li>
-<li>增强弹幕功能健壮性：确保自动重连、离线或发送失败时提示用户</li>
-</ul>
-<p>不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度&#x2F;线路得了。</p>
-<h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><ul>
-<li>播放器：<a target="_blank" rel="noopener" href="https://dplayer.js.org/zh/">DPlayer</a></li>
-<li>直播后台：<a target="_blank" rel="noopener" href="https://github.com/ossrs/srs">SRS</a></li>
-<li>弹幕后台：<a target="_blank" rel="noopener" href="https://github.com/b11p/bleatingsheep.Danmaku">https://github.com/b11p/bleatingsheep.Danmaku</a>（自制）</li>
-</ul>
 <script>
 var needReload = false;
 var latency = 3.0;
@@ -106,13 +56,13 @@ var danmakuSingleton = liveDan(
 danmakuSingleton.connection.on("ReceiveMessage", function (user, message) {
     addDanmakuHistory(user, JSON.parse(message).text);
 });
-// var useWebRtc = !flvjs.isSupported();
-var useWebRtc = true; // currently force specify WebRTC
+var useWebRtc = !flvjs.isSupported();
 if (useWebRtc) {
     $("#flvhint")[0].hidden = true;
 } else {
     $("#webrtchint")[0].hidden = true;
 }
+useWebRtc = false; // this page always uses flv.js
 var quality = useWebRtc ? {
     name: 'WebRTC',
     url: 'webrtc://live-flv.b11p.com:443/live/livestream',
@@ -359,7 +309,7 @@ window.valine = new Valine({
   avatar:'mm',
   guest_info:guest_info,
   pageSize:'10',
-  path: 'bleatingsheep.org/live/index.md',
+  path: 'bleatingsheep.org/live/flv.md',
   requiredFields: ['nick','mail']
 })
 </script></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2023 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
