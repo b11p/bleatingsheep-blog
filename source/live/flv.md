@@ -38,66 +38,9 @@ layout: page-without-sidebar
 
 <div id="webrtchint">
 
-正在使用 WebRTC 播放。延迟约 1 秒。若推流断线，WebRTC 重连时间较长，请耐心等待或刷新页面。
-
-已经上 CN2 GIA 了，再卡自杀。测试中的 <a href="/live/artplayer.html">Artplayer</a> 可以切换 Cloudflare网络。
-
-若无法播放，请尝试备用 [flv.js](/live/flv.html) 播放器，延迟稍高。
+检测到不支持 flv.js，可能无法播放。
 
 </div>
-
-iOS 若无法后台播放可以尝试 [iOS 兼容模式](/live/ios.html)，延迟较大。
-
-若有卡顿现象请弹幕或留言反馈。
-
----
-每次从下面的游戏里选一个播，可以留言写下想看的游戏，或者在弹幕实时互动，我会播大家喜欢的~~那不就是黄油吗，这可不兴播啊~~（x
-
-游戏列表：
-
-- 宝可梦 紫
-- 节奏过山车
-- 咩咩启示录
-- 苏菲的炼金工房2
-- 异度神剑3
-- 奥日系列
-- 八方旅人
-- 三位一体4
-- 马里奥系列（派对、银河、制造）
-- Baba Is You
-- 还有其他的小游戏
-- ~~舞力全开~~没摄像头没场地
-
-<!-- 打钱！
----
-
-<img src="receive-alipay.png" alt="" width=360 />
-
-<img src="receive-wechat.png" alt="" width=360 />
-
-把抢到的 QQ 红包投喂给我吧！
-
-<img src="receive-qq.png" alt="" width=360 /> -->
-
----
-TODO:
-
-- ~~解决线路切换问题~~
-- ~~降低延迟~~
-- ~~改用 DASH，不再使用 HLS~~
-- ~~加入弹幕~~
-- ~~加入聊天框显示最近的弹幕，以免错过~~以某种方式实现了……
-- 后台记录发送的弹幕
-- 显示在线人数
-- 增强弹幕功能健壮性：确保自动重连、离线或发送失败时提示用户
-
-不换 DASH，改用 FLV 了，虽然不能自动切换清晰度，但是延迟低。dplayer 切换清晰度时，原来清晰度的文件下载不会停止，所以就提供一个清晰度/线路得了。
-
-### 软件
-
-- 播放器：[DPlayer](https://dplayer.js.org/zh/)
-- 直播后台：[SRS](https://github.com/ossrs/srs)
-- 弹幕后台：<https://github.com/b11p/bleatingsheep.Danmaku>（自制）
 
 <script>
 var needReload = false;
@@ -125,13 +68,13 @@ var danmakuSingleton = liveDan(
 danmakuSingleton.connection.on("ReceiveMessage", function (user, message) {
     addDanmakuHistory(user, JSON.parse(message).text);
 });
-// var useWebRtc = !flvjs.isSupported();
-var useWebRtc = true; // currently force specify WebRTC
+var useWebRtc = !flvjs.isSupported();
 if (useWebRtc) {
     $("#flvhint")[0].hidden = true;
 } else {
     $("#webrtchint")[0].hidden = true;
 }
+useWebRtc = false; // this page always uses flv.js
 var quality = useWebRtc ? {
     name: 'WebRTC',
     url: 'webrtc://live-flv.b11p.com:443/live/livestream',
