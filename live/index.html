@@ -86,10 +86,16 @@ var latency = 3.0;
 </script>
 
 <script>
-function addDanmakuHistory(user, text) {
+function addDanmakuHistory(user, text, time) {
+    if (time) {
+        time = new Date(time);
+    }
+    else {
+        time = new Date();
+    }
     let post = document.querySelector("#danmakuHistory");
     let p = document.createElement("p");
-    p.innerText = "(" +  new Date().toLocaleTimeString() + ") " + user + ": " + text;
+    p.innerText = "(" +  time.toLocaleTimeString() + ") " + user + ": " + text;
     post.appendChild(p);
 }
 </script>
@@ -101,7 +107,13 @@ var danmakuSingleton = liveDan(
     "4463403c-aff8-c16d-0933-4636405ff116",
     function (user, dan) {
         dp.danmaku.draw(dan);
-    }
+    },
+    function (danmakuList) {
+        for (let currentDan of danmakuList) {
+            console.log(currentDan);
+            addDanmakuHistory(currentDan.user, currentDan.data.text, currentDan.time_stamp);
+        }
+    },
 );
 danmakuSingleton.connection.on("ReceiveMessage", function (user, message) {
     addDanmakuHistory(user, JSON.parse(message).text);
@@ -256,14 +268,14 @@ function createPlayer() {
             createPlayer();
             // dp.play();
         };
-    }
 
-    // flvjs error
-    dp.plugins.flvjs.on(flvjs.Events.ERROR, (t, u, v) => {
-        console.error({ t, u, v });
-        dp.destroy();
-        createPlayer();
-    });
+        // flvjs error
+        dp.plugins.flvjs.on(flvjs.Events.ERROR, (t, u, v) => {
+            console.error({ t, u, v });
+            dp.destroy();
+            createPlayer();
+        });
+    }
 
     // buffer is too long
     dp.on('play', () => {
