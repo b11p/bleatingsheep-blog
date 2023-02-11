@@ -3,7 +3,7 @@ title: 使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的�
 lang: zh-CN
 TimeZone: Asia/Shanghai
 date: 2023-02-11 02:11:12
-updated: 2023-02-11 02:11:12
+updated: 2023-02-11 03:38:12
 tags:
 ---
 
@@ -76,6 +76,8 @@ Options -> Show advanced options
 *提示：*如果 Spyder X 出现和“self-calibration offsets”有关的错误，如下图所示，可能是因为室温偏低。解决方法是用手把校色仪捂热，捂热后再校准即可。
 
 {% asset_img 7.5.error-2x.png %}
+
+如果你校准的是笔记本显示器等不能调节三色平衡的设备，可以跳过这一步，直接点击“Continue on to calibration”。
 
 ### 安装配置文件
 然后等待校色完成。Spyder5 这步需要大约一小时。完成后会出现如下窗口，显示了显示器的色域等信息，点击“Install profile”即可。
