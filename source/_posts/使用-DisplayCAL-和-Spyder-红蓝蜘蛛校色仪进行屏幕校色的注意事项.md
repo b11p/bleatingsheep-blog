@@ -73,6 +73,10 @@ Options -> Show advanced options
 
 调整完毕后，点击“Stop measurement”，然后点“Continue on to calibration”。
 
+*提示：*如果 Spyder X 出现和“self-calibration offsets”有关的错误，如下图所示，可能是因为室温偏低。解决方法是用手把校色仪捂热，捂热后再校准即可。
+
+{% asset_img 7.5.error-1.5x.png %}
+
 ### 安装配置文件
 然后等待校色完成。Spyder5 这步需要大约一小时。完成后会出现如下窗口，显示了显示器的色域等信息，点击“Install profile”即可。
 
@@ -82,5 +86,7 @@ Options -> Show advanced options
 
 ## 参考资料
 本文主要参考[简明屏幕校色及色彩管理](https://bbs.saraba1st.com/2b/thread-1157782-1-1.html)，根据当前实际情况，及指导[药药](https://github.com/AkiraXie)校色时出现的状况有所补充。
+
+关于捂热校色仪的资料来自视频 <https://youtu.be/0KYiU1apa8M>。
 
 <script src="/scripts/image-scale.js"></script>
