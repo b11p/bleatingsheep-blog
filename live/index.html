@@ -22,7 +22,7 @@
 <p id="userName" hidden>你的用户名是：<span id="userNameSpan"></span><a href="javascript:window.localStorage.removeItem('danmakuUserName');">清除用户名</a></p>
 
 <script>
-function() {
+(function() {
     let userName = window.localStorage.getItem("danmakuUserName");
     if (userName) {
         let elem = document.getElementById('userName');
@@ -30,7 +30,7 @@ function() {
         let spanElem = document.getElementById('userNameSpan');
         spanElem.textContent = userName;
     }
-}();
+})();
 
 function clearUserName() {
     window.localStorage.removeItem('danmakuUserName');
