@@ -18,6 +18,27 @@ layout: page-without-sidebar
 
 <div id="dplayer"></div>
 
+<p id="userName" hidden>你的用户名是：<span id="userNameSpan"></span> <a href="javascript:clearUserName();">清除用户名</a></p>
+
+<script>
+(function() {
+    let userName = window.localStorage.getItem("danmakuUserName");
+    if (userName) {
+        let elem = document.getElementById('userName');
+        elem.hidden = false;
+        let spanElem = document.getElementById('userNameSpan');
+        spanElem.textContent = userName;
+    }
+})();
+
+function clearUserName() {
+    window.localStorage.removeItem('danmakuUserName');
+    window.alert("清除成功，发送弹幕即可重新设置用户名。");
+    let elem = document.getElementById('userName');
+    elem.hidden = true;
+}
+</script>
+
 <details id="danmakuHistory">
 <summary>弹幕历史</summary>
 </details>
