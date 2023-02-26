@@ -55,15 +55,9 @@ iOS 若无法后台播放可以尝试 [iOS 兼容模式](/live/ios.html)，延�
 #### 计算机网络
 科普计算机网络知识。
 
-将于北京时间 2 月 26 日（星期日）晚上 8 点准时开课，第一课将会讲 IP 地址相关的内容，敬请准时收看！
+下一节暂定某个周日晚上 8 点，会讲物理层、数据链路层，没听过第一节课也不会有影响！
 
-课程资料: https://notes.bleatingsheep.org/s/computer-network
-
-腾讯会议（仅用于讨论）: 
-点击链接入会，或添加至会议列表：
-https://meeting.tencent.com/dm/I92o3hSVFS5h
-
-#腾讯会议：423-169-497
+课程资料（包含录播等）: https://notes.bleatingsheep.org/s/computer-network
 
 #### 游戏直播
 每次从下面的游戏里选一个播，可以留言写下想看的游戏，或者在弹幕实时互动，我会播大家喜欢的~~那不就是黄油吗，这可不兴播啊~~（x
