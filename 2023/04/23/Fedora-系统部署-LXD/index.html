@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Fedora 系统部署 LXD | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="/js/lib/normalize.css"><link rel="stylesheet" type="text/css" href="/js/lib/pure-min.css"><link rel="stylesheet" type="text/css" href="/js/lib/grids-responsive-min.css"><link rel="stylesheet" href="/js/lib/font-awesome.min.css"><script type="text/javascript" src="/js/lib/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + '76da56ea60f52fccc65157687c2ff51a';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Fedora 系统部署 LXD</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">Fedora 系统部署 LXD</h1><div class="post-meta">2023-04-23</div><a class="disqus-comment-count" href="/2023/04/23/Fedora-%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2-LXD/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/Fedora-系统部署-LXD.md"></span><span> 条评论</span></a><div class="post-content"><p>近来一直想着买台迷你主机，把家里的树莓派换掉，毕竟树莓派性能太低了，连测速都跑不满。要换的话，我可能会选准系统的迷你主机，然后开启一些虚拟机，这样能满足我折腾的需求。我看到比较合适的是 <a target="_blank" rel="noopener" href="https://www.proxmox.com/en/proxmox-ve">PVE</a>，但我暂时没有可以安装的机器。另一个看起来比较有趣的技术是 <a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/introduction/">LXD</a>，看起来可以更充分地利用资源。虽然不知道什么时候能回国（毕竟装系统什么的都很麻烦，恐怕没法远程进行），但是就是想现在看看怎么折腾，就开了一台 Fedora 37 的云服务器，安装了一下试试。</p>
+<span id="more"></span>
+
+<p>除此之外，最近由于要在实验室的服务器上跑一些东西，就让人给我开了个用户。我发现，原来这个服务器是所有人一起跑在一台机器上，各自都没有 root 权限。这对我使用造成了不便，因为我是用 Tailscale 把我各台机器连接起来的，没有 root 权限就没法安装 Tailscale，把运行结果储存到另一台服务器上就很困难。如果是用的虚拟机，那我就可以安装 Tailscale。但是，虚拟机比较耗资源，那台机器内存不是很大，同时每台虚拟机需要一直占用它峰值所需的内存，利用率低。我想到了 LXD 这样的系统容器技术。不过，我并不是那台服务器的管理员，所以只能所以玩儿玩儿。</p>
+<p>我也是头一次实践这个 LXD，如果有什么写得不对的地方，恳请各位斧正。</p>
+<h2 id="什么是-LXD"><a href="#什么是-LXD" class="headerlink" title="什么是 LXD"></a>什么是 LXD</h2><p>LXD 是一个系统容器管理器，关于它的详细介绍可以在 <a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/introduction/">What is LXD?</a> 中查看。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>如果你用的是 Ubuntu，安装过程可以参考 <a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/getting-started-cli/">https://linuxcontainers.org/lxd/getting-started-cli/</a>。尽管该页面也有 Fedora 的安装步骤，但是并不完整。关于 Fedora 完整的安装步骤请前往 <a target="_blank" rel="noopener" href="https://github.com/ganto/copr-lxc4/wiki">Installation Guide</a> 查看。</p>
+<p>本文就以 Fedora 37 为例。要安装 LXD，请执行下面的命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf copr <span class="built_in">enable</span> ganto/lxc4</span><br><span class="line">sudo dnf install lxd</span><br></pre></td></tr></table></figure>
+
+<p>当询问是否继续时，输入 <code>y</code>，回车继续。</p>
+<p>安装完成后，需要添加必要的信息并启动服务，执行以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -a -G lxd <span class="variable">$&#123;USER&#125;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;root:1000000:65536&quot;</span> | sudo <span class="built_in">tee</span> -a /etc/subuid &gt; /dev/null</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;root:1000000:65536&quot;</span> | sudo <span class="built_in">tee</span> -a /etc/subgid &gt; /dev/null</span><br><span class="line"></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> lxd &amp;&amp; sudo systemctl start lxd</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>执行完毕后，可能需要退出登陆并重新登录。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>接下来我们初始化配置。执行以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxd init</span><br></pre></td></tr></table></figure>
+
+<p>接下来会交互式地询问你一些问题，大部分问题回车使用默认选项即可，少部分可根据需要自行配置。在此过程中，我修改了存储池的大小、开启 API 端口，并要求在初始化完成后打印配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[fedora@vultr ~]$ lxd init</span><br><span class="line">Would you like to use LXD clustering? (yes/no) [default=no]: </span><br><span class="line">Do you want to configure a new storage pool? (yes/no) [default=yes]: </span><br><span class="line">Name of the new storage pool [default=default]: </span><br><span class="line">Name of the storage backend to use (btrfs, dir, lvm) [default=btrfs]:    </span><br><span class="line">Create a new BTRFS pool? (yes/no) [default=yes]: </span><br><span class="line">Would you like to use an existing empty block device (e.g. a disk or partition)? (yes/no) [default=no]: </span><br><span class="line">Size in GiB of the new loop device (1GiB minimum) [default=11GiB]: 25GiB</span><br><span class="line">Would you like to connect to a MAAS server? (yes/no) [default=no]: </span><br><span class="line">Would you like to create a new local network bridge? (yes/no) [default=yes]: </span><br><span class="line">What should the new bridge be called? [default=lxdbr0]: </span><br><span class="line">What IPv4 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]: </span><br><span class="line">What IPv6 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]: </span><br><span class="line">Would you like the LXD server to be available over the network? (yes/no) [default=no]: yes</span><br><span class="line">Address to bind LXD to (not including port) [default=all]: </span><br><span class="line">Port to bind LXD to [default=8443]: </span><br><span class="line">Would you like stale cached images to be updated automatically? (yes/no) [default=yes]: </span><br><span class="line">Would you like a YAML &quot;lxd init&quot; preseed to be printed? (yes/no) [default=no]: yes</span><br></pre></td></tr></table></figure>
+
+<p>初始化只是自动帮你创建一些配置、存储、网络等，这个过程完全可以手动完成。熟悉本文提到的内容后，你可以自行查阅文档，在需要的时候手动更改相关配置。</p>
+<!-- **注意：**`lxc` 命令中每个用户都有独立的配置、存储、实例等，只要该用户在 `lxd` 用户组中，即可使用，无需 root 权限。
+
+x: 不确定，似乎只能单用户？
+ -->
+
+<h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><p>可以使用以下命令创建一个容器实例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc launch ubuntu:22.04 ubuntu-2204</span><br></pre></td></tr></table></figure>
+
+<p>然后使用以下命令查看所有实例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc list</span><br></pre></td></tr></table></figure>
+
+<p>你会看到如下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+-------------+---------+------+-----------------------------------------------+-----------+-----------+</span><br><span class="line">|    NAME     |  STATE  | IPV4 |                     IPV6                      |   TYPE    | SNAPSHOTS |</span><br><span class="line">+-------------+---------+------+-----------------------------------------------+-----------+-----------+</span><br><span class="line">| ubuntu-2204 | RUNNING |      | fd42:d4d2:bdbd:b0f9:216:3eff:fe1b:9410 (eth0) | CONTAINER | 0         |</span><br><span class="line">+-------------+---------+------+-----------------------------------------------+-----------+-----------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="修复防火墙问题"><a href="#修复防火墙问题" class="headerlink" title="修复防火墙问题"></a>修复防火墙问题</h2><p>如果你的容器分到了 IPv4 和 IPv6 地址，恭喜，你可能没有遇到防火墙的问题。如果你在上一步发现没有分配到 IPv4 地址，那么可能是防火墙阻拦了 DHCP 请求。Fedora 默认用的是 firewalld，用下面的命令信任该网络：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo firewall-cmd --zone=trusted --change-interface=lxdbr0</span><br><span class="line">sudo firewall-cmd --zone=trusted --change-interface=lxdbr0 --permanent</span><br></pre></td></tr></table></figure>
+
+<p>完成后重启容器：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc restart ubuntu-2204</span><br></pre></td></tr></table></figure>
+
+<p>之后再执行 <code>lxc list</code>，可以看到容器已经分配到 IPv4 地址。</p>
+<h2 id="体验"><a href="#体验" class="headerlink" title="体验"></a>体验</h2><p>使用下面的命令进入容器中的 shell：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc <span class="built_in">exec</span> ubuntu-2204 bash</span><br></pre></td></tr></table></figure>
+
+<p>在其中安装 Docker 进行测试，安装一切正常，安装后也可以正常运行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在容器中执行</span></span><br><span class="line">curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh</span><br></pre></td></tr></table></figure>
+
+<p>安装 Tailscale，创建虚拟网络也一切正常，可以与其他机器互联互通，没有发现任何问题。</p>
+<h2 id="限制容器的可用资源"><a href="#限制容器的可用资源" class="headerlink" title="限制容器的可用资源"></a>限制容器的可用资源</h2><h3 id="内存和-CPU"><a href="#内存和-CPU" class="headerlink" title="内存和 CPU"></a>内存和 CPU</h3><p>可以使用以下命令限制容器的可用内存和 CPU：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxc config <span class="built_in">set</span> ubuntu-2204 limits.memory 1024MiB</span><br><span class="line">lxc config <span class="built_in">set</span> ubuntu-2204 limits.cpu.allowance 50%</span><br></pre></td></tr></table></figure>
+
+<p>此命令会把容器限制在 1G 内存和 50% CPU。</p>
+<h3 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h3><p>限制硬盘空间需要用以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxc config device add ubuntu-2204 root disk pool=default path=/</span><br><span class="line">lxc config device <span class="built_in">set</span> ubuntu-2204 root size 4GiB</span><br></pre></td></tr></table></figure>
+
+<p>下面测试硬盘限制是否生效：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu-2204:/# dd if=/dev/urandom of=swapfile bs=2M count=3k</span><br><span class="line">dd: error writing &#x27;swapfile&#x27;: Disk quota exceeded</span><br><span class="line">1118+0 records in</span><br><span class="line">1117+0 records out</span><br><span class="line">2343370752 bytes (2.3 GB, 2.2 GiB) copied, 5.92697 s, 395 MB/s</span><br><span class="line">root@ubuntu-2204:/# df -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/loop0       25G  4.2G   21G  17% /</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，我们把磁盘限制到 4GB 后，写入大于 4GB 的文件时就会出错。用 <code>df</code> 命令会看到已用空间为 4.2G。</p>
+<p>LXD 的磁盘大小是基于文件系统的配额功能实现的。在这里我们用的是 Btrfs，而 Btrfs 不提供用户空间获取配额大小的功能，所以看到的依然是整个存储池的大小。不过，限制是确实实施了的。如果要想让容器内也可以看到限制后的磁盘大小，可以用 ZFS 等。</p>
+<p><em>提示：</em><code>lxc config device add</code> 按说应该是向容器添加设备的命令。在添加前，我们创建容器时指定的“default”profile 应该已经包含了 <code>root</code> 设备，可以用 <code>lxc profile show default</code> 查看。我不清楚这条命令会不会覆盖设备，导致什么问题。但是，如果直接使用 <code>lxc config device set</code> 命令设置大小，会提示“Error: Device from profile(s) cannot be modified for individual instance. Override device or modify profile instead”。我简单测试过，用“default”profile 创建容器，向其中写入一些文件，再使用 <code>add</code> 命令添加设备后，写入的文件还在。所以，我不确定这两个命令究竟会不会出问题。一种规避的方法可能是，使用 <code>lxc init</code> 命令创建容器但不启动，用上面的命令设置好磁盘限额再启动。也许，我需要使用上面的命令添加一个来自不同存储池的 <code>root</code> 设备，观察发生什么。</p>
+<h2 id="cloud-init"><a href="#cloud-init" class="headerlink" title="cloud-init"></a>cloud-init</h2><p>LXD 支持 cloud-init，其中“ubuntu”和“ubuntu-daily”映像服务器中的映像都支持，<a target="_blank" rel="noopener" href="https://images.linuxcontainers.org/">images</a> 源中带有“cloud”标记的也支持 cloud-init。这样我们就可以在创建映像时指定一些初始配置。</p>
+<p><em>提示：</em>回忆我们创建容器的命令 <code>lxc launch ubuntu:22.04 ubuntu-2204</code>，其中 <code>ubuntu:22.04</code> 就是映像，前面的 <code>ubuntu</code> 就表示该映像来自“ubuntu”映像服务器。若要通过“images”源中的 Fedora 云映像创建实例，可以执行 <code>lxc launch images:fedora/38/cloud fedora-38</code>。</p>
+<p>接下来，我们复制默认的 profile，然后编辑：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lxc profile copy default cloud-init</span><br><span class="line"><span class="built_in">export</span> EDITOR=nano</span><br><span class="line">lxc profile edit cloud-init</span><br></pre></td></tr></table></figure>
+
+<p>在打开的文件中将 <code>config: &#123;&#125;</code> 修改成：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">config:</span> </span><br><span class="line">  <span class="attr">cloud-init.user-data:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    #cloud-config</span></span><br><span class="line"><span class="string">    package_update: true</span></span><br><span class="line"><span class="string">    package_upgrade: true</span></span><br><span class="line"><span class="string">    packages:</span></span><br><span class="line"><span class="string">      - neofetch</span></span><br></pre></td></tr></table></figure>
+
+<p>然后运行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc launch images:fedora/38/cloud fedora-cloud -p cloud-init</span><br></pre></td></tr></table></figure>
+
+<p>然后执行 <code>lxc exec fedora-cloud bash</code> 进入容器 shell，执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 容器内执行</span></span><br><span class="line">cloud-init status --<span class="built_in">wait</span></span><br></pre></td></tr></table></figure>
+
+<p>一切正常的话，我们可以看到如下输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.....................................</span><br><span class="line">status: done</span><br></pre></td></tr></table></figure>
+
+<p>接着运行 <code>neofetch</code>，可以看到指定的包已经安装好了。</p>
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><h3 id="使用-device-进行映射"><a href="#使用-device-进行映射" class="headerlink" title="使用 device 进行映射"></a>使用 device 进行映射</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc config device add ubuntu-2204 ssh proxy listen=<span class="string">&quot;tcp:[::]:8022&quot;</span> connect=<span class="string">&quot;tcp:[::1]:22&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>为了验证端口映射是否成功，可以执行 <code>ssh -p 8022 root@localhost</code> 尝试连接，出现指纹提示则说明成功。由于未配置相关密钥，ssh 无法登录，但端口确实是映射上了的。</p>
+<p>需要注意的是，使用此方法映射后会丢失源地址信息。若要保留，可以在命令末尾添加 <code>nat=true</code> 以启用 NAT 模式，但需要满足以下条件：</p>
+<ol>
+<li>源地址不能是通配符地址，也就是不能使用 <code>[::]</code>。</li>
+<li>目的地址必须是容器的某个静态地址，也就是不能使用回环地址 <code>[::1]</code>。</li>
+</ol>
+<h3 id="使用-network-forward-命令进行映射"><a href="#使用-network-forward-命令进行映射" class="headerlink" title="使用 network forward 命令进行映射"></a>使用 <code>network forward</code> 命令进行映射</h3><p>另一种端口映射的方式是使用 <code>netowrk forward</code> 命令。</p>
+<p>运行 <code>lxc network forward create</code> 和 <code>lxc network forward port add</code> 查看帮助。</p>
+<p>要把宿主机的 [2001:19f0:1000:2562:5400:4ff:fe68:addf]:8022 端口映射到容器“ubuntu-2204”的 22 端口，执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxc network forward create lxdbr0 <span class="string">&quot;`2001:19f0:1000:2562:5400:4ff:fe68:addf`&quot;</span> <span class="comment"># 创建网络转发</span></span><br><span class="line">lxc network forward port add lxdbr0 <span class="string">&quot;2001:19f0:1000:2562:5400:4ff:fe68:addf&quot;</span> tcp 8022 <span class="string">&quot;fd42:d4d2:bdbd:b0f9:216:3eff:fed9:7958&quot;</span> 22 <span class="comment"># 添加端口转发</span></span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>2001:19f0:1000:2562:5400:4ff:fe68:addf</code> 为本机的 IP 地址，<code>fd42:d4d2:bdbd:b0f9:216:3eff:fed9:7958</code> 为容器 IP 地址。</p>
+<p>虽然本命令并不要求容器必须有静态 IP，但文档中并未保证容器的 IP 不会变化，因此依然建议给容器配置静态 IP 并将端口转发到静态 IP 上。</p>
+<p>此命令只能将主机上某个 IP 上的端口转发到容器中，像“[::]”这样的地址将无法转发（尽管可以添加相关规则，但无效）。</p>
+<h3 id="端口映射总结"><a href="#端口映射总结" class="headerlink" title="端口映射总结"></a>端口映射总结</h3><p>LXD 的端口映射没有 Docker 等技术来得方便，要么会丢失源地址，要么无法同时映射主机的所有地址。在实际使用中，请根据自己的需求，合理选择端口映射的方式。</p>
+<h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><img src="/2023/04/23/Fedora-%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2-LXD/overview.svg" class="">
+
+<p>上图展示了前文中创建的存储、网络、profile 和容器实例，分别使用命令 <code>lxc storage show default</code>、<code>lxc network show lxdbr0</code>、<code>lxc profile show default</code> 和 <code>lxc config show ubuntu-2204</code> 获取到相关信息。箭头表示使用关系，实线箭头表示直接使用，虚线箭头表示间接使用。可以看到，默认 profile 使用了我们使用向导创建的存储和网络（即“default”和“lxdbr0”），容器实例使用了默认 profile，因此也间接使用了相关的存储和网络。所以它们各自的“used_by”字段既包含了 profile，也包含了实例。另外值得注意的是，相关映像也使用了存储。这样做的好处是，创建容器实例时，可以直接利用 Btrfs、ZFS、LVM 等文件系统的写时复制特性，加快容器创建的速度，并节约磁盘空间。</p>
+<p>我把本图放在最后，是希望本图可以成功串起本文中提到的概念，起总结作用，而非放在开头，让读者难以理解具体每一部分是如何起作用的。</p>
+<p>最后，再次强调，我接触 LXD 到现在为止也只有一天半的时间，本文只是记录一下我自己踩的坑，同时填补没有中文的相对全面的上手资料的空白。文中难免有所疏漏，恳请各位读者斧正。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id="LXD-介绍"><a href="#LXD-介绍" class="headerlink" title="LXD 介绍"></a>LXD 介绍</h3><p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/introduction/">What is LXD?</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av685457764">Linux 容器和虚拟化——第一部分，LXD入门</a></p>
+<p><a target="_blank" rel="noopener" href="https://images.linuxcontainers.org/">Image server for LXC and LXD</a></p>
+<h3 id="Fedora-系统安装-LXD"><a href="#Fedora-系统安装-LXD" class="headerlink" title="Fedora 系统安装 LXD"></a>Fedora 系统安装 LXD</h3><p><a target="_blank" rel="noopener" href="https://github.com/ganto/copr-lxc4/wiki">Installation Guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ganto/copr-lxc4/wiki/Getting-Started-with-LXD-on-Fedora">Getting Started with LXD on Fedora</a></p>
+<h3 id="限制实例可用资源"><a href="#限制实例可用资源" class="headerlink" title="限制实例可用资源"></a>限制实例可用资源</h3><p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/master/reference/instance_options/#resource-limits">Resource limits</a></p>
+<p><a target="_blank" rel="noopener" href="https://discuss.linuxcontainers.org/t/example-for-set-storage-limit/11510">Example for set storage limit</a></p>
+<h3 id="配置-LXD-实例"><a href="#配置-LXD-实例" class="headerlink" title="配置 LXD 实例"></a>配置 LXD 实例</h3><p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/master/howto/instances_configure/">Instance options</a></p>
+<p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/latest/cloud-init/">How to use <code>cloud-init</code></a></p>
+<p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/master/profiles/">How to use profiles</a></p>
+<h3 id="LXD-网络"><a href="#LXD-网络" class="headerlink" title="LXD 网络"></a>LXD 网络</h3><p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/latest/howto/network_forwards/">How to configure network forwards</a></p>
+<p><a target="_blank" rel="noopener" href="https://discuss.linuxcontainers.org/t/forward-port-80-and-443-from-wan-to-container/2042">Forward port 80 and 443 from WAN to container</a></p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/Fedora-系统部署-LXD.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2023 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
