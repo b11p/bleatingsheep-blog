@@ -1,7 +1,7 @@
 ---
 title: Fedora 系统部署 LXD
 lang: zh-CN
-TimeZone: Asia/Shanghai
+TimeZone: America/Toronto
 date: 2023-04-23 04:35:23
 updated: 2023-04-23 04:35:23
 tags:

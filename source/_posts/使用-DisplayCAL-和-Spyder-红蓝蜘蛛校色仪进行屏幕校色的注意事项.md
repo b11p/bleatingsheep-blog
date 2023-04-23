@@ -1,7 +1,7 @@
 ---
 title: 使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项
 lang: zh-CN
-TimeZone: Asia/Shanghai
+TimeZone: America/Toronto
 date: 2023-02-11 02:11:12
 updated: 2023-02-11 03:38:12
 tags:
