@@ -98,9 +98,9 @@ menu:
   - page: archive
     directory: archives/
     icon: fa-archive
-  # - page: about
-  #   directory: about/
-  #   icon: fa-user
+  - page: about
+    directory: about/
+    icon: fa-user
   - page: rss
     directory: atom.xml
     icon: fa-rss
