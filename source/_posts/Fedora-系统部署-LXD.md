@@ -3,7 +3,7 @@ title: Fedora 系统部署 LXD
 lang: zh-CN
 TimeZone: America/Toronto
 date: 2023-04-23 04:35:23
-updated: 2023-04-23 04:35:23
+updated: 2023-04-24 19:15:23
 tags:
 ---
 
@@ -265,6 +265,18 @@ LXD 的端口映射没有 Docker 等技术来得方便，要么会丢失源地�
 
 最后，再次强调，我接触 LXD 到现在为止也只有一天半的时间，本文只是记录一下我自己踩的坑，同时填补没有中文的相对全面的上手资料的空白。文中难免有所疏漏，恳请各位读者斧正。
 
+## 容器无法访问网络的问题
+如果出现容器无法访问网络的问题，可以尝试以下命令：
+
+```sh
+for ipt in iptables iptables-legacy ip6tables ip6tables-legacy; do sudo $ipt --flush; sudo $ipt --flush -t nat; sudo $ipt --delete-chain; sudo $ipt --delete-chain -t nat; sudo $ipt -P FORWARD ACCEPT; sudo $ipt -P INPUT ACCEPT; sudo $ipt -P OUTPUT ACCEPT; done
+sudo systemctl reload snap.lxd.daemon
+```
+
+具体为什么会出现这种问题，我也不清楚，详见参考资料中的讨论。使用此命令后，在宿主机重启前，容器可以成功访问网络。
+
+<!-- 已知：Fedora37直接安装没问题，Ubuntu22.04，已经安装了 Docker 再安装LXD，出现问题 -->
+
 ## 参考资料
 ### LXD 介绍
 [What is LXD?](https://linuxcontainers.org/lxd/introduction/)
@@ -294,3 +306,5 @@ LXD 的端口映射没有 Docker 等技术来得方便，要么会丢失源地�
 [How to configure network forwards](https://linuxcontainers.org/lxd/docs/latest/howto/network_forwards/)
 
 [Forward port 80 and 443 from WAN to container](https://discuss.linuxcontainers.org/t/forward-port-80-and-443-from-wan-to-container/2042)
+
+[Containers do not have outgoing internet access](https://discuss.linuxcontainers.org/t/containers-do-not-have-outgoing-internet-access/10844)
