@@ -108,6 +108,12 @@ x: 不确定，似乎只能单用户？
 <p>上图展示了前文中创建的存储、网络、profile 和容器实例，分别使用命令 <code>lxc storage show default</code>、<code>lxc network show lxdbr0</code>、<code>lxc profile show default</code> 和 <code>lxc config show ubuntu-2204</code> 获取到相关信息。箭头表示使用关系，实线箭头表示直接使用，虚线箭头表示间接使用。可以看到，默认 profile 使用了我们使用向导创建的存储和网络（即“default”和“lxdbr0”），容器实例使用了默认 profile，因此也间接使用了相关的存储和网络。所以它们各自的“used_by”字段既包含了 profile，也包含了实例。另外值得注意的是，相关映像也使用了存储。这样做的好处是，创建容器实例时，可以直接利用 Btrfs、ZFS、LVM 等文件系统的写时复制特性，加快容器创建的速度，并节约磁盘空间。</p>
 <p>我把本图放在最后，是希望本图可以成功串起本文中提到的概念，起总结作用，而非放在开头，让读者难以理解具体每一部分是如何起作用的。</p>
 <p>最后，再次强调，我接触 LXD 到现在为止也只有一天半的时间，本文只是记录一下我自己踩的坑，同时填补没有中文的相对全面的上手资料的空白。文中难免有所疏漏，恳请各位读者斧正。</p>
+<h2 id="容器无法访问网络的问题"><a href="#容器无法访问网络的问题" class="headerlink" title="容器无法访问网络的问题"></a>容器无法访问网络的问题</h2><p>如果出现容器无法访问网络的问题，可以尝试以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ipt <span class="keyword">in</span> iptables iptables-legacy ip6tables ip6tables-legacy; <span class="keyword">do</span> sudo <span class="variable">$ipt</span> --flush; sudo <span class="variable">$ipt</span> --flush -t nat; sudo <span class="variable">$ipt</span> --delete-chain; sudo <span class="variable">$ipt</span> --delete-chain -t nat; sudo <span class="variable">$ipt</span> -P FORWARD ACCEPT; sudo <span class="variable">$ipt</span> -P INPUT ACCEPT; sudo <span class="variable">$ipt</span> -P OUTPUT ACCEPT; <span class="keyword">done</span></span><br><span class="line">sudo systemctl reload snap.lxd.daemon</span><br></pre></td></tr></table></figure>
+
+<p>具体为什么会出现这种问题，我也不清楚，详见参考资料中的讨论。使用此命令后，在宿主机重启前，容器可以成功访问网络。</p>
+<!-- 已知：Fedora37直接安装没问题，Ubuntu22.04，已经安装了 Docker 再安装LXD，出现问题 -->
+
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id="LXD-介绍"><a href="#LXD-介绍" class="headerlink" title="LXD 介绍"></a>LXD 介绍</h3><p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/introduction/">What is LXD?</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av685457764">Linux 容器和虚拟化——第一部分，LXD入门</a></p>
 <p><a target="_blank" rel="noopener" href="https://images.linuxcontainers.org/">Image server for LXC and LXD</a></p>
@@ -120,6 +126,7 @@ x: 不确定，似乎只能单用户？
 <p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/master/profiles/">How to use profiles</a></p>
 <h3 id="LXD-网络"><a href="#LXD-网络" class="headerlink" title="LXD 网络"></a>LXD 网络</h3><p><a target="_blank" rel="noopener" href="https://linuxcontainers.org/lxd/docs/latest/howto/network_forwards/">How to configure network forwards</a></p>
 <p><a target="_blank" rel="noopener" href="https://discuss.linuxcontainers.org/t/forward-port-80-and-443-from-wan-to-container/2042">Forward port 80 and 443 from WAN to container</a></p>
+<p><a target="_blank" rel="noopener" href="https://discuss.linuxcontainers.org/t/containers-do-not-have-outgoing-internet-access/10844">Containers do not have outgoing internet access</a></p>
 </div><div class="tags"></div><div class="post-nav"><a class="next" href="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
 var verify = 'false' == 'true' ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
