@@ -21,7 +21,7 @@ tags:
 **软件。**需要准备下列软件：
 
 - DisplayCAL。建议在官网 <https://displaycal.net/> 下载。点击“Get DisplayCAL”按钮后选择自己的系统下载安装。
-- Argyll 2.1.1。[点此链接下载](https://akibanzu-my.sharepoint.com/:u:/g/personal/bleatingsheep_akibanzu_onmicrosoft_com/EVyJDzqmeztHk_2CwnMWOrABkfTE0PRrKNOqNAPIG8S_hg?e=OHCA3G)，必须使用特定版本。下载后解压到某个目录。
+- Argyll 2.1.1。[点此链接下载](https://ytt3q-my.sharepoint.com/:u:/g/personal/bleatingsheep_fireant_dev/EXTFdCgzHIBDtrXzUzF-KPYBGpUW8ghDI4V5j2lP1w0MvA?e=hgeYxe)，必须使用特定版本。下载后解压到某个目录。
 - （推荐，但不必需）Argyll 最新版。Windows 版的下载地址为 <https://www.argyllcms.com/downloadwin.html>，其他系统在 <https://www.argyllcms.com/> 向下拉找到“Downloads”。下载后解压到某个目录永久保存。
 
 解压后内容应如图所示。
@@ -39,6 +39,8 @@ tags:
 选择 Tools -> Instrument -> Install ArgyllCMS instrument drivers，然后在弹出的窗口中选择“Download and install”，按提示操作。
 
 {% asset_img 3.drivers1-1.5x.png %}
+
+<!-- "%APPDATA%\DisplayCAL\dl\Argyll_V2.1.1_USB_driver_installer.exe" --noprompt --vid 0x85c --pid 0x500 --create "Spyder5 (Argyll)" -->
 
 ### 配置 Argyll（推荐）
 如果你还下载了最新版本的 Argyll，那么选择 File -> Locate ArgyllCMS executables 来配置 DisplayCAL 使用最新版本。
