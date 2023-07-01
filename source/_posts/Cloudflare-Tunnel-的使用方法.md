@@ -58,3 +58,5 @@ diygod/rsshub
 在这个页面中，选择要使用的域名和子域，“Service”设置为 http://rsshub:1200。
 
 之后点击保存，访问相应域名即可。
+
+<script src="/scripts/image-scale.js"></script>
