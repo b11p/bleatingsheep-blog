@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Cloudflare Tunnel 的使用方法 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="/js/lib/normalize.css"><link rel="stylesheet" type="text/css" href="/js/lib/pure-min.css"><link rel="stylesheet" type="text/css" href="/js/lib/grids-responsive-min.css"><link rel="stylesheet" href="/js/lib/font-awesome.min.css"><script type="text/javascript" src="/js/lib/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + '76da56ea60f52fccc65157687c2ff51a';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Cloudflare Tunnel 的使用方法</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">Cloudflare Tunnel 的使用方法</h1><div class="post-meta">2023-07-01</div><a class="disqus-comment-count" href="/2023/07/01/Cloudflare-Tunnel-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/Cloudflare-Tunnel-的使用方法.md"></span><span> 条评论</span></a><div class="post-content"><p><a target="_blank" rel="noopener" href="https://github.com/he0119">日日</a>说不会用 CF Tunnel，就写一篇简单说明一下用法。</p>
+<h2 id="Cloudflare-Tunnel-是什么、可以用来干什么"><a href="#Cloudflare-Tunnel-是什么、可以用来干什么" class="headerlink" title="Cloudflare Tunnel 是什么、可以用来干什么"></a>Cloudflare Tunnel 是什么、可以用来干什么</h2><p>当用户访问 CDN 需要回源时，CDN 节点会去访问服务器。尽管可以通过配置让服务器只接受 CDN IP 访问，但配置可能较为繁琐且容易出错，导致服务器仍然受到各种威胁。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cloudflare.com/products/tunnel/">Cloudflare Tunnel</a> 可以让服务器主动访问 Cloudflare (CF) 的 CDN 节点。这样服务器完全不需要接受任何外来连接，增强安全性。此外，Cloudflare Tunnel 也可以让服务器处于 NAT 后面，无需公网 IP 也可以提供 Web 等服务。</p>
+<h2 id="如何使用-Cloudflare-Tunnel"><a href="#如何使用-Cloudflare-Tunnel" class="headerlink" title="如何使用 Cloudflare Tunnel"></a>如何使用 Cloudflare Tunnel</h2><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>要使用 Cloudflare Tunnel，相应域名必须在 CF 解析，且服务器必须能够访问最近的 CF 节点。</p>
+<p>本文以 Docker 为例讲解 CF Tunnel 的使用方法，但 Docker 不是必须的。</p>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>本文以在 <code>backend</code> 网络中启动 <a target="_blank" rel="noopener" href="https://docs.rsshub.app/">RSSHub</a> 容器为例，使用的命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull diygod/rsshub</span><br><span class="line">docker run -d --name rsshub --restart=always \</span><br><span class="line">--net backend --net-alias rsshub \</span><br><span class="line">diygod/rsshub</span><br></pre></td></tr></table></figure>
+
+<p>这里设置 RSSHub 连接到 Docker 的 <code>backend</code> 网络（需要自行创建），设置容器的网络别名为 <code>rsshub</code>，以便访问。注意 RSSHub 默认监听 1200 端口，这里无需对外开放此端口。</p>
+<h3 id="创建并运行-Tunnel"><a href="#创建并运行-Tunnel" class="headerlink" title="创建并运行 Tunnel"></a>创建并运行 Tunnel</h3><img src="/2023/07/01/Cloudflare-Tunnel-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/1-cf-panel-1.5x.png" class="">
+
+<p>登录 CF，在 dash 左侧找到“Zero Trust”并进入。</p>
+<img src="/2023/07/01/Cloudflare-Tunnel-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/2-zero-trust-1.5x.png" class="">
+
+<p>进入后在左侧点击“Access、Tunnels”，然后再点“Create a tunnel”。</p>
+<img src="/2023/07/01/Cloudflare-Tunnel-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/3-create-tunnel-1.5x.png" class="">
+
+<p>给 Tunnel 设置一个名字，然后继续，进入到上图的界面，选择相应的运行环境（这里选择 Docker），然后执行下面的代码。</p>
+<p>注意，可以根据自己的需要，在命令中加入 <code>-d --net backend --restart always</code> 等参数。</p>
+<img src="/2023/07/01/Cloudflare-Tunnel-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/4-connectors-1.5x.png" class="">
+
+<p>运行后，如果一切正常，可以在网页上看到已经连接的 Connector。继续前往下一个页面。</p>
+<img src="/2023/07/01/Cloudflare-Tunnel-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/5-route-1.5x.png" class="">
+
+<p>在这个页面中，选择要使用的域名和子域，“Service”设置为 <a href="http://rsshub:1200。">http://rsshub:1200。</a></p>
+<p>之后点击保存，访问相应域名即可。</p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2023/04/23/Fedora-%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2-LXD/">Fedora 系统部署 LXD</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/Cloudflare-Tunnel-的使用方法.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2023 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
