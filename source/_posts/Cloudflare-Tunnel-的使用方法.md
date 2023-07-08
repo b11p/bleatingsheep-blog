@@ -9,6 +9,8 @@ tags:
 
 [日日](https://github.com/he0119)说不会用 CF Tunnel，就写一篇简单说明一下用法。
 
+<!-- more -->
+
 ## Cloudflare Tunnel 是什么、可以用来干什么
 当用户访问 CDN 需要回源时，CDN 节点会去访问服务器。尽管可以通过配置让服务器只接受 CDN IP 访问，但配置可能较为繁琐且容易出错，导致服务器仍然受到各种威胁。
 
