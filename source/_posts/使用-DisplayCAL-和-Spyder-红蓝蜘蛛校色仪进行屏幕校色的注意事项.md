@@ -57,6 +57,12 @@ Options -> Show advanced options
 ## 开始校色
 在进行校色前，需要打开显示器预热三十分钟以上。或者当前已连续使用显示器超过三十分钟即可。
 
+### 选择要校正的显示器
+
+在主界面选择要校正的显示器。请注意如果你的多台显示器缩放比例不同，副显示器的分辨率可能显示不正确。选择显示器对应型号即可。
+
+{% asset_img "5-2.select monitor.png" %}
+
 ### 把校色仪贴到屏幕上
 连接校色仪并打开 DisplayCAL。把 Settings 选为“Office & Web”，在“Profiling”标签下把“Profile type”选为“Single Curve + matrix”。然后点击“Calibrate & Profile”。
 
