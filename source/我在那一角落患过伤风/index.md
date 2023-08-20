@@ -6,6 +6,8 @@ lang: zh-CN
 TimeZone: America/Toronto
 ---
 
+这首歌是 66 BPM，不是 65。
+
 ![](1.jpg)
 
 ![](2-0.9866666666666667x.png)
