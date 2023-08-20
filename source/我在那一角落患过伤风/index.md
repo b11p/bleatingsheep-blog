@@ -13,3 +13,5 @@ TimeZone: America/Toronto
 ![](3-0.9866666666666667x.png)
 
 ![](4-0.9866666666666667x.png)
+
+<script src="/scripts/image-scale.js"></script>
