@@ -171,10 +171,14 @@ function createPlayer() {
                     if (mpegts.getFeatureList().mseLivePlayback) {
                         var videoElement = video;
                         var mpegtsplayer = mpegts.createPlayer({
-                            enableWorker: true,
                             type: 'mse',  // could also be mpegts, m2ts, flv
                             isLive: true,
                             url: src,
+                            liveBufferLatencyChasing: true,
+                        }, {
+                            enableWorker: true,
+                            lazyLoadMaxDuration: 3 * 60,
+                            seekType: 'range',
                             liveBufferLatencyChasing: true,
                         });
                         mpegtsplayer.attachMediaElement(videoElement);
