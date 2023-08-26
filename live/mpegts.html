@@ -176,9 +176,9 @@ function createPlayer() {
                             url: src,
                             liveBufferLatencyChasing: true,
                         }, {
-                            enableWorker: true,
-                            lazyLoadMaxDuration: 3 * 60,
-                            seekType: 'range',
+                            // enableWorker: true,
+                            // lazyLoadMaxDuration: 3 * 60,
+                            // seekType: 'range',
                             liveBufferLatencyChasing: true,
                         });
                         mpegtsplayer.attachMediaElement(videoElement);
