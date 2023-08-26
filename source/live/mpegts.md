@@ -90,6 +90,7 @@ var quality = useWebRtc ? {
     url: 'https://live-flv.b11p.com/live/livestream.flv',
     type: 'mpegts',
 };
+var destroyCallback = null;
 function createPlayer() {
     latency = 10;
     dp = new DPlayer({
@@ -169,14 +170,23 @@ function createPlayer() {
                     var src = video.src;
                     if (mpegts.getFeatureList().mseLivePlayback) {
                         var videoElement = video;
-                        var player = mpegts.createPlayer({
+                        var mpegtsplayer = mpegts.createPlayer({
                             type: 'mse',  // could also be mpegts, m2ts, flv
                             isLive: true,
-                            url: src
+                            url: src,
+                            liveBufferLatencyChasing: true,
                         });
-                        player.attachMediaElement(videoElement);
-                        player.load();
-                        player.play();
+                        mpegtsplayer.attachMediaElement(videoElement);
+                        mpegtsplayer.load();
+                        mpegtsplayer.play();
+                        player.events.on('destroy', function () {
+                            mpegtsplayer.destroy();
+                        });
+                        mpegtsplayer.on(mpegts.Events.ERROR, (t, u, v) => {
+                            console.error({ t, u, v });
+                            dp.destroy();
+                            createPlayer();
+                        });
                     }
                 },
                 'dashJS': function (video, player) {
@@ -246,16 +256,6 @@ function createPlayer() {
         //     createPlayer();
         // });
     }
-
-    // buffer is too long
-    dp.on('play', () => {
-        if (!needReload) {
-            return;
-        }
-        needReload = false;
-        dp.destroy();
-        createPlayer();
-    });
 }
 createPlayer();
 
