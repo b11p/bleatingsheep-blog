@@ -5,6 +5,9 @@ TimeZone: America/Toronto
 date: 2023-04-23 04:35:23
 updated: 2023-04-24 19:15:23
 tags:
+    - Fedora
+    - Linux
+    - LXD
 ---
 
 近来一直想着买台迷你主机，把家里的树莓派换掉，毕竟树莓派性能太低了，连测速都跑不满。要换的话，我可能会选准系统的迷你主机，然后开启一些虚拟机，这样能满足我折腾的需求。我看到比较合适的是 [PVE](https://www.proxmox.com/en/proxmox-ve)，但我暂时没有可以安装的机器。另一个看起来比较有趣的技术是 [LXD](https://linuxcontainers.org/lxd/introduction/)，看起来可以更充分地利用资源。虽然不知道什么时候能回国（毕竟装系统什么的都很麻烦，恐怕没法远程进行），但是就是想现在看看怎么折腾，就开了一台 Fedora 37 的云服务器，安装了一下试试。

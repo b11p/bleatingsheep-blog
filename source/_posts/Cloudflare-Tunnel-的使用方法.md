@@ -5,6 +5,7 @@ TimeZone: America/Toronto
 date: 2023-07-01 03:37:10
 updated: 2023-07-01 03:37:10
 tags:
+    - Cloudflare
 ---
 
 [日日](https://github.com/he0119)说不会用 CF Tunnel，就写一篇简单说明一下用法。

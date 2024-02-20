@@ -5,6 +5,9 @@ TimeZone: America/Toronto
 date: 2023-02-11 02:11:12
 updated: 2023-02-11 03:38:12
 tags:
+    - Spyder
+    - 校色
+    - 日常使用
 ---
 
 最近[药药](https://github.com/AkiraXie)买了蓝蜘蛛 Spyder X，我告诉他不要用配套软件，直接用 DisplayCAL。DisplayCAL 已经三年多没有更新了，软件不更新也会变质，有些东西直接按当年的步骤，就会出现奇奇怪怪的问题。因此我在此总结一下当前使用 DisplayCAL 和 Spyder X 的完整流程及注意事项。
