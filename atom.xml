@@ -6,7 +6,7 @@
   <link href="https://bleatingsheep.org/atom.xml" rel="self"/>
   
   <link href="https://bleatingsheep.org/"/>
-  <updated>2023-07-01T03:37:10.000Z</updated>
+  <updated>2024-02-19T22:52:53.000Z</updated>
   <id>https://bleatingsheep.org/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ 的神奇运算</title>
+    <link href="https://bleatingsheep.org/2024/02/19/CPP%E7%9A%84%E7%A5%9E%E5%A5%87%E8%BF%90%E7%AE%97/"/>
+    <id>https://bleatingsheep.org/2024/02/19/CPP%E7%9A%84%E7%A5%9E%E5%A5%87%E8%BF%90%E7%AE%97/</id>
+    <published>2024-02-19T22:52:53.000Z</published>
+    <updated>2024-02-19T22:52:53.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;最近同学问我，为什么他的程序跑的结果不符合预期，甚至跑出了非常离谱的结果，于是我们进行了一番调查。&lt;/p&gt;
+&lt;p&gt;简化后的程序如下所示：&lt;/p&gt;
+&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; a = &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; i &amp;lt; a; i++)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;printf&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;quot;i = %d, a = %d, i&amp;lt;a: %d\n&amp;quot;&lt;/span&gt;, i, a, i &amp;lt; a);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;当我们调用这个函数，并使用 &lt;code&gt;g++ -O3&lt;/code&gt; 编译运行时发现，这个函数无限循环了下去，并且输出了 &lt;code&gt;i = 231904, a = 2, i&amp;lt;a: 1&lt;/code&gt; 这样的内容，宣称 231904 &amp;lt; 2。&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="C++" scheme="https://bleatingsheep.org/tags/C/"/>
+    
+    <category term="GCC" scheme="https://bleatingsheep.org/tags/GCC/"/>
+    
+    <category term="编译器" scheme="https://bleatingsheep.org/tags/%E7%BC%96%E8%AF%91%E5%99%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>Cloudflare Tunnel 的使用方法</title>
@@ -28,6 +53,8 @@
     
     
     
+    
+    <category term="Cloudflare" scheme="https://bleatingsheep.org/tags/Cloudflare/"/>
     
   </entry>
   
@@ -44,6 +71,12 @@
     
     
     
+    <category term="Fedora" scheme="https://bleatingsheep.org/tags/Fedora/"/>
+    
+    <category term="Linux" scheme="https://bleatingsheep.org/tags/Linux/"/>
+    
+    <category term="LXD" scheme="https://bleatingsheep.org/tags/LXD/"/>
+    
   </entry>
   
   <entry>
@@ -58,6 +91,12 @@
     
     
     
+    
+    <category term="Spyder" scheme="https://bleatingsheep.org/tags/Spyder/"/>
+    
+    <category term="校色" scheme="https://bleatingsheep.org/tags/%E6%A0%A1%E8%89%B2/"/>
+    
+    <category term="日常使用" scheme="https://bleatingsheep.org/tags/%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8/"/>
     
   </entry>
   
@@ -385,26 +424,6 @@
     <category term=".NET" scheme="https://bleatingsheep.org/tags/NET/"/>
     
     <category term="Visual Studio" scheme="https://bleatingsheep.org/tags/Visual-Studio/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>解决腾讯云轻量自带Ubuntu镜像不好使的问题</title>
-    <link href="https://bleatingsheep.org/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://bleatingsheep.org/2021/03/22/%E8%A7%A3%E5%86%B3%E8%85%BE%E8%AE%AF%E4%BA%91%E8%BD%BB%E9%87%8F%E8%87%AA%E5%B8%A6Ubuntu%E9%95%9C%E5%83%8F%E4%B8%8D%E5%A5%BD%E4%BD%BF%E7%9A%84%E9%97%AE%E9%A2%98/</id>
-    <published>2021-03-22T13:52:31.000Z</published>
-    <updated>2021-03-22T13:52:31.000Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;之前腾讯云搞了个轻量服务器免费升配活动，配合学生优惠，折合 432 元可以买到 4 年 2C4G6M 的国内机器，非常划算。&lt;/p&gt;
-&lt;p&gt;我装的是 Ubuntu 20.04 系统，ssh 连进去，随便敲敲就发现很多不好使的地方。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="Ubuntu" scheme="https://bleatingsheep.org/tags/Ubuntu/"/>
-    
-    <category term="腾讯云" scheme="https://bleatingsheep.org/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/"/>
     
   </entry>
   
