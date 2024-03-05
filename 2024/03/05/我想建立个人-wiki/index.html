@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>我想建立个人 wiki | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="/js/lib/normalize.css"><link rel="stylesheet" type="text/css" href="/js/lib/pure-min.css"><link rel="stylesheet" type="text/css" href="/js/lib/grids-responsive-min.css"><link rel="stylesheet" href="/js/lib/font-awesome.min.css"><script type="text/javascript" src="/js/lib/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + '76da56ea60f52fccc65157687c2ff51a';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">我想建立个人 wiki</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">我想建立个人 wiki</h1><div class="post-meta">2024-03-05</div><a class="disqus-comment-count" href="/2024/03/05/%E6%88%91%E6%83%B3%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA-wiki/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/我想建立个人-wiki.md"></span><span> 条评论</span></a><div class="post-content"><p>我建立这个博客的初衷是记录一些网络上可能没有直接记载的信息，而不知道这些信息在某些时候可能会导致踩坑，或者要绕很多弯路才能找到最佳实践。所以，我的博客内容很少是单纯的内容整合，而是针对具体的问题提出网络上暂时不存在的解决方法或者讨论。但是，近来我发现，博客似乎无法很好地实现这个目标……</p>
+<span id="more"></span>
+
+<h2 id="博客存在的问题"><a href="#博客存在的问题" class="headerlink" title="博客存在的问题"></a>博客存在的问题</h2><p>首先我来说一下为什么我认为博客无法很好地实现这个目标。一个很明显的表现是，近来我的博客完全断更了，虽然有我博士科研比较繁忙的原因，但是，在这段时间我也并不是完全没有在学习新的东西，最终却没把这些东西分享出来。我认为原因有几点，最关键的是，每篇博客都要至少把一件事情本身讲明白，而不是简单地贴一些配置上去。同时，我不想重复地写网上很容易搜到的信息，也希望保证信息的完整性和正确性。这就导致了写博客成为了一种相对较重的负担，因为每篇都需要进行相当的整理和验证，比如在全新的环境中验证是否可行等。结果就是，本来有些有分享价值的东西，我也有分享的意愿，但最终就是没能分享出来。</p>
+<ul>
+<li>当我每次尝试新东西时，我可以根据我的已有知识迅速理解它的原理和思想，同时提炼出一些实践做法。而要写成博客时，除了我所刚学到的东西，还需要把关联的背景知识进行一定的介绍，这样才能让读者更好地理解内容，才更有可能帮助到人。但是这样也会使得文章更加难产，比如我做了很多关于 SRS 直播的笔记，但是没有发出来。</li>
+<li>有时我遇到了一些情况，进行一番探究已经得出了很有价值的结果，但是，针对这个问题，还值得更深层地探索。要写成一篇博客，我往往倾向于把问题研究清楚，再把整个来龙去脉展示给读者，同时确保细节也是正确的，避免传讹。这种想法可能会阻止我最终写出博客。例如，我曾经研究过 Proxmox VE 提供的各种存储方式是否正确地向底层设备下发了 trim (discard) 指令。结论之一就是我最想使用的 LVM-thin 在删除卷时未能正确下发。</li>
+<li>关于以上问题，我也想过对自己不要要求那么高，只要能让遇到某种特定情况的人读到后可以解决手头的问题，就足够了。不过，很多情况下，其实只需要几句话就可以解决一个问题，比如只需要修改一项配置。有时用英语可以很容易地搜到相关内容。而我最终发现自己还是不希望自己的博客充满这样几句话就写完的文章，于是就不写了。</li>
+</ul>
+<!-- ### 博客需要详细介绍
+当我每次尝试新东西时， -->
+
+<!-- ### 我还没有完全理解某些东西 -->
+
+
+<!-- ### 有时我的新内容相对网络上已有的内容是 minor improvement
+
+
+### 不希望博客全是比较 trivial 的东西，比如配置文件 -->
+
+
+<!-- ### 博客不方便关联相关知识
+由于相关知识本身可能是网上已有的，读者可能需要背景或者自己上网找。
+wiki 更灵活，可以放一些相关知识。
+
+### 有些有英文资料的我就不愿意贴了 -->
+
+<!-- ## 发现
+### 我以为简单的东西不一定简单 -->
+
+
+<!-- （别人实际不知道）
+（实际没那么容易搜到，比如英语内容）
+（例子：pve说明） -->
+
+<h2 id="潜在的损失"><a href="#潜在的损失" class="headerlink" title="潜在的损失"></a>潜在的损失</h2><p>一直以来，我都低估了我没分享出来的这些内容的价值。我认为这些知识很大比例都是已经普遍知道的，但是最近在一些 QQ 群里交流，发现很多我认为比较基础，或者比较容易搜到的知识，依然有很多人不了解。</p>
+<p>比如，最近我在家里搭建了 PVE 环境，并给几个人免费分享了虚拟机，于是我给他们写了一篇 <a target="_blank" rel="noopener" href="https://notes.bleatingsheep.org/s/pve">PVE 客户机使用手册</a>供参考。当我发出去后，立刻有其他 PVE 用户表示自己并不了解我这篇文章中提到的一些 PVE 的细节。实际上，相关内容是可以很容易地在官方文档中找到的。</p>
+<p>还有一次，一位群友问我自己托管 PostgreSQL 时应考虑哪些事情，以及有没有数据备份的脚本。而我确实有一系列管理 PostgreSQL 的脚本。这也让我萌生了把我积攒的各种脚本分享出来的想法。</p>
+<p>虽然这类内容大多都可以在网上找到类似的，也不是很深，但是回想我初次接触时，理解它们并转化成适合自己场景的脚本也是费了一番工夫的。比如，PostgreSQL 中，使用 <code>pgdump</code> 导出备份是备份到文件还是走 stdout，这类取舍都是经过我的性能测试的。这些内容虽然不太好写成博客（因为几句话就能讲清楚），但是依然有分享的价值。</p>
+<h2 id="解决方法：建立个人-wiki"><a href="#解决方法：建立个人-wiki" class="headerlink" title="解决方法：建立个人 wiki"></a>解决方法：建立个人 wiki</h2><p>我本来想的是把积累的脚本、配置文件等分享出来，但是又一想，干脆建立一个个人 wiki，来分享我所学的各种方面的知识。相比通过博客分享，wiki 有以下几个好处：</p>
+<ul>
+<li>可以直接放脚本和配置等等，不需要每次都详细解释：Wiki 定位于持续地更新，而非一次发一篇相对完整的文章，因此，无论我的结论、进展如何，是否有精力把背景补充齐全，都可以有所分享。</li>
+<li>可以关联相关的知识：Wiki 可以为知识建立一定的结构，方便查阅相关的内容，例如可以把 PostgreSQL 的放一起，关于 SRS 的放一起等等。尽管 wiki 可以有结构，但我并不以建立非常系统、完善的知识体系为目标，以免因此造成负担。</li>
+<li>可以包含更多方面的内容：当前博客内容偏向技术，除了技术，我还有其他可以分享的东西，例如生活方面、基金交易等。新建的 wiki 定位于分享我所有方面的知识。</li>
+</ul>
+<h2 id="Wiki-的内容"><a href="#Wiki-的内容" class="headerlink" title="Wiki 的内容"></a>Wiki 的内容</h2><p>作为建立 wiki 的预告，我计划在 wiki 中包含以下几方面的内容。</p>
+<ul>
+<li>基金交易心得：介绍我对场内、场外基金的交易心得，如选基、何时买卖、简单的策略等。同时也可以介绍交易规则等。</li>
+<li>配置、脚本分享：把我零散的各种脚本和配置文件分享出来，同时简要说明一些关键配置项。</li>
+<li>最佳实践分享：分享一些我摸索出来的最佳实践，而不仅仅是单独的配置、脚本。</li>
+</ul>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2024/02/19/CPP%E7%9A%84%E7%A5%9E%E5%A5%87%E8%BF%90%E7%AE%97/">C++ 的神奇运算</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/我想建立个人-wiki.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
