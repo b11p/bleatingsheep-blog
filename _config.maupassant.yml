@@ -98,6 +98,9 @@ menu:
   - page: archive
     directory: archives/
     icon: fa-archive
+  - page: Wiki
+    directory: wiki/
+    icon: fa-book
   - page: about
     directory: about/
     icon: fa-user
