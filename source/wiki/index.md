@@ -22,7 +22,14 @@ TimeZone: America/Toronto
 <https://notes.bleatingsheep.org/s/livestreaming>
 
 ## 计算机日常使用
+
+### Windows 相关
 <https://notes.bleatingsheep.org/s/daily>
+
+### 铭凡迷你主机 UM773 SE 相关
+包括通过 BIOS 设置把 TDP 提升至 54W 并加强散热、BIOS 更新等内容。
+
+<https://notes.bleatingsheep.org/s/um773>
 
 ## 生活及其他
 ### 基金交易
