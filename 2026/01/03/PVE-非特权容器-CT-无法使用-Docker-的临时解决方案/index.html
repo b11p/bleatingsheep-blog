@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>PVE 非特权容器 (CT) 无法使用 Docker 的临时解决方案 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="/js/lib/normalize.css"><link rel="stylesheet" type="text/css" href="/js/lib/pure-min.css"><link rel="stylesheet" type="text/css" href="/js/lib/grids-responsive-min.css"><link rel="stylesheet" href="/js/lib/font-awesome.min.css"><script type="text/javascript" src="/js/lib/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + '76da56ea60f52fccc65157687c2ff51a';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">PVE 非特权容器 (CT) 无法使用 Docker 的临时解决方案</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/wiki/"><i class="fa fa-book"> Wiki</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">PVE 非特权容器 (CT) 无法使用 Docker 的临时解决方案</h1><div class="post-meta">2026-01-03</div><a class="disqus-comment-count" href="/2026/01/03/PVE-%E9%9D%9E%E7%89%B9%E6%9D%83%E5%AE%B9%E5%99%A8-CT-%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8-Docker-%E7%9A%84%E4%B8%B4%E6%97%B6%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/PVE-非特权容器-CT-无法使用-Docker-的临时解决方案.md"></span><span> 条评论</span></a><div class="post-content"><p>我之前在自己的几台机器上装了 Proxmox VE (PVE)，并给日日开了个容器 (CT)，让他跑一些自己的东西。日日在容器中装了 Docker，之前一直跑得好好的。2024 年 11 月，日日告诉我，他的几个服务 down 了，并且 Docker 容器打不开。</p>
+<span id="more"></span>
+
+<p>日日提供的错误信息如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: open sysctl net.ipv4.ip_unprivileged_port_start file: reopen fd 8: permission denied: unknown</span><br></pre></td></tr></table></figure>
+
+<p>经过检索，发现是 AppArmor profiles 的问题，可以通过 Workaround 缓解。</p>
+<h2 id="Workaround-绕过-AppArmor"><a href="#Workaround-绕过-AppArmor" class="headerlink" title="Workaround: 绕过 AppArmor"></a>Workaround: 绕过 AppArmor</h2><p>首先在 PVE host 编辑容器配置：打开 <code>/etc/pve/lxc/&lt;容器ID&gt;.conf</code>，并添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file</span><br><span class="line">lxc.apparmor.profile: unconfined</span><br></pre></td></tr></table></figure>
+
+<p>完成后（可能需要重启 CT 容器来应用配置），在容器中执行以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mount --<span class="built_in">bind</span> /dev/null /sys/module/apparmor/parameters/enabled</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>注意，CT 容器重启后，需要重新执行此命令，应该可以通过编写 systemd unit，并将 docker 服务设置为“WantedBy”来自动挂载，但我未测试。</p>
+<h2 id="解决：更新-Proxmox-VE"><a href="#解决：更新-Proxmox-VE" class="headerlink" title="解决：更新 Proxmox VE"></a>解决：更新 Proxmox VE</h2><p>有报告称 Proxmox VE 9.1 已解决此问题，我当前使用的是 Proxmox VE 8，无法验证。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="https://forum.proxmox.com/threads/docker-inside-lxc-net-ipv4-ip_unprivileged_port_start-error.175437/">https://forum.proxmox.com/threads/docker-inside-lxc-net-ipv4-ip_unprivileged_port_start-error.175437/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/opencontainers/runc/issues/4968#issuecomment-3500775431">https://github.com/opencontainers/runc/issues/4968#issuecomment-3500775431</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lxc/lxc/issues/4606">https://github.com/lxc/lxc/issues/4606</a></p>
+<p><a target="_blank" rel="noopener" href="https://bugzilla.proxmox.com/show_bug.cgi?id=7006">https://bugzilla.proxmox.com/show_bug.cgi?id=7006</a></p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2024/03/05/%E6%88%91%E6%83%B3%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA-wiki/">我想建立个人 wiki</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/PVE-非特权容器-CT-无法使用-Docker-的临时解决方案.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2026 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

@@ -6,7 +6,7 @@
   <link href="https://bleatingsheep.org/atom.xml" rel="self"/>
   
   <link href="https://bleatingsheep.org/"/>
-  <updated>2024-03-05T18:11:30.000Z</updated>
+  <updated>2026-01-03T10:29:34.000Z</updated>
   <id>https://bleatingsheep.org/</id>
   
   <author>
@@ -15,6 +15,21 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PVE 非特权容器 (CT) 无法使用 Docker 的临时解决方案</title>
+    <link href="https://bleatingsheep.org/2026/01/03/PVE-%E9%9D%9E%E7%89%B9%E6%9D%83%E5%AE%B9%E5%99%A8-CT-%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8-Docker-%E7%9A%84%E4%B8%B4%E6%97%B6%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>https://bleatingsheep.org/2026/01/03/PVE-%E9%9D%9E%E7%89%B9%E6%9D%83%E5%AE%B9%E5%99%A8-CT-%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8-Docker-%E7%9A%84%E4%B8%B4%E6%97%B6%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</id>
+    <published>2026-01-03T10:29:34.000Z</published>
+    <updated>2026-01-03T10:29:34.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;我之前在自己的几台机器上装了 Proxmox VE (PVE)，并给日日开了个容器 (CT)，让他跑一些自己的东西。日日在容器中装了 Docker，之前一直跑得好好的。2024 年 11 月，日日告诉我，他的几个服务 down 了，并且 Docker 容器打不开。&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>我想建立个人 wiki</title>
@@ -401,25 +416,6 @@
     
     
     <category term="Edge" scheme="https://bleatingsheep.org/tags/Edge/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>String.Create的局限性</title>
-    <link href="https://bleatingsheep.org/2021/03/22/String-Create%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/"/>
-    <id>https://bleatingsheep.org/2021/03/22/String-Create%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/</id>
-    <published>2021-03-22T23:16:33.000Z</published>
-    <updated>2021-03-22T23:16:33.000Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;String-Create-介绍&quot;&gt;&lt;a href=&quot;#String-Create-介绍&quot; class=&quot;headerlink&quot; title=&quot;String.Create 介绍&quot;&gt;&lt;/a&gt;&lt;code&gt;String.Create&lt;/code&gt; 介绍&lt;/h2&gt;&lt;p&gt;.NET Core 2.1 和 .NET Standard 2.1 新增了 &lt;code&gt;Span&amp;lt;T&amp;gt;&lt;/code&gt;、&lt;code&gt;Memory&amp;lt;T&amp;gt;&lt;/code&gt; 等非常方便的操作内存的方式，同时增加了如 &lt;code&gt;String.Create()&lt;/code&gt; 这种高效的创建字符串的方法。最近在写 &lt;a href=&quot;https://github.com/rcnbapp/RCNB.csharp&quot;&gt;RCNB&lt;/a&gt; 终于得以一试，结果发现了这个方法的许多局限之处。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="C#" scheme="https://bleatingsheep.org/tags/C/"/>
-    
-    <category term=".NET" scheme="https://bleatingsheep.org/tags/NET/"/>
     
   </entry>
   
