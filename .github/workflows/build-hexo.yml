@@ -13,15 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
       with:
         submodules: 'recursive'
     - name: Use Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v6
       with:
-        node-version: '16.x'
+        node-version: '24.x'
     - name: Cache NPM dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v5
       with:
         path: node_modules
         key: ${{ runner.OS }}-npm-cache
@@ -39,7 +39,7 @@ jobs:
       with:
         target-directory: 'public'
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
