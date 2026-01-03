@@ -5,13 +5,13 @@
   var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
   })();
-</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/wiki/"><i class="fa fa-book"> Wiki</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项</h1><div class="post-meta">2023-02-11</div><a class="disqus-comment-count" href="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/使用-DisplayCAL-和-Spyder-红蓝蜘蛛校色仪进行屏幕校色的注意事项.md"></span><span> 条评论</span></a><div class="post-content"><p>最近<a target="_blank" rel="noopener" href="https://github.com/AkiraXie">药药</a>买了蓝蜘蛛 Spyder X，我告诉他不要用配套软件，直接用 DisplayCAL。DisplayCAL 已经三年多没有更新了，软件不更新也会变质，有些东西直接按当年的步骤，就会出现奇奇怪怪的问题。因此我在此总结一下当前使用 DisplayCAL 和 Spyder X 的完整流程及注意事项。</p>
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/wiki/"><i class="fa fa-book"> Wiki</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">使用 DisplayCAL 和 Spyder 红蓝蜘蛛校色仪进行屏幕校色的注意事项</h1><div class="post-meta">2023-02-11</div><a class="disqus-comment-count" href="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/使用-DisplayCAL-和-Spyder-红蓝蜘蛛校色仪进行屏幕校色的注意事项.md"></span><span> 条评论</span></a><div class="post-content"><p>最近<a target="_blank" rel="noopener" href="https://github.com/AkiraXie">药药</a>买了蓝蜘蛛 Spyder X，我告诉他不要用配套软件，直接用 DisplayCAL。DisplayCAL 已经三年多没有更新了，软件不更新也会变质，有些东西直接按当年的步骤，就会出现奇奇怪怪的问题。因此我在此总结一下当前使用 DisplayCAL 和 Spyder X 的完整流程及注意事项。</p>
 <span id="more"></span>
 
-<h2 id="软硬件准备"><a href="#软硬件准备" class="headerlink" title="软硬件准备"></a>软硬件准备</h2><p><strong>校色仪。</strong>可以说是最重要的部分。本文重点使用 Spyder5 和 Spyder X。其他校色仪按说是大同小异，只是驱动安装方式可能会不同。</p>
-<p><strong>显示器。</strong>把显示器的设置恢复为出厂默认，并且需要保证在校色正式开始前亮屏 30 分钟。</p>
-<p><strong>操作系统。</strong>本文使用 Windows。MacOS 由于系统安全规则，会难以执行外挂的校色程序。博主没有在 Linux 上校色的经验。</p>
-<p><strong>软件。</strong>需要准备下列软件：</p>
+<h2 id="软硬件准备"><a href="#软硬件准备" class="headerlink" title="软硬件准备"></a>软硬件准备</h2><p>**校色仪。**可以说是最重要的部分。本文重点使用 Spyder5 和 Spyder X。其他校色仪按说是大同小异，只是驱动安装方式可能会不同。</p>
+<p>**显示器。**把显示器的设置恢复为出厂默认，并且需要保证在校色正式开始前亮屏 30 分钟。</p>
+<p>**操作系统。**本文使用 Windows。MacOS 由于系统安全规则，会难以执行外挂的校色程序。博主没有在 Linux 上校色的经验。</p>
+<p>**软件。**需要准备下列软件：</p>
 <ul>
 <li>DisplayCAL。建议在官网 <a target="_blank" rel="noopener" href="https://displaycal.net/">https://displaycal.net/</a> 下载。点击“Get DisplayCAL”按钮后选择自己的系统下载安装。</li>
 <li>Argyll 2.1.1。<a target="_blank" rel="noopener" href="https://ytt3q-my.sharepoint.com/:u:/g/personal/bleatingsheep_fireant_dev/EXTFdCgzHIBDtrXzUzF-KPYBGpUW8ghDI4V5j2lP1w0MvA?e=hgeYxe">点此链接下载</a>，必须使用特定版本。下载后解压到某个目录。</li>
@@ -44,13 +44,13 @@
 <img src="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/6.profiling2-2.25x.png" class="">
 
 <p>然后把弹出的窗口拖到要校色的显示器，用“+、-”调整大小，尽量把窗口放在屏幕中心，并把校色仪贴紧到窗口中心。调整好后点击“Start measurement”。</p>
-<p><strong>注意：</strong>校色仪必须贴紧屏幕。放置校色仪前可以把屏幕向后倾斜，把盖子卡在屏幕顶部后方使其不要下滑，依靠重力使校色仪贴紧。</p>
+<p>**注意：**校色仪必须贴紧屏幕。放置校色仪前可以把屏幕向后倾斜，把盖子卡在屏幕顶部后方使其不要下滑，依靠重力使校色仪贴紧。</p>
 <h3 id="调整显示器白点色温"><a href="#调整显示器白点色温" class="headerlink" title="调整显示器白点色温"></a>调整显示器白点色温</h3><p>稍后会出现一个新窗口，点击“Start measurement”后，仪器就会开始测量色温。使用显示器的设置调整红、绿、蓝的颜色数值，直到三色平衡。同时，把亮度调整到合适的水平（不用管亮度条是否在中间）。</p>
 <img src="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/7.interactive-2.25x.png" class="">
 
-<p><strong>注意：</strong>如果你的显示器红、绿、蓝的数值默认都是 100，那调低偏高的数值即可。但是，如果默认是 50 或者其他的值，则需要尽量先调低偏高的那项数值，并且尽量让三色不要大于默认值。</p>
+<p>**注意：**如果你的显示器红、绿、蓝的数值默认都是 100，那调低偏高的数值即可。但是，如果默认是 50 或者其他的值，则需要尽量先调低偏高的那项数值，并且尽量让三色不要大于默认值。</p>
 <p>调整完毕后，点击“Stop measurement”，然后点“Continue on to calibration”。</p>
-<p><em>提示：</em>如果 Spyder X 出现和“self-calibration offsets”有关的错误，如下图所示，可能是因为室温偏低。解决方法是用手把校色仪捂热，捂热后再校准即可。</p>
+<p>*提示：*如果 Spyder X 出现和“self-calibration offsets”有关的错误，如下图所示，可能是因为室温偏低。解决方法是用手把校色仪捂热，捂热后再校准即可。</p>
 <img src="/2023/02/11/%E4%BD%BF%E7%94%A8-DisplayCAL-%E5%92%8C-Spyder-%E7%BA%A2%E8%93%9D%E8%9C%98%E8%9B%9B%E6%A0%A1%E8%89%B2%E4%BB%AA%E8%BF%9B%E8%A1%8C%E5%B1%8F%E5%B9%95%E6%A0%A1%E8%89%B2%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/7.5.error-2x.png" class="">
 
 <p>如果你校准的是笔记本显示器等不能调节三色平衡的设备，可以跳过这一步，直接点击“Continue on to calibration”。</p>
@@ -80,4 +80,4 @@ window.valine = new Valine({
   path: 'bleatingsheep.org/_posts/使用-DisplayCAL-和-Spyder-红蓝蜘蛛校色仪进行屏幕校色的注意事项.md',
   requiredFields: ['nick','mail']
 })
-</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2026 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

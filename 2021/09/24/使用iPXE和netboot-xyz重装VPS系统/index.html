@@ -5,7 +5,7 @@
   var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(hm, s);
   })();
-</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用 iPXE 和 netboot.xyz 重装 VPS 系统</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/wiki/"><i class="fa fa-book"> Wiki</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">使用 iPXE 和 netboot.xyz 重装 VPS 系统</h1><div class="post-meta">2021-09-24</div><a class="disqus-comment-count" href="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/使用iPXE和netboot-xyz重装VPS系统.md"></span><span> 条评论</span></a><div class="post-content"><p>如果你购买一些小厂商的 VPS，你可能会觉得这些厂商自带系统不好用。哪怕是国内大厂，也经常有瞎 JB 改系统，影响功能的情况。有些厂商允许你挂载 ISO 自己安装系统，而有些厂商则不行。下面我将介绍使用 <a target="_blank" rel="noopener" href="https://ipxe.org/">iPXE</a> 和 <a target="_blank" rel="noopener" href="https://netboot.xyz/">netboot.xyz</a> 引导 Linux 安装程序（本文以 Ubuntu Server 为例），自行安装系统。</p>
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">使用 iPXE 和 netboot.xyz 重装 VPS 系统</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/wiki/"><i class="fa fa-book"> Wiki</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">使用 iPXE 和 netboot.xyz 重装 VPS 系统</h1><div class="post-meta">2021-09-24</div><a class="disqus-comment-count" href="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/使用iPXE和netboot-xyz重装VPS系统.md"></span><span> 条评论</span></a><div class="post-content"><p>如果你购买一些小厂商的 VPS，你可能会觉得这些厂商自带系统不好用。哪怕是国内大厂，也经常有瞎 JB 改系统，影响功能的情况。有些厂商允许你挂载 ISO 自己安装系统，而有些厂商则不行。下面我将介绍使用 <a target="_blank" rel="noopener" href="https://ipxe.org/">iPXE</a> 和 <a target="_blank" rel="noopener" href="https://netboot.xyz/">netboot.xyz</a> 引导 Linux 安装程序（本文以 Ubuntu Server 为例），自行安装系统。</p>
 <h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>要使用此方法重装系统，VPS 需要满足以下几个条件：</p>
 <ul>
 <li>不能是 OpenVZ 等虚拟化技术</li>
@@ -17,7 +17,7 @@
 <p>此外，由于各种 VPS 小厂商千奇百怪，不保证你安装过程中不会遇到奇奇怪怪的问题。安装前请备份数据。</p>
 <h2 id="重装步骤"><a href="#重装步骤" class="headerlink" title="重装步骤"></a>重装步骤</h2><h3 id="1-修改-grub-配置文件，延长默认等待时间"><a href="#1-修改-grub-配置文件，延长默认等待时间" class="headerlink" title="1. 修改 grub 配置文件，延长默认等待时间"></a>1. 修改 grub 配置文件，延长默认等待时间</h3><p>默认情况下引导菜单可能太快消失，或者根本不出现。这一步的目的是使稍后选择 iPXE 引导选项更容易。</p>
 <p>编辑 grub 配置文件 <code>/etc/default/grub</code>。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/default/grub</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/default/grub</span><br></pre></td></tr></table></figure>
 
 <p>修改前的配置文件：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=0</span><br><span class="line">GRUB_TIMEOUT_STYLE=hidden</span><br><span class="line">GRUB_TIMEOUT=0</span><br><span class="line">GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`</span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;maybe-ubiquity&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;&quot;</span><br></pre></td></tr></table></figure>
@@ -27,7 +27,7 @@
 
 <p>这一步的要点是，让引导菜单显示足够长的时间以便选择引导选项。</p>
 <p>修改完成后，运行更新命令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-grub</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-grub</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-记录机器-IP-地址（如有必要）"><a href="#2-记录机器-IP-地址（如有必要）" class="headerlink" title="2. 记录机器 IP 地址（如有必要）"></a>2. 记录机器 IP 地址（如有必要）</h3><p>如果你的 VPS 是用 DHCP 获取地址的，那就不需要进行这一步操作；否则需要记录下接口名、IP 地址、掩码、网关等信息。</p>
 <p>运行命令:</p>
@@ -39,7 +39,7 @@
 
 <p>这里显示网关是 <code>104.*.*.1</code>。</p>
 <h3 id="3-安装-iPXE-并重启"><a href="#3-安装-iPXE-并重启" class="headerlink" title="3. 安装 iPXE 并重启"></a>3. 安装 iPXE 并重启</h3><p>Ubuntu 或 Debian 可以用以下命令安装 iPXE：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ipxe</span><br><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install ipxe</span><br><span class="line"><span class="built_in">sudo</span> reboot</span><br></pre></td></tr></table></figure>
 
 <p>如果你用的是 CentOS，可以参考<a target="_blank" rel="noopener" href="https://lala.im/4524.html">《CentOS7配置GRUB2+iPXE进行网络重装》</a>。</p>
 <p>完成之后重启并进入 VNC。你将看到以下画面：</p>
@@ -79,7 +79,7 @@
 <p>不过，不必担心，稍后将提示你配置网络。出现提示时，请按提示填写网络信息，<strong>注意请手动输入 <code>static</code>，而不要回车使用默认的“dhcp”</strong>：</p>
 <img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-8.png" class="">
 
-<p>需要注意的是，<strong>当你填写 url 时，请勿直接回车默认</strong>，因为默认映像是原始版本，已被删除。<strong>请前往<a target="_blank" rel="noopener" href="https://releases.ubuntu.com/20.04/">发布页面</a>查找最新的映像地址。</strong>当然，你也可以自己托管安装镜像，或者使用其他的镜像源。</p>
+<p>需要注意的是，<strong>当你填写 url 时，请勿直接回车默认</strong>，因为默认映像是原始版本，已被删除。**请前往<a target="_blank" rel="noopener" href="https://releases.ubuntu.com/20.04/">发布页面</a>查找最新的映像地址。**当然，你也可以自己托管安装镜像，或者使用其他的镜像源。</p>
 <h3 id="6-进入安装程序"><a href="#6-进入安装程序" class="headerlink" title="6. 进入安装程序"></a>6. 进入安装程序</h3><p>以上操作完成后，你将看到镜像下载进度，下载好之后将会自动引导安装镜像。</p>
 <img src="/2021/09/24/%E4%BD%BF%E7%94%A8iPXE%E5%92%8Cnetboot-xyz%E9%87%8D%E8%A3%85VPS%E7%B3%BB%E7%BB%9F/s-9.png" class="">
 
@@ -113,4 +113,4 @@ window.valine = new Valine({
   path: 'bleatingsheep.org/_posts/使用iPXE和netboot-xyz重装VPS系统.md',
   requiredFields: ['nick','mail']
 })
-</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2024 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2026 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
