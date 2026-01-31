@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>在 Fedora 41+ 上使用 nmcli 创建 IPv6 隧道的注意事项 | bleatingsheep 的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="/js/lib/normalize.css"><link rel="stylesheet" type="text/css" href="/js/lib/pure-min.css"><link rel="stylesheet" type="text/css" href="/js/lib/grids-responsive-min.css"><link rel="stylesheet" href="/js/lib/font-awesome.min.css"><script type="text/javascript" src="/js/lib/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + '76da56ea60f52fccc65157687c2ff51a';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/lib/clipboard.min.js"></script><script type="text/javascript" src="/js/lib/toastr.min.js"></script><link rel="stylesheet" href="/js/lib/toastr.min.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">在 Fedora 41+ 上使用 nmcli 创建 IPv6 隧道的注意事项</h1><a id="logo" href="/.">bleatingsheep 的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/wiki/"><i class="fa fa-book"> Wiki</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-4-4"><div class="content_container"><div class="post"><h1 class="post-title">在 Fedora 41+ 上使用 nmcli 创建 IPv6 隧道的注意事项</h1><div class="post-meta">2026-01-31</div><a class="disqus-comment-count" href="/2026/01/31/%E5%9C%A8-Fedora-41-%E4%B8%8A%E4%BD%BF%E7%94%A8-nmcli-%E5%88%9B%E5%BB%BA-IPv6-%E9%9A%A7%E9%81%93%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#vcomment"><span class="valine-comment-count" data-xid="bleatingsheep.org/_posts/在-Fedora-41-上使用-nmcli-创建-IPv6-隧道的注意事项.md"></span><span> 条评论</span></a><div class="post-content"><p>我之前一直使用 <a target="_blank" rel="noopener" href="https://tunnelbroker.net/">Hurricane Electric</a> 的 IPv6 隧道服务为我的 VPS 添加 IPv6 支持。<a target="_blank" rel="noopener" href="https://fedoraproject.org/wiki/IPv6_tunnel_via_Hurricane_Electric">Fedora Wiki</a> 有具体命令。但是，自从 Fedora 41（也许是 40，记不清具体时间了）升级以来，此方法失效了，创建的隧道一直无法启用。</p>
+<span id="more"></span>
+
+<p>经过研究，发现是自从 Fedora 41 以来，需要把隧道的 ipv6.addr-gen-mode 设置为 stable-privacy。参考命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nmcli connection add <span class="built_in">type</span> ip-tunnel con-name sit1 ifname sit1 mode sit   remote <span class="variable">$&#123;REMOTE&#125;</span> -- ipv4.method disabled ipv6.method manual   ipv6.address <span class="variable">$&#123;ADDR&#125;</span> ipv6.gateway <span class="variable">$&#123;GATEWAY&#125;</span>   ipv6.addr-gen-mode stable-privacy   ip-tunnel.ttl 64</span><br></pre></td></tr></table></figure>
+
+<p>这样设置后，就可以正常地通过此隧道访问 IPv6 网络。</p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2026/01/03/PVE-%E9%9D%9E%E7%89%B9%E6%9D%83%E5%AE%B9%E5%99%A8-CT-%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8-Docker-%E7%9A%84%E4%B8%B4%E6%97%B6%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">PVE 非特权容器 (CT) 无法使用 Docker 的临时解决方案</a></div><div id="vcomment"></div><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'false' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'eF5widAEDbOaAndcDJGQp7Rh-gzGzoHsz',
+  appKey:'WyOY5xy1Lo6xy1FLLTbpkwEM',
+  placeholder:'',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  path: 'bleatingsheep.org/_posts/在-Fedora-41-上使用-nmcli-创建-IPv6-隧道的注意事项.md',
+  requiredFields: ['nick','mail']
+})
+</script></div></div></div><div class="pure-u-1 pure-u-md-4-4"><div id="footer">Copyright © 2026 <a href="/." rel="nofollow">bleatingsheep 的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
