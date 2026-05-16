@@ -69,6 +69,10 @@ export default defineUserConfig({
       provider: 'Waline',
       serverURL: 'https://comments.bleatingsheep.org/',
       pageview: false,
+      login: 'disable',
+      requiredMeta: ['nick', 'mail'],
+      imageUploader: false,
+      noRss: true,
     },
   }),
 })
