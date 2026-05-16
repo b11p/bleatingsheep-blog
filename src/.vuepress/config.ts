@@ -8,9 +8,28 @@ export default defineUserConfig({
   title: 'bleatingsheep 的博客',
   description: '',
 
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    [
+      'script',
+      {},
+      `var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?76da56ea60f52fccc65157687c2ff51a";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s)})();`,
+    ],
+  ],
+
   bundler: viteBundler(),
 
   plugins: [
+    {
+      name: 'home-title',
+      extendsPage(page) {
+        if (page.path === '/') {
+          page.data['title'] = ''
+        } else {
+          page.data['title'] = (page.data['title'] || '').replace(/ \| posts$/, '')
+        }
+      },
+    },
     imageScalePlugin(),
   ],
 
@@ -19,6 +38,7 @@ export default defineUserConfig({
 
     profile: {
       name: 'bleatingsheep',
+      avatar: "钻石头像.png",
     },
 
     navbar: [
@@ -32,7 +52,7 @@ export default defineUserConfig({
       {
         type: 'post',
         dir: 'posts',
-        title: '博客',
+        title: '',
         link: '/',
         linkPrefix: '/',
         pagination: { perPage: 10 },
