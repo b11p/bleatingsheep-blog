@@ -4,12 +4,12 @@ import { imageSize } from 'image-size'
 
 const SCALE_RE = /-((?:\d|\.\d)\d*\.?\d*)x(?:\.[a-z]+|-)/
 
-function parseScale(filename) {
+function parseScale(filename: string): number | null {
   const m = filename.match(SCALE_RE)
   return m ? parseFloat(m[1]) : null
 }
 
-function resolveImagePath(src, pageFile) {
+function resolveImagePath(src: string, pageFile?: string): string | null {
   if (!pageFile) return null
   const resolvedPath = path.resolve(path.dirname(pageFile), src)
   if (fs.existsSync(resolvedPath)) return resolvedPath
@@ -17,18 +17,17 @@ function resolveImagePath(src, pageFile) {
 }
 
 export function imageScalePlugin() {
-  const metaMap = new Map() // original filename → { width, height }
+  const metaMap = new Map<string, { width: number; height: number }>()
 
   return {
     name: 'image-scale',
 
-    extendsMarkdown: (md) => {
+    extendsMarkdown: (md: any) => {
       const origRender = md.render.bind(md)
-      md.render = function (src, env = {}) {
+      md.render = function (src: string, env: Record<string, any> = {}) {
         const html = origRender(src, env)
 
-        // Collect image metadata during rendering
-        html.replace(/<img\s+[^>]*\/?>/gi, (match) => {
+        html.replace(/<img\s+[^>]*\/?>/gi, (match: string) => {
           const srcM = match.match(/src="([^"]*)"/)
           if (!srcM) return match
 
@@ -54,14 +53,14 @@ export function imageScalePlugin() {
       }
     },
 
-    onGenerated: async (app) => {
+    onGenerated: async (app: any) => {
       const distDir = app.dir.dest()
       walkDir(distDir, metaMap)
     },
   }
 }
 
-function walkDir(dir, metaMap) {
+function walkDir(dir: string, metaMap: Map<string, { width: number; height: number }>) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name)
     if (entry.isDirectory()) {
@@ -72,17 +71,16 @@ function walkDir(dir, metaMap) {
   }
 }
 
-function processHtmlFile(htmlPath, metaMap) {
+function processHtmlFile(htmlPath: string, metaMap: Map<string, { width: number; height: number }>) {
   let html = fs.readFileSync(htmlPath, 'utf-8')
   let modified = false
 
-  html = html.replace(/<img\s+[^>]*\/?>/gi, (match) => {
+  html = html.replace(/<img\s+[^>]*\/?>/gi, (match: string) => {
     const srcM = match.match(/src="([^"]*)"/)
     if (!srcM) return match
 
     const filename = path.basename(srcM[1])
 
-    // Try exact match, then prefix match (handles hashed filenames)
     let meta = metaMap.get(filename)
     if (!meta) {
       for (const [key, val] of metaMap) {
@@ -94,15 +92,12 @@ function processHtmlFile(htmlPath, metaMap) {
     }
     if (!meta) return match
 
-    // Clean and rebuild the img tag with dimensions
     let attrs = match.replace(/^<img\s+/, '').replace(/\s*\/?>$/, '')
       .replace(/\s*(width|height)="[^"]*"/g, '')
       .replace(/\s*style="[^"]*"/, '')
 
     const w = meta.width.toFixed(2).replace(/\.?0+$/, '')
-    const h = meta.height.toFixed(2).replace(/\.?0+$/, '')
-    attrs += ` width="${Math.round(meta.width)}" height="${Math.round(meta.height)}"`
-    attrs += ` style="width:${w}px; height:${h}px;"`
+    attrs += ` style="width:${w}px; height:auto; max-width:100%;"`
 
     modified = true
     return `<img ${attrs} />`
