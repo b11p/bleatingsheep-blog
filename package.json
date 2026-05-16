@@ -1,29 +1,21 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
-  "private": true,
+  "name": "bleatingsheep-blog-next",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
+    "build": "vuepress build src",
+    "dev": "vuepress dev src",
+    "clean": "vuepress clean src"
   },
-  "hexo": {
-    "version": "8.1.1"
-  },
-  "dependencies": {
-    "hexo": "^8.1.1",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-feed": "^3.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-marked": "^7.0.1",
-    "hexo-renderer-pug": "^3.0.0",
-    "hexo-server": "^3.0.0"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "@waline/client": "^3.8.0",
-    "gulp": "^5.0.1"
+    "@vuepress/bundler-vite": "2.0.0-rc.28",
+    "image-size": "^2.0.2",
+    "typescript": "^6.0.3",
+    "vuepress": "2.0.0-rc.28",
+    "vuepress-theme-plume": "1.0.0-rc.200"
   }
 }
