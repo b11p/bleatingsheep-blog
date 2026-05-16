@@ -8,9 +8,11 @@ tags:
 ---
 
 
+
 当使用 ASP.NET Core 实现 Web API 服务时，可以用 Swagger 生成 `openapi.json` 文件及对应文档。
 
-<!--more-->
+
+<!-- more -->
 
 ## 在 Visual Studio 2019 中操作
 ### 添加服务

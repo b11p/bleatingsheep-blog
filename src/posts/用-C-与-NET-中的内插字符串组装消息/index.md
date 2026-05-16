@@ -10,10 +10,13 @@ tags:
 ---
 
 
+
 ## 背景
 ### OneBot 及其消息格式
 [OneBot](https://github.com/howmanybots/onebot) 标准是从原酷 Q 平台的 CQHTTP 插件接口修改而来的通用聊天机器人应用接口标准。
 
+
+<!-- more -->
 OneBot 规定了[消息类型](https://github.com/howmanybots/onebot/blob/master/v11/specs/message/README.md)的格式。
 
 简而言之，例如我想发送一个图文混合消息，有[字符串](https://github.com/howmanybots/onebot/blob/master/v11/specs/message/string.md)和[数组](https://github.com/howmanybots/onebot/blob/master/v11/specs/message/array.md)两种方式。

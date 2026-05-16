@@ -9,10 +9,12 @@ tags:
 ---
 
 
+
 ## 问题描述
 最近写 [RCNB](https://github.com/rcnbapp/RCNB.csharp) 的时候遇到了奇怪的测试未运行的问题。Visual Studio 可以列出测试，但是所有测试都显示未运行。
 
-<!--more-->
+
+<!-- more -->
 
 ![](./test-1.5x.png)
 

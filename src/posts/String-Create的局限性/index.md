@@ -9,10 +9,12 @@ tags:
 ---
 
 
+
 ## `String.Create` 介绍
 .NET Core 2.1 和 .NET Standard 2.1 新增了 `Span<T>`、`Memory<T>` 等非常方便的操作内存的方式，同时增加了如 `String.Create()` 这种高效的创建字符串的方法。最近在写 [RCNB](https://github.com/rcnbapp/RCNB.csharp) 终于得以一试，结果发现了这个方法的许多局限之处。
 
-<!--more-->
+
+<!-- more -->
 
 我们先看一个这个方法的定义。
 

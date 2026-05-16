@@ -9,9 +9,11 @@ tags:
 ---
 
 
+
 **结论：**目前无法给树莓派上的 Ubuntu Server 20.04 系统安装 Hardware Enablement (HWE)。
 
-<!--more-->
+
+<!-- more -->
 
 ## 什么是 Hardware Enablement (HWE)
 Hardware Enablement (HWE) 帮助在 Ubuntu LTS 上安装更新的内核。下面两个链接介绍了 HWE。
