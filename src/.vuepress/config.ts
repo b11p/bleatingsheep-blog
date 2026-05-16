@@ -64,5 +64,11 @@ export default defineUserConfig({
         autoFrontmatter: false,
       },
     ],
+
+    comment: {
+      provider: 'Waline',
+      serverURL: 'https://comments.bleatingsheep.org/',
+      pageview: false,
+    },
   }),
 })
