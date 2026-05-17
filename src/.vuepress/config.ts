@@ -1,6 +1,7 @@
 import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 import { plumeTheme } from 'vuepress-theme-plume'
+import { feedPlugin } from '@vuepress/plugin-feed'
 import { imageScalePlugin } from './plugins/image-scale.js'
 
 export default defineUserConfig({
@@ -31,6 +32,18 @@ export default defineUserConfig({
       },
     },
     imageScalePlugin(),
+    feedPlugin({
+      hostname: 'https://bleatingsheep.org',
+      atom: true,
+      rss: false,
+      json: false,
+      atomOutputFilename: 'atom.xml',
+      channel: {
+        author: {
+          name: 'bleatingsheep',
+        },
+      },
+    }),
   ],
 
   theme: plumeTheme({
@@ -46,6 +59,7 @@ export default defineUserConfig({
       { text: '归档', link: '/archives/' },
       { text: 'Wiki', link: '/wiki/' },
       { text: '关于', link: '/about/' },
+      { text: '订阅', link: '/atom.xml' },
     ],
 
     collections: [
